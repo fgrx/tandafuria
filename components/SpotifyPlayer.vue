@@ -53,7 +53,7 @@ export default {
       })
       // Ready
       sdk.addListener('ready', ({ device_id }) => {
-        this.$store.commit('authSpotify/SET_DEVICE_ID', device_id)
+        this.$store.dispatch('authSpotify/setDeviceId', device_id)
         console.log('Ready with Device Id: ', device_id)
       })
       // Not Ready

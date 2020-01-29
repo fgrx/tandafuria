@@ -2,7 +2,7 @@ import { mount, shallowMount } from '@vue/test-utils'
 import TandaItem from '@/components/TandaItem.vue'
 import Vuetify from 'vuetify'
 import Vue from 'vue'
-import { tandaSamples } from '@/data/tandasExample'
+import { tandaSamples } from '~/data/myTandasExample'
 
 Vue.use(Vuetify)
 

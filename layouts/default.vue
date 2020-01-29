@@ -46,7 +46,7 @@
         </v-list-item>
         <v-list-item
           ><v-btn to="/tandaEditor" color="primary"
-            >+ New tanda</v-btn
+            >+ Create a tanda</v-btn
           ></v-list-item
         >
       </v-list>
@@ -79,14 +79,19 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-library-music',
+          title: 'My tandas',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-earth',
+          title: 'All tandas',
+          to: '/all-tandas'
+        },
+        {
+          icon: 'mdi-information-outline',
+          title: 'About',
+          to: '/about'
         }
       ],
       miniVariant: false,

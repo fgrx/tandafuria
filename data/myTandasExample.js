@@ -1,5 +1,10 @@
-export const tandaSamples = [
+export const myTandaSamples = [
   {
+    date: '2020-01-01',
+    author: {
+      id: 1,
+      name: 'Fabien'
+    },
     orchestra: 'fcanaro',
     speed: 'normal',
     genre: 'tango',
@@ -999,6 +1004,11 @@ export const tandaSamples = [
     periodEnd: '1950'
   },
   {
+    date: '2020-02-10',
+    author: {
+      id: 1,
+      name: 'Fabien'
+    },
     orchestra: 'jdarienzo',
     speed: 'fast',
     genre: 'tango',
@@ -1978,6 +1988,11 @@ export const tandaSamples = [
     periodEnd: '1940'
   },
   {
+    date: '2020-01-11',
+    author: {
+      id: 1,
+      name: 'Fabien'
+    },
     orchestra: 'mcalo',
     speed: 'slow',
     genre: 'tango',
@@ -2967,6 +2982,11 @@ export const tandaSamples = [
     periodEnd: '1952'
   },
   {
+    date: '2020-01-12',
+    author: {
+      id: 1,
+      name: 'Fabien'
+    },
     orchestra: 'acarabelli',
     speed: 'slow',
     genre: 'tango',
@@ -3660,6 +3680,11 @@ export const tandaSamples = [
     periodEnd: '1937'
   },
   {
+    date: '2020-02-08',
+    author: {
+      id: 1,
+      name: 'Fabien'
+    },
     orchestra: 'adeangelis',
     speed: 'normal',
     genre: 'vals',
@@ -4403,7 +4428,7 @@ export const tandaSamples = [
         uri: 'spotify:track:6BtSgox2avhHgBKKba85aM'
       }
     ],
-    isPublic: true,
+    isPublic: false,
     periodStart: '1954',
     periodEnd: '1956'
   }

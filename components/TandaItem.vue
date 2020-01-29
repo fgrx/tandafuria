@@ -7,9 +7,9 @@
           <v-list-item-title class="headline mb-1">{{
             orchestra.title
           }}</v-list-item-title>
-          <v-list-item-subtitle v-if="duration || period"
-            ><span v-if="period">period : {{ period }}</span
-            ><br v-if="period && duration" />
+          <v-list-item-subtitle v-if="duration || period">
+            <span>Created by : {{ tanda.author.name }}</span
+            ><br />
             <span v-if="duration">Duration : {{ duration }}</span>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -37,18 +37,56 @@
             :key="index"
           ></v-divider>
         </template>
-        <v-expansion-panels v-if="tanda.description">
-          <v-expansion-panel>
-            <v-expansion-panel-header
-              >More informations</v-expansion-panel-header
-            >
-            <v-expansion-panel-content>
-              {{ tanda.description }}
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+
+        <v-card-actions>
+          <v-btn
+            v-if="tanda.author.id !== currentUser.id"
+            @click="importTandaToLibrary(tanda)"
+            color="primary"
+            text
+            ><v-icon>mdi-import</v-icon> Import</v-btn
+          >
+
+          <v-btn v-if="tanda.author.id === currentUser.id" color="primary" text
+            ><v-icon>mdi-pencil</v-icon>
+            Edit
+          </v-btn>
+
+          <v-spacer></v-spacer>
+
+          <v-btn icon @click="showMore = !showMore">
+            <v-icon>{{
+              showMore ? 'mdi-chevron-up' : 'mdi-chevron-down'
+            }}</v-icon>
+          </v-btn>
+        </v-card-actions>
+
+        <v-expand-transition>
+          <div v-show="showMore">
+            <v-divider></v-divider>
+
+            <v-card-text>
+              <p class="tandaDateCreator">
+                Date :
+                {{ tanda.date }}<br />
+                <span v-if="period">period : {{ period }}</span
+                ><br v-if="period && duration" />
+              </p>
+              <div class="tandaDescription" v-if="tanda.description">
+                {{ tanda.description }}
+              </div>
+            </v-card-text>
+          </div>
+        </v-expand-transition>
       </v-card-text>
     </v-card>
+    <v-snackbar v-model="flash.display" :color="flash.color">
+      <v-icon>{{ flash.icon }}</v-icon
+      >{{ flash.message }}
+      <v-btn text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -68,12 +106,16 @@ export default {
   data() {
     return {
       orchestra: {},
+      flash: { message: '', display: false, icon: 'mdi-check-circle-outline' },
+      flashMessage: false,
+      textFlashMessage: '',
       period: '',
-      duration: ''
+      duration: '',
+      showMore: false,
+      currentUser: this.$store.getters['authApp/getUser']
     }
   },
   mounted() {
-    console.log(this.tanda)
     this.orchestra = orchestras.find(
       (orchestra) => orchestra.id === this.tanda.orchestra
     )
@@ -84,6 +126,27 @@ export default {
     this.duration = millisToMinutesAndSeconds(durationInMS)
 
     this.period = this.tanda.periodStart + ' - ' + this.tanda.periodEnd
+  },
+  methods: {
+    importTandaToLibrary(tanda) {
+      // Ugly way to deep clone an object in JS to avoid vuex mutations errors
+      const newTanda = JSON.parse(JSON.stringify(tanda))
+
+      newTanda.isPublic = false
+      newTanda.author.id = this.currentUser.id
+      newTanda.author.name = this.currentUser.name
+
+      this.$store.dispatch('tandas/addTanda', {
+        target: 'myTandas',
+        tanda: newTanda
+      })
+      this.flash = {
+        color: 'success',
+        message: 'Tanda imported to your library',
+        display: true,
+        icon: 'mdi-check-circle-outline'
+      }
+    }
   }
 }
 

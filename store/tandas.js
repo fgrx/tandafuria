@@ -1,27 +1,36 @@
-import { tandaSamples } from '@/data/tandasExample'
-
 export const state = () => ({
-  tandas: []
+  myTandas: [],
+  allTandas: []
 })
 
 export const mutations = {
-  ADD_TANDA(state, tanda) {
-    state.tandas.push(tanda)
+  ADD_TANDA(state, { target, tanda }) {
+    if (target === 'allTandas') {
+      state.allTandas.push(tanda)
+    } else {
+      state.myTandas.push(tanda)
+    }
   },
-  DELETE_TANDA(state, tanda) {
-    state.tandas.push(tanda)
+  DELETE_TANDA(state, { target, tanda }) {
+    if (target === 'allTandas') {
+      state.allTandas.push(tanda)
+    } else {
+      state.myTandas.push(tanda)
+    }
   }
 }
 
 export const getters = {
-  getTandas: (state) => {
-    // return state.tandas
-    return tandaSamples
+  getMyTandas: (state) => {
+    return state.myTandas
+  },
+  getAllTandas: (state) => {
+    return state.allTandas
   }
 }
 
 export const actions = {
-  addTanda({ commit }, tanda) {
-    commit('ADD_TANDA', tanda)
+  addTanda({ commit }, { target, tanda }) {
+    commit('ADD_TANDA', { target, tanda })
   }
 }

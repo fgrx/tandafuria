@@ -15,7 +15,6 @@ export default {
   data() {
     return {
       icon: 'mdi-play-circle',
-      spotifyPlayerId: '',
       activePlayer: false
     }
   },
@@ -26,27 +25,25 @@ export default {
   },
   methods: {
     playOrPause() {
-      // Stop every player before playing a song
-
+      const paramsSpotify = this.getParamsSpotify()
+      console.log(paramsSpotify)
       if (this.icon === 'mdi-pause-circle') {
-        this.stop()
+        this.stop(paramsSpotify)
       } else {
-        this.play()
+        this.play(paramsSpotify)
         this.$root.$emit('isPlaying', this.refComponent)
       }
     },
-    play() {
+    play(paramsSpotify) {
       this.icon = 'mdi-pause-circle'
-      this.PlayFromSpotify(this.track)
+      this.PlayFromSpotify(this.track, paramsSpotify)
     },
-    stop() {
+    stop(paramsSpotify) {
       this.icon = 'mdi-play-circle'
-      this.StopFromSpotify(this.track)
+      this.StopFromSpotify(this.track, paramsSpotify)
     },
-    PlayFromSpotify(track) {
-      const accessToken = this.$store.getters['authSpotify/getToken']
-
-      const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${this.spotifyPlayerId}`
+    PlayFromSpotify(track, paramsSpotify) {
+      const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${paramsSpotify.deviceId}`
 
       const body = JSON.stringify({
         uris: [track.uri]
@@ -54,20 +51,24 @@ export default {
 
       const headersApi = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${paramsSpotify.accessToken}`
       }
 
       this.$axios.put(urlSpotify, body, { headers: headersApi })
     },
-    StopFromSpotify(track) {
-      const accessToken = this.$store.getters['authSpotify/getToken']
-      const urlSpotify = `https://api.spotify.com/v1/me/player/pause?device_id=${this.spotifyPlayerId}`
+    StopFromSpotify(track, paramsSpotify) {
+      const urlSpotify = `https://api.spotify.com/v1/me/player/pause?device_id=${paramsSpotify.deviceId}`
       const headersApi = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${paramsSpotify.accessToken}`
       }
 
       this.$axios.put(urlSpotify, null, { headers: headersApi })
+    },
+    getParamsSpotify() {
+      const accessToken = this.$store.getters['authSpotify/getToken']
+      const deviceId = this.$store.getters['authSpotify/getDeviceId']
+      return { accessToken, deviceId }
     }
   }
 }

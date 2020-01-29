@@ -16,6 +16,7 @@
       :items="genreList"
       item-text="name"
       item-value="id"
+      :rules="[(v) => !!v || 'Musical genre is required']"
       required
       v-model="genreField"
     ></v-select>
@@ -23,25 +24,27 @@
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
+          outlined
           label="Start period (year only, 4 digits)"
           v-model="periodStartField"
-          :rules="periodRules"
-          placeholder="1942"
+          placeholder="example : 1942"
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          outlined
           label="End period (year only, 4 digits)"
           v-model="periodEndField"
-          :rules="periodRules"
-          placeholder="1946"
+          placeholder="example : 1946"
         ></v-text-field>
       </v-col>
     </v-row>
+
     <v-select
       label="Speed"
       :items="speedList"
       v-model="speedField"
+      :rules="[(v) => !!v || 'Music speed is required']"
       required
     ></v-select>
 
@@ -125,7 +128,6 @@ import draggable from 'vuedraggable'
 import { genres } from '@/data/genres'
 import { speed } from '@/data/speed'
 import { orchestras } from '@/data/orchestras'
-import { tracksExample } from '@/data/tracksExample'
 
 import SpotifyBrowser from '@/components/SpotifyBrowser'
 import TrackPlayer from '~/components/TrackPlayer'
@@ -146,7 +148,7 @@ export default {
       description: '',
       dialogBrowserSpotify: false,
       dialog: false,
-      tracks: tracksExample,
+      tracks: [],
       valid: true,
       descriptionField: '',
       orchestraField: '',
@@ -154,9 +156,11 @@ export default {
       genreField: '',
       periodStartField: '',
       periodEndField: '',
+
+      maxPeriod: new Date().getFullYear(),
+      minPeriod: 1920,
       isPublicField: true,
       periodRules: [
-        (v) => !!v || 'Period is required',
         (v) => v.length === 4 || 'period must be 4 characters ex : 1946'
       ]
     }
@@ -191,9 +195,11 @@ export default {
         periodStart: this.periodStartField,
         periodEnd: this.periodEndField
       }
-      this.$store.dispatch('tandas/addTanda', tanda)
+      this.$store.dispatch('myTandas/addTanda', tanda)
+      if (tanda.isPublic) this.$store.dispatch('allTandas/addTanda', tanda)
+
       console.log(tanda)
-      // this.$router.replace({ path: '/' })
+      this.$router.replace({ path: '/' })
     }
   }
 }
