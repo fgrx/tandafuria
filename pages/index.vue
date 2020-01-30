@@ -20,9 +20,6 @@ export default {
       tandas: this.$store.getters['tandas/getMyTandas']
     }
   },
-  mounted() {
-    // Remplissage du store
-    console.log('mes tandas', this.$store.getters['tandas/getMyTandas'])
-  }
+  mounted() {}
 }
 </script>

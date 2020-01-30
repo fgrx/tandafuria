@@ -60,6 +60,10 @@
         Tracks in my tanda
       </v-card-title>
 
+      <v-card-text v-if="!tracks.length">
+        Your tanda doesn't have any track to play. Click on the button bellow to
+        add your first one !
+      </v-card-text>
       <v-card-text>
         <draggable v-model="tracks">
           <transition-group>
@@ -186,6 +190,7 @@ export default {
     },
     save() {
       const tanda = {
+        id: Math.floor(Math.random() * Math.floor(15616556188681)),
         orchestra: this.orchestraField,
         speed: this.speedField,
         genre: this.genreField,
@@ -195,10 +200,10 @@ export default {
         periodStart: this.periodStartField,
         periodEnd: this.periodEndField
       }
-      this.$store.dispatch('myTandas/addTanda', tanda)
-      if (tanda.isPublic) this.$store.dispatch('allTandas/addTanda', tanda)
+      this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
+      if (tanda.isPublic)
+        this.$store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
 
-      console.log(tanda)
       this.$router.replace({ path: '/' })
     }
   }

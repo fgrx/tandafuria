@@ -1,5 +1,6 @@
 export const myTandaSamples = [
   {
+    id: 'fs4vs8d16v5vcxvcx',
     date: '2020-01-01',
     author: {
       id: 1,
@@ -1004,6 +1005,7 @@ export const myTandaSamples = [
     periodEnd: '1950'
   },
   {
+    id: '1889dfsvcx',
     date: '2020-02-10',
     author: {
       id: 1,
@@ -1988,6 +1990,7 @@ export const myTandaSamples = [
     periodEnd: '1940'
   },
   {
+    id: '18949dsfdsfdsccx',
     date: '2020-01-11',
     author: {
       id: 1,
@@ -2982,6 +2985,7 @@ export const myTandaSamples = [
     periodEnd: '1952'
   },
   {
+    id: 'ffdsfdsfdsvvvvcx',
     date: '2020-01-12',
     author: {
       id: 1,
@@ -3680,6 +3684,7 @@ export const myTandaSamples = [
     periodEnd: '1937'
   },
   {
+    id: '12356498',
     date: '2020-02-08',
     author: {
       id: 1,

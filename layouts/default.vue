@@ -4,7 +4,7 @@
       :clipped-left="clipped"
       absolute
       fixed
-      class="d-none d-md-flex d-lg-none"
+      class="d-xs-flex d-lg-none"
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -12,13 +12,7 @@
       <v-spacer />
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" :clipped="clipped" fixed app>
       <v-list>
         <v-list-item>
           <v-list-item-content>
@@ -45,7 +39,9 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          ><v-btn to="/tandaEditor" color="primary"
+          ><v-btn
+            :to="{ name: 'tandaEditor-id', params: { id: null } }"
+            color="primary"
             >+ Create a tanda</v-btn
           ></v-list-item
         >
@@ -75,7 +71,7 @@ export default {
   data() {
     return {
       clipped: false,
-      drawer: true,
+      drawer: !this.$vuetify.breakpoint.mdAndDown,
       fixed: false,
       items: [
         {

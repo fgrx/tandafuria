@@ -4,6 +4,7 @@
 
     <v-card-text>
       <v-text-field
+        ref="searchString"
         v-model="searchString"
         placeholder="search an artist, a song, ... exemple : la cumparsita"
         @keyup="searchSpotify"
@@ -37,7 +38,18 @@
 
           <v-divider v-if="index + 1 < tracks.length" :key="index"></v-divider>
         </template>
+        <div class="text-center">
+          <v-btn color="primary" @click="showMore()">Show more</v-btn>
+        </div>
       </v-list>
+      <div class="text-center" v-if="loading">
+        <v-progress-circular
+          size="70"
+          width="7"
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -52,11 +64,14 @@ export default {
   data() {
     return {
       searchString: '',
-      tracks: {}
+      tracks: [],
+      loading: false,
+      offset: 0
     }
   },
   mounted() {
-    console.log('token', this.$store.getters['authSpotify/getToken'])
+    // sfautofocus
+    this.$nextTick(this.$refs.searchString.focus)
   },
   methods: {
     browserClose() {
@@ -64,23 +79,39 @@ export default {
     },
     searchSpotify() {
       // timeout is used to add delay before sending request to spotify to let user finishing typing
+
       let timeout = null
       if (this.searchString.length >= 3) {
         clearTimeout(timeout)
 
         timeout = setTimeout(async () => {
-          const results = await this.sendRequestToSpotify(this.searchString)
-          this.tracks = results.data.tracks.items
-          console.log(results.data.tracks.items)
+          this.tracks = await this.launchRequest()
         }, 500)
       }
     },
-    async sendRequestToSpotify(search) {
+    async showMore(offset) {
+      this.offset += 20
+      const results = await this.launchRequest()
+      this.tracks.push(...results)
+    },
+    async launchRequest() {
+      this.loading = true
+      const results = await this.sendRequestToSpotify({
+        search: this.searchString,
+        offset: this.offset
+      })
+
+      this.loading = false
+      return results.data.tracks.items
+    },
+
+    async sendRequestToSpotify({ search, offset }) {
       try {
         const resultSearch = await this.$axios({
           method: 'get',
           params: {
             q: search,
+            offset,
             type: 'track',
             access_token: this.$store.getters['authSpotify/getToken']
           },

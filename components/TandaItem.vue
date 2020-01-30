@@ -47,9 +47,13 @@
             ><v-icon>mdi-import</v-icon> Import</v-btn
           >
 
-          <v-btn v-if="tanda.author.id === currentUser.id" color="primary" text
+          <v-btn
+            :to="{ name: 'tandaEditor-id', params: { id: tanda.id } }"
+            v-if="tanda.author.id === currentUser.id"
+            color="primary"
+            text
             ><v-icon>mdi-pencil</v-icon>
-            Edit
+            Edit!
           </v-btn>
 
           <v-spacer></v-spacer>

@@ -13,8 +13,12 @@
 import TandaForm from '@/components/TandaForm'
 export default {
   middleware: 'spotifyConnexion',
+
   components: {
     TandaForm
+  },
+  mounted() {
+    console.log('mounted editor >', this.$route.params.id)
   }
 }
 </script>
