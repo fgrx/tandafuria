@@ -39,9 +39,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          ><v-btn
-            :to="{ name: 'tandaEditor-id', params: { id: null } }"
-            color="primary"
+          ><v-btn :to="{ name: 'tandaEditor' }" color="primary"
             >+ Create a tanda</v-btn
           ></v-list-item
         >

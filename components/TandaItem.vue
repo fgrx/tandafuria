@@ -4,9 +4,15 @@
       <v-list-item three-line>
         <v-list-item-content>
           <div class="overline mb-4">{{ tanda.genre }} - {{ tanda.speed }}</div>
-          <v-list-item-title class="headline mb-1">{{
+          <v-list-item-title two-line class="headline mb-1">{{
             orchestra.title
           }}</v-list-item-title>
+
+          <v-list-item-subtitle v-if="tanda.singer || tanda.isInstrumental">
+            Singer : {{ tanda.singer }}
+            <span v-if="tanda.isInstrumental">(instrumental)</span>
+          </v-list-item-subtitle>
+
           <v-list-item-subtitle v-if="duration || period">
             <span>Created by : {{ tanda.author.name }}</span
             ><br />
@@ -14,20 +20,21 @@
           </v-list-item-subtitle>
         </v-list-item-content>
 
-        <v-list-item-avatar tile size="64" color="grey">
+        <v-list-item-avatar tile size="64" color="grey" v-if="tanda.tracks[0]">
           <v-img :src="tanda.tracks[0].album.images[2].url"></v-img>
         </v-list-item-avatar>
       </v-list-item>
       <v-card-text>
         <template v-for="(track, index) in tanda.tracks">
-          <v-list-item two-line>
+          <v-list-item three-line>
             <v-list-item-icon><TrackPlayer :track="track" /> </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="track.name"></v-list-item-title>
               <v-list-item-subtitle>
                 <span v-for="(artist, index) in track.artists" :key="index"
-                  >{{ artist.name }}
-                </span>
+                  >{{ artist.name }} </span
+                ><br />
+                <span>Album : {{ track.album.name }}</span>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -44,16 +51,16 @@
             @click="importTandaToLibrary(tanda)"
             color="primary"
             text
-            ><v-icon>mdi-import</v-icon> Import</v-btn
+            ><v-icon>mdi-import</v-icon> Add to my tandas</v-btn
           >
 
           <v-btn
-            :to="{ name: 'tandaEditor-id', params: { id: tanda.id } }"
+            :to="{ name: 'tandaEditor-id', params: { id: tanda._id } }"
             v-if="tanda.author.id === currentUser.id"
             color="primary"
             text
             ><v-icon>mdi-pencil</v-icon>
-            Edit!
+            Edit
           </v-btn>
 
           <v-spacer></v-spacer>
@@ -98,6 +105,8 @@
 import { orchestras } from '@/data/orchestras'
 import TrackPlayer from '~/components/TrackPlayer'
 
+import { tandaService } from '@/services/tandas.service.js'
+
 export default {
   components: {
     TrackPlayer
@@ -136,9 +145,13 @@ export default {
       // Ugly way to deep clone an object in JS to avoid vuex mutations errors
       const newTanda = JSON.parse(JSON.stringify(tanda))
 
+      delete newTanda._id
+      delete newTanda.date
       newTanda.isPublic = false
       newTanda.author.id = this.currentUser.id
       newTanda.author.name = this.currentUser.name
+
+      tandaService.save(newTanda)
 
       this.$store.dispatch('tandas/addTanda', {
         target: 'myTandas',

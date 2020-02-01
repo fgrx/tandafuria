@@ -1,16 +1,6 @@
 <template>
   <v-form ref="form" class="tandaForm" v-model="valid">
     <v-select
-      label="Orchestra"
-      :items="orchestraList"
-      item-text="title"
-      item-value="id"
-      :rules="[(v) => !!v || 'Orchestra is required']"
-      required
-      v-model="orchestraField"
-    ></v-select>
-
-    <v-select
       label="musical genre"
       class="inputGenre"
       :items="genreList"
@@ -20,6 +10,28 @@
       required
       v-model="genreField"
     ></v-select>
+
+    <v-select
+      label="Orchestra"
+      :items="orchestraList"
+      item-text="title"
+      item-value="id"
+      :rules="[(v) => !!v || 'Orchestra is required']"
+      required
+      v-model="orchestraField"
+    ></v-select>
+
+    <v-switch
+      v-model="isInstrumentalField"
+      label="This is an instrumental tanda ?"
+    ></v-switch>
+
+    <v-text-field
+      v-if="!isInstrumentalField"
+      label="Singer"
+      v-model="singerField"
+      placeholder="example : Alberto Moran"
+    ></v-text-field>
 
     <v-row>
       <v-col cols="12" md="6">
@@ -118,8 +130,17 @@
     </v-dialog>
     <v-spacer></v-spacer>
     <v-card-actions>
-      <v-btn :disabled="!valid" color="primary" @click="save()">Save</v-btn>
+      <v-btn :disabled="!valid" color="primary" @click="saveAction()"
+        >Save</v-btn
+      >
       <v-btn to="/">Back</v-btn>
+
+      <v-btn
+        v-if="this.tandaToModify && tandaToModify.author.id === currentUser.id"
+        color="warning"
+        @click="deleteTanda(tandaToModify._id)"
+        ><v-icon>mdi-delete</v-icon> Delete
+      </v-btn>
     </v-card-actions>
 
     <SpotifyPlayer />
@@ -137,6 +158,8 @@ import SpotifyBrowser from '@/components/SpotifyBrowser'
 import TrackPlayer from '~/components/TrackPlayer'
 import SpotifyPlayer from '~/components/SpotifyPlayer'
 
+import { tandaService } from '@/services/tandas.service.js'
+
 export default {
   components: {
     SpotifyBrowser,
@@ -144,8 +167,14 @@ export default {
     SpotifyPlayer,
     draggable
   },
+  props: {
+    tandaToModify: {
+      type: Object
+    }
+  },
   data() {
     return {
+      currentUser: this.$store.getters['authApp/getUser'],
       speedList: speed,
       orchestraList: orchestras,
       genreList: genres,
@@ -160,6 +189,8 @@ export default {
       genreField: '',
       periodStartField: '',
       periodEndField: '',
+      isInstrumentalField: false,
+      singerField: '',
 
       maxPeriod: new Date().getFullYear(),
       minPeriod: 1920,
@@ -167,6 +198,21 @@ export default {
       periodRules: [
         (v) => v.length === 4 || 'period must be 4 characters ex : 1946'
       ]
+    }
+  },
+  mounted() {
+    if (this.tandaToModify) {
+      // fill the form with the tanda data to edit
+      this.descriptionField = this.tandaToModify.description
+      this.orchestraField = this.tandaToModify.orchestra
+      this.speedField = this.tandaToModify.speed
+      this.genreField = this.tandaToModify.genre
+      this.periodStartField = this.tandaToModify.periodStart
+      this.periodEndField = this.tandaToModify.periodEnd
+      this.isPublicField = this.tandaToModify.isPublic
+      this.isInstrumentalField = this.tandaToModify.isInstrumental
+      this.singerField = this.tandaToModify.singer
+      this.tracks = this.tandaToModify.tracks
     }
   },
   methods: {
@@ -188,9 +234,38 @@ export default {
         this.tracks.splice(indexToDelete, 1)
       }
     },
-    save() {
-      const tanda = {
-        id: Math.floor(Math.random() * Math.floor(15616556188681)),
+    saveAction() {
+      if (!this.tandaToModify) {
+        this.saveNewTanda()
+      } else {
+        this.updateTanda()
+      }
+
+      this.$router.replace({ path: '/' })
+    },
+    async saveNewTanda() {
+      const tanda = this.buildTandaFromForm()
+      const newTandaInDB = await tandaService.save(tanda)
+
+      tanda._id = newTandaInDB.data._id
+      this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
+      if (tanda.isPublic)
+        this.$store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
+    },
+    updateTanda() {
+      const tanda = this.buildTandaFromForm()
+
+      tandaService.update(this.tandaToModify._id, tanda)
+
+      tanda._id = this.tandaToModify._id
+
+      this.$store.dispatch('tandas/updateTanda', tanda)
+    },
+    buildTandaFromForm() {
+      const user = this.$store.getters['authApp/getUser']
+
+      return {
+        author: { id: user.id, name: user.name },
         orchestra: this.orchestraField,
         speed: this.speedField,
         genre: this.genreField,
@@ -198,13 +273,17 @@ export default {
         tracks: this.tracks,
         isPublic: this.isPublicField,
         periodStart: this.periodStartField,
-        periodEnd: this.periodEndField
+        periodEnd: this.periodEndField,
+        isInstrumental: this.isInstrumentalField,
+        singer: !this.isInstrumentalField ? this.singerField : ''
       }
-      this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
-      if (tanda.isPublic)
-        this.$store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
-
-      this.$router.replace({ path: '/' })
+    },
+    deleteTanda(idTanda) {
+      if (window.confirm('Do you really want to delete this tanda ? ')) {
+        tandaService.delete(idTanda)
+        this.$store.dispatch('tandas/deleteTanda', idTanda)
+        this.$router.replace({ path: '/' })
+      }
     }
   }
 }

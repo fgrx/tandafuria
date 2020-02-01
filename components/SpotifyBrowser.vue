@@ -20,12 +20,15 @@
       >
         <h2>Results</h2>
         <template v-for="(track, index) in tracks">
-          <v-list-item two-line>
+          <v-list-item three-line>
             <v-list-item-icon><TrackPlayer :track="track" /> </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="track.name"></v-list-item-title>
               <v-list-item-subtitle>
-                <span v-for="artist in track.artists">{{ artist.name }} </span>
+                <span v-for="artist in track.artists" :key="artist.id"
+                  >{{ artist.name }} </span
+                ><br />
+                <span>Album : {{ track.album.name }}</span>
               </v-list-item-subtitle>
             </v-list-item-content>
 
@@ -86,7 +89,7 @@ export default {
 
         timeout = setTimeout(async () => {
           this.tracks = await this.launchRequest()
-        }, 500)
+        }, 1000)
       }
     },
     async showMore(offset) {
