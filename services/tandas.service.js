@@ -1,15 +1,17 @@
 import axios from 'axios'
 
+// const urlApi = 'https://tandafuria.herokuapp.com/tandas'
 const urlApi = 'http://localhost:4000/tandas'
 
 export const tandaService = {
   async getTandas() {
-    const result = await axios.get(urlApi)
-    return result
+    const result = await axios.get(`${urlApi}/0`)
+    return result.data
   },
   async getTandasUser(id) {
-    const result = await axios.get(`${urlApi}/user/${id}`)
-    return result
+    const url = `${urlApi}/user/${id}/0`
+    const result = await axios.get(url)
+    return result.data
   },
   async getOneTanda(idTanda) {
     const result = await axios.get(`${urlApi}/${idTanda}`)

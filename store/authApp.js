@@ -1,23 +1,29 @@
 export const state = () => ({
-  id: '1',
-  name: 'Fabien'
+  user: {}
 })
 
 export const mutations = {
   SET_USER(state, user) {
-    state.name = user.name
-    state.id = user.id
+    state.user.username = user.username
+    state.user.id = user.id
+    state.user.token = user.token
+    state.user.role = user.role
+    state.user.nickname = user.nickname
+  },
+  CLEAR_USER(state) {
+    state.user = null
   }
 }
 
 export const getters = {
-  getUser: (state) => {
-    return { id: state.id, name: state.name }
-  }
+  getUser: (state) => state.user
 }
 
 export const actions = {
   setUser({ commit }, user) {
     commit('SET_USER', user)
+  },
+  clearUser({ commit }) {
+    commit('CLEAR_USER')
   }
 }

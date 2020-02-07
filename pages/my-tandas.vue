@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-md>
-    <h1>All tandas</h1>
+    <h1>My tandas</h1>
     <v-layout row wrap>
       <v-flex v-for="(tanda, index) in tandas" :key="index" lg4 md4 xs6>
         <TandaItem :tanda="tanda" />
@@ -17,15 +17,9 @@ export default {
   components: { TandaItem },
   data() {
     return {
-      tandas: this.$store.getters['tandas/getAllTandas']
+      tandas: this.$store.getters['tandas/getMyTandas']
     }
   },
-  mounted() {
-    console.log('pouuuuuuuuuuuuuuuet')
-    // Remplissage du store
-    // this.tandas.forEach((tanda) => {
-    //   this.$store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
-    // })
-  }
+  mounted() {}
 }
 </script>

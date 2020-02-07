@@ -2,7 +2,7 @@
   <v-container justify-center align-center>
     <v-card>
       <v-card-title>
-        Tanda editor
+        <h1>Tanda editor</h1>
       </v-card-title>
       <v-card-text><TandaForm /></v-card-text>
     </v-card>

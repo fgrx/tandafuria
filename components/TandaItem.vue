@@ -26,19 +26,7 @@
       </v-list-item>
       <v-card-text>
         <template v-for="(track, index) in tanda.tracks">
-          <v-list-item three-line>
-            <v-list-item-icon><TrackPlayer :track="track" /> </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="track.name"></v-list-item-title>
-              <v-list-item-subtitle>
-                <span v-for="(artist, index) in track.artists" :key="index"
-                  >{{ artist.name }} </span
-                ><br />
-                <span>Album : {{ track.album.name }}</span>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-
+          <TrackItem :track="track" />
           <v-divider
             v-if="index + 1 < tanda.tracks.length"
             :key="index"
@@ -103,13 +91,13 @@
 
 <script>
 import { orchestras } from '@/data/orchestras'
-import TrackPlayer from '~/components/TrackPlayer'
+import TrackItem from '~/components/TrackItem'
 
 import { tandaService } from '@/services/tandas.service.js'
 
 export default {
   components: {
-    TrackPlayer
+    TrackItem
   },
   props: {
     tanda: {
@@ -132,11 +120,14 @@ export default {
     this.orchestra = orchestras.find(
       (orchestra) => orchestra.id === this.tanda.orchestra
     )
-    const durationInMS = this.tanda.tracks.reduce(
-      (total, track) => track.duration_ms + total,
-      0
-    )
-    this.duration = millisToMinutesAndSeconds(durationInMS)
+
+    if (this.tanda.tracks.length > 0) {
+      const durationInMS = this.tanda.tracks.reduce(
+        (total, track) => track.duration_ms + total,
+        0
+      )
+      this.duration = millisToMinutesAndSeconds(durationInMS)
+    }
 
     this.period = this.tanda.periodStart + ' - ' + this.tanda.periodEnd
   },

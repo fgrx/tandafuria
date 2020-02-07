@@ -82,11 +82,7 @@
             <div v-for="track in tracks" :key="track.id">
               <v-list-item draggable two-line>
                 <v-list-item-icon>
-                  <TrackPlayer
-                    :refComponent="'player' + track.id"
-                    :track="track"
-                    :ref="'player' + track.id"
-                  />
+                  <TrackItem :track="track" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title v-text="track.name"></v-list-item-title>
@@ -155,7 +151,7 @@ import { speed } from '@/data/speed'
 import { orchestras } from '@/data/orchestras'
 
 import SpotifyBrowser from '@/components/SpotifyBrowser'
-import TrackPlayer from '~/components/TrackPlayer'
+import TrackItem from '~/components/TrackItem'
 import SpotifyPlayer from '~/components/SpotifyPlayer'
 
 import { tandaService } from '@/services/tandas.service.js'
@@ -163,7 +159,7 @@ import { tandaService } from '@/services/tandas.service.js'
 export default {
   components: {
     SpotifyBrowser,
-    TrackPlayer,
+    TrackItem,
     SpotifyPlayer,
     draggable
   },

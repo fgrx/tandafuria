@@ -1,6 +1,13 @@
 <template>
   <div>
-    <v-btn color="primary" fab x-small dark @click="playOrPause()">
+    <v-btn
+      v-if="fullSong"
+      color="primary"
+      fab
+      x-small
+      dark
+      @click="playOrPause()"
+    >
       <v-icon>{{ icon }}</v-icon>
     </v-btn>
   </div>

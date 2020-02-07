@@ -53,12 +53,15 @@ const getUserFromSpotify = async (token) => {
       access_token: token
     }
   })
-
+  console.log('user from spotify', userFromSpotify)
   return userFromSpotify
 }
 
 const getTokenFromSpotify = (code) => async (state) => {
+  console.log('code', code)
+  console.log('state', state)
   const resultSpotify = await axios.get(
+    // 'https://tandafuria.herokuapp.com/spotify/callback',
     'https://tanda-furia.herokuapp.com/callback',
     {
       params: {
@@ -81,19 +84,21 @@ const getTokenFromSpotify = (code) => async (state) => {
 const refreshTokenFromSpotify = async (refresh_token) => {
   console.log('refresh token !', refresh_token)
   const resultSpotify = await axios.get(
-    'https://tanda-furia.herokuapp.com/refresh_token',
+    // 'https://tandafuria.herokuapp.com/spotify/refresh_token',
+    'https://tanda-furia.herokuapp.com/callback',
     {
       params: {
         refresh_token
       }
     }
   )
-
+  console.log('token refreshed', resultSpotify.data.access_token)
   return resultSpotify.data.access_token
 }
 
 const askCodeFromSpotify = () =>
-  (window.location.href = 'https://tanda-furia.herokuapp.com/')
+  // window.location.href = 'https://tandafuria.herokuapp.com/spotify'
+  'https://tanda-furia.herokuapp.com/callback'
 
 const reinitTokens = (store) => {
   // const value = ''
