@@ -11,7 +11,7 @@ export const mutations = {
     state.user.nickname = user.nickname
   },
   CLEAR_USER(state) {
-    state.user = null
+    state.user = {}
   }
 }
 

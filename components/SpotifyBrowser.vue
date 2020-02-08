@@ -1,15 +1,18 @@
 <template>
   <v-card>
-    <v-card-title><h1>Spotify Browser</h1></v-card-title>
+    <v-card-title><h1>Browser</h1></v-card-title>
 
     <v-card-text>
       <v-text-field
         ref="searchString"
         v-model="searchString"
         placeholder="search an artist, a song, ... exemple : la cumparsita"
-        @keyup="searchSpotify"
+        append-outer-icon="mdi-magnify"
         solo
         prepend-inner-icon="mdi-file-find-outline"
+        @click:append-outer="searchSpotify"
+        clearable
+        @keydown.enter="searchSpotify"
       ></v-text-field>
       <v-list
         two-line
@@ -63,17 +66,8 @@ export default {
     browserClose() {
       this.dialogBrowserSpotify = false
     },
-    searchSpotify() {
-      // timeout is used to add delay before sending request to spotify to let user finishing typing
-
-      let timeout = null
-      if (this.searchString.length >= 3) {
-        clearTimeout(timeout)
-
-        timeout = setTimeout(async () => {
-          this.tracks = await this.launchRequest()
-        }, 1000)
-      }
+    async searchSpotify() {
+      this.tracks = await this.launchRequest()
     },
     async showMore(offset) {
       this.offset += 20
@@ -93,21 +87,11 @@ export default {
 
     async sendRequestToSpotify({ search, offset }) {
       try {
-        const resultSearch = await this.$axios({
-          method: 'get',
-          params: {
-            q: search,
-            offset,
-            type: 'track',
-            access_token: this.$store.getters['authSpotify/getToken']
-          },
-          url: 'https://api.spotify.com/v1/search'
-        })
+        const url = `https://tandafuria.herokuapp.com/spotify/search/${search}/${offset}`
+        const resultSearch = await this.$axios.get(url)
         return resultSearch
       } catch (e) {
-        if (e.response.status === 401) {
-          // Auth error so reset the credentials
-        }
+        console.log('search error', e)
       }
     },
     addTrack(track) {

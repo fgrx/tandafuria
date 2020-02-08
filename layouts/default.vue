@@ -115,7 +115,7 @@ export default {
       clipped: false,
       drawer: !this.$vuetify.breakpoint.mdAndDown,
       fixed: false,
-      // user: this.$store.getters['authApp/getUser'],
+      user: this.$store.getters['authApp/getUser'],
       items: [
         {
           icon: 'mdi-home',
@@ -143,27 +143,9 @@ export default {
       subtitle: 'A tanda creator tool'
     }
   },
-  computed: {
-    user() {
-      return this.$store.getters['authApp/getUser']
-    }
-  },
   // computed: {
-  //   ...mapState({
-  //     user: (state) => state.user
-  //   })
-  // },
-  // computed: mapState(['user']),
-  // watch: {
-  //   user(newValue, oldValue) {
-  //     console.log(`Updating from ${oldValue} to ${newValue}`)
-
-  //     // Do whatever makes sense now
-  //     if (newValue === 'success') {
-  //       this.complex = {
-  //         deep: 'some deep object'
-  //       }
-  //     }
+  //   user() {
+  //     return this.$store.getters['authApp/getUser']
   //   }
   // },
   mounted() {
