@@ -5,38 +5,37 @@
         <h1>Create your account</h1>
       </v-card-title>
       <v-card-text>
-        <v-card-content>
-          <v-alert type="info" v-if="success">
-            <h2>Congratulation, your account has be succesfully created</h2>
-            <p>
-              Please connect to your account by clicking
-              <v-btn to="/signin">signin</v-btn>
-            </p>
-          </v-alert>
+        <v-alert type="info" v-if="success">
+          <h2>Congratulation !</h2>
+          <h3>your account has be succesfully created</h3>
+          <p>
+            Please connect to your account by clicking the sign in button
+          </p>
+          <p><v-btn to="/signin">signin</v-btn></p>
+        </v-alert>
 
-          <v-form ref="form" class="" v-model="valid" v-if="!success">
-            <v-text-field
-              label="Email address"
-              :rules="emailRules"
-              v-model="username"
-              placeholder="myemail@gmail.com"
-            ></v-text-field>
+        <v-form ref="form" class="" v-model="valid" v-if="!success">
+          <v-text-field
+            label="Email address"
+            :rules="emailRules"
+            v-model="username"
+            placeholder="myemail@gmail.com"
+          ></v-text-field>
 
-            <v-text-field
-              label="Password"
-              v-model="password"
-              :rules="passwordRules"
-              type="password"
-            ></v-text-field>
+          <v-text-field
+            label="Password"
+            v-model="password"
+            :rules="passwordRules"
+            type="password"
+          ></v-text-field>
 
-            <v-text-field
-              label="Nickname (will credit your public tanda)"
-              v-model="nickname"
-              :rules="[(v) => !!v || 'Choose a Nickname']"
-              placeholder='example : John "El Mano"'
-            ></v-text-field>
-          </v-form>
-        </v-card-content>
+          <v-text-field
+            label="Nickname (will credit your public tanda)"
+            v-model="nickname"
+            :rules="[(v) => !!v || 'Choose a Nickname']"
+            placeholder='example : John "El Mano"'
+          ></v-text-field>
+        </v-form>
         <v-card-actions v-if="!success">
           <v-btn :disabled="!valid" color="primary" @click="createAction()"
             >Create</v-btn

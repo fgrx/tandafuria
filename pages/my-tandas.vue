@@ -6,15 +6,20 @@
         <TandaItem :tanda="tanda" />
       </v-flex>
     </v-layout>
+    <NoTandaMessage
+      v-if="tandas.length === 0"
+      title="No tanda in your library"
+    />
   </v-container>
 </template>
 
 <script>
 import TandaItem from '@/components/TandaItem'
+import NoTandaMessage from '@/components/NoTandaMessage'
 
 export default {
   middleware: ['spotifyConnexion', 'appAuthorization'],
-  components: { TandaItem },
+  components: { TandaItem, NoTandaMessage },
   data() {
     return {
       tandas: this.$store.getters['tandas/getMyTandas']

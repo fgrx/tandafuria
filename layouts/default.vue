@@ -22,30 +22,6 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
-        <div class="connectedAs" v-if="user.id">
-          Connected as {{ user.nickname }}
-          <v-divider></v-divider>
-        </div>
-        <div class="authentication" v-if="!user.id">
-          <v-list-item>
-            <v-btn to="create-account" color=""
-              ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
-            >
-          </v-list-item>
-          <v-list-item>
-            <v-btn to="signin" color=""
-              ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
-            >
-          </v-list-item>
-        </div>
-
-        <div class="logout" v-if="user.id">
-          <v-list-item>
-            <v-btn @click="logout()"><v-icon>mdi-logout</v-icon> Logout</v-btn>
-          </v-list-item>
-        </div>
-
-        <v-divider></v-divider>
 
         <v-list-item to="/">
           <v-list-item-action>
@@ -93,6 +69,20 @@
 
     <v-content>
       <v-container fluid>
+        <p class="text-right">
+          <v-btn v-if="user.id" text small color="secondary" @click="logout()"
+            ><v-icon>mdi-logout</v-icon> Logout {{ user.nickname }}</v-btn
+          >
+
+          <v-btn v-if="!user.id" to="create-account" text large color="primary"
+            ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
+          >
+
+          <v-btn v-if="!user.id" to="signin" color="primary" text large
+            ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
+          >
+        </p>
+
         <nuxt />
       </v-container>
     </v-content>
@@ -140,7 +130,7 @@ export default {
       ],
       miniVariant: false,
       title: 'TandaFuria',
-      subtitle: 'A tanda creator tool'
+      subtitle: 'The tanda creation tool'
     }
   },
   // computed: {
@@ -156,6 +146,7 @@ export default {
     logout() {
       localStorage.clear()
       this.$store.dispatch('authApp/clearUser')
+      document.location.href = '/'
     }
   }
 }

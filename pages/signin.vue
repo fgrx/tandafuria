@@ -55,7 +55,8 @@ export default {
         this.$store.dispatch('authApp/setUser', user)
         localStorage.setItem('user', JSON.stringify(user))
 
-        this.$router.replace({ path: '/my-tandas' })
+        // this.$router.replace({ path: '/my-tandas' })
+        document.location.href = '/my-tandas'
       } catch (e) {
         this.fail = true
       }

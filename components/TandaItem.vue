@@ -121,15 +121,7 @@ export default {
       (orchestra) => orchestra.id === this.tanda.orchestra
     )
 
-    if (this.tanda.tracks.length > 0) {
-      const durationInMS = this.tanda.tracks.reduce(
-        (total, track) => track.duration_ms + total,
-        0
-      )
-      this.duration = millisToMinutesAndSeconds(durationInMS)
-    }
-
-    this.period = this.tanda.periodStart + ' - ' + this.tanda.periodEnd
+    this.period = this.displayPeriod(this.tanda)
   },
   methods: {
     importTandaToLibrary(tanda) {
@@ -154,6 +146,17 @@ export default {
         display: true,
         icon: 'mdi-check-circle-outline'
       }
+    },
+    displayPeriod(tanda) {
+      if (tanda.tracks.length > 0) {
+        const durationInMS = tanda.tracks.reduce(
+          (total, track) => track.duration_ms + total,
+          0
+        )
+        this.duration = millisToMinutesAndSeconds(durationInMS)
+      }
+
+      return tanda.periodStart + ' - ' + tanda.periodEnd
     }
   }
 }

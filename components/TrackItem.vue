@@ -37,6 +37,7 @@ export default {
     }
   },
   mounted() {
+    console.log('track', this.track)
     if (this.$store.getters['authSpotify/getToken'] !== '') this.fullSong = true
   }
 }
