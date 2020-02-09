@@ -17,6 +17,11 @@
         </audio>
       </vue-plyr>
     </v-list-item-content>
+    <v-list-item-action>
+      <v-btn icon @click="addTrackAction(track)">
+        <v-icon color="grey lighten-1">mdi-plus-box</v-icon>
+      </v-btn>
+    </v-list-item-action>
   </v-list-item>
 </template>
 
@@ -37,8 +42,12 @@ export default {
     }
   },
   mounted() {
-    console.log('track', this.track)
     if (this.$store.getters['authSpotify/getToken'] !== '') this.fullSong = true
+  },
+  methods: {
+    addTrackAction(track) {
+      this.$emit('clicked', track)
+    }
   }
 }
 </script>
