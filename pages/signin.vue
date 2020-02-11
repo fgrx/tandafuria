@@ -1,11 +1,20 @@
 <template>
   <v-card>
     <v-card-title><h1>Sign in</h1></v-card-title>
-    <v-alert type="warning" v-if="fail">
-      <h2>Connexion failed</h2>
-      <p>Your login / password doesn't match</p>
-    </v-alert>
     <v-card-text>
+      <p>To access all functionnalities, please connect to your account</p>
+      <p>
+        You don't have an account yet ? please register by clicking
+        <v-btn to="/create-account" small color="primary"
+          >Create an account</v-btn
+        >
+      </p>
+
+      <v-alert type="warning" v-if="fail">
+        <h2>Connexion failed</h2>
+        <p>Your login / password doesn't match</p>
+      </v-alert>
+
       <form ref="form">
         <v-text-field
           label="Email address"
@@ -49,6 +58,9 @@ export default {
           username: infos.username,
           role: infos.role,
           nickname: infos.nickname,
+          spotify: infos.spotify,
+          link: infos.link,
+          contactByMail: infos.contactByMail,
           token
         }
 

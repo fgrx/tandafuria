@@ -12,7 +12,7 @@
 <script>
 import TandaForm from '@/components/TandaForm'
 export default {
-  middleware: 'spotifyConnexion',
+  middleware: ['spotifyConnexion', 'appAuthorization'],
 
   components: {
     TandaForm

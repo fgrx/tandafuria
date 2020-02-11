@@ -1,18 +1,43 @@
 <template>
   <v-app dark>
-    <v-app-bar
-      :clipped-left="clipped"
-      absolute
-      fixed
-      class="d-xs-flex d-lg-none"
-      app
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+    <v-app-bar :clipped-left="clipped" absolute fixed class="" app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-lg-none" />
       <v-toolbar-title v-text="title" />
-      <v-spacer />
+      <v-spacer></v-spacer>
+
+      <div class="d-none d-lg-flex">
+        <v-menu v-if="user.id" transition="slide-y-transition" bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn text color="secondary" dark v-on="on">
+              <v-icon>mdi-account</v-icon>
+              {{ user.nickname }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-btn text small color="secondary" to="/manage-account"
+                ><v-icon>mdi-account</v-icon>Manage your account</v-btn
+              >
+            </v-list-item>
+            <v-list-item>
+              <v-btn text small color="secondary" @click="logout()"
+                ><v-icon>mdi-logout</v-icon> Logout {{ user.nickname }}</v-btn
+              >
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-btn v-if="!user.id" to="create-account" text large color="secondary"
+          ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
+        >
+
+        <v-btn v-if="!user.id" to="signin" color="secondary" text large
+          ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
+        >
+      </div>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" :clipped="clipped" fixed app>
+    <v-navigation-drawer v-model="drawer" fixed app>
       <v-list>
         <v-list-item>
           <v-list-item-content>
@@ -60,29 +85,49 @@
         </v-list-item>
 
         <v-list-item
-          ><v-btn :to="{ name: 'tandaEditor' }" color="primary"
+          ><v-btn block="true" :to="{ name: 'tanda-editor' }" color="primary"
             >+ Create a tanda</v-btn
           ></v-list-item
         >
+
+        <v-list-item v-if="!user.id" class="d-flex d-lg-none">
+          <v-btn block="true" to="signin" color="secondary" text large
+            ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
+          >
+        </v-list-item>
+
+        <v-list-item v-if="!user.id" class="d-flex d-lg-none">
+          <v-btn block="true" to="create-account" text large color="secondary"
+            ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
+          >
+        </v-list-item>
+
+        <div class="d-flex d-lg-none">
+          <v-menu v-if="user.id" transition="slide-y-transition" bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn text color="secondary" block="true" dark v-on="on">
+                <v-icon>mdi-account</v-icon> {{ user.nickname }}
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item class="d-flex d-lg-none">
+                <v-btn text small color="secondary" to="/manage-account"
+                  ><v-icon>mdi-account</v-icon>Manage your account</v-btn
+                >
+              </v-list-item>
+              <v-list-item class="d-flex d-lg-none">
+                <v-btn text small color="secondary" @click="logout()"
+                  ><v-icon>mdi-logout</v-icon> Logout {{ user.nickname }}</v-btn
+                >
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
       </v-list>
     </v-navigation-drawer>
 
     <v-content>
       <v-container fluid>
-        <p class="text-right">
-          <v-btn v-if="user.id" text small color="secondary" @click="logout()"
-            ><v-icon>mdi-logout</v-icon> Logout {{ user.nickname }}</v-btn
-          >
-
-          <v-btn v-if="!user.id" to="create-account" text large color="primary"
-            ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
-          >
-
-          <v-btn v-if="!user.id" to="signin" color="primary" text large
-            ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
-          >
-        </p>
-
         <nuxt />
       </v-container>
     </v-content>
@@ -94,6 +139,7 @@
 <script>
 // import { mapState } from 'vuex'
 import SpotifyPlayer from '~/components/SpotifyPlayer'
+import { userService } from '@/services/users.service'
 
 export default {
   components: {
@@ -133,18 +179,10 @@ export default {
       subtitle: 'The tanda creation tool'
     }
   },
-  // computed: {
-  //   user() {
-  //     return this.$store.getters['authApp/getUser']
-  //   }
-  // },
-  mounted() {
-    // this.user = this.$store.getters['authApp/getUser']
-    console.log('user', this.user)
-  },
+  mounted() {},
   methods: {
     logout() {
-      localStorage.clear()
+      userService.logout()
       this.$store.dispatch('authApp/clearUser')
       document.location.href = '/'
     }

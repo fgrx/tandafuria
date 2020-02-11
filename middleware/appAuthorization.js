@@ -1,6 +1,3 @@
-export default function({ store, route, redirect }) {
-  if (store.getters['authApp/getUser'].length === 0) {
-    const user = { id: 1, name: 'Fabien' }
-    store.dispatch('authApp/setUser', user)
-  }
+export default function({ store, redirect }) {
+  if (store.getters['authApp/getUser'].length == null) redirect('/signin')
 }

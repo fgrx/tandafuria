@@ -16,7 +16,7 @@ import TandaForm from '@/components/TandaForm'
 import { tandaService } from '@/services/tandas.service.js'
 
 export default {
-  middleware: 'spotifyConnexion',
+  middleware: ['spotifyConnexion', 'appAuthorization'],
 
   components: {
     TandaForm
@@ -33,7 +33,6 @@ export default {
     )
     this.tanda = tandaQueryResult.data
     this.loaded = true
-    console.log('tomodify', this.tanda)
   }
 }
 </script>

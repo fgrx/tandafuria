@@ -9,6 +9,9 @@ export const mutations = {
     state.user.token = user.token
     state.user.role = user.role
     state.user.nickname = user.nickname
+    state.user.spotify = user.spotify
+    state.user.link = user.link
+    state.user.contactByMail = user.contactByMail
   },
   CLEAR_USER(state) {
     state.user = {}
