@@ -18,7 +18,7 @@ import TandaItem from '@/components/TandaItem'
 import NoTandaMessage from '@/components/NoTandaMessage'
 
 export default {
-  middleware: ['spotifyConnexion', 'appAuthorization'],
+  middleware: ['appAuthorization'],
   components: { TandaItem, NoTandaMessage },
   data() {
     return {

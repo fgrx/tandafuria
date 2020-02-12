@@ -17,6 +17,7 @@ module.exports = {
   plugins: ['prettier'],
   // add your custom rules here
   rules: {
-    camelcase: 'never'
+    camelcase: 'never',
+    'spaced-comment': 'never'
   }
 }

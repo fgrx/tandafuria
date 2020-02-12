@@ -81,24 +81,18 @@
           <transition-group>
             <div v-for="track in tracks" :key="track.id">
               <v-list-item draggable two-line>
-                <v-list-item-icon>
-                  <TrackItem :track="track" />
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-text="track.name"></v-list-item-title>
-                  <v-list-item-subtitle>
-                    <span v-for="artist in track.artists" :key="artist.id"
-                      >{{ artist.name }}
-                    </span>
-                  </v-list-item-subtitle>
-                </v-list-item-content>
+                <TrackItem :track="track" />
+
                 <v-list-item-action>
-                  <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
+                  <v-btn icon>
+                    <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
+                  </v-btn>
                   <v-btn icon @click="deleteTrack(track.id)">
                     <v-icon color="danger">mdi-delete</v-icon>
                   </v-btn>
                 </v-list-item-action>
               </v-list-item>
+              <v-divider></v-divider>
             </div>
           </transition-group>
         </draggable>
@@ -116,7 +110,7 @@
     <v-switch
       v-model="isPublicField"
       class="ma-2"
-      label="Is my tanda public (other users will see your tanda)"
+      label="My tanda is public (other users will be able to see your tanda)"
     ></v-switch>
 
     <v-dialog v-model="dialogBrowserSpotify" max-width="800px">
@@ -237,11 +231,15 @@ export default {
         this.updateTanda()
       }
 
-      this.$router.replace({ path: '/' })
+      this.$router.replace({ path: '/my-tandas' })
+      // this.$router.back()
     },
     async saveNewTanda() {
       const tanda = this.buildTandaFromForm()
-      const newTandaInDB = await tandaService.save(tanda)
+      const newTandaInDB = await tandaService.save(
+        tanda,
+        this.currentUser.token
+      )
 
       tanda._id = newTandaInDB.data._id
       this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
@@ -251,7 +249,7 @@ export default {
     updateTanda() {
       const tanda = this.buildTandaFromForm()
 
-      tandaService.update(this.tandaToModify._id, tanda)
+      tandaService.update(this.tandaToModify._id, tanda, this.currentUser.token)
 
       tanda._id = this.tandaToModify._id
 
@@ -276,7 +274,7 @@ export default {
     },
     deleteTanda(idTanda) {
       if (window.confirm('Do you really want to delete this tanda ? ')) {
-        tandaService.delete(idTanda)
+        tandaService.delete(idTanda, this.currentUser.token)
         this.$store.dispatch('tandas/deleteTanda', idTanda)
         this.$router.replace({ path: '/' })
       }

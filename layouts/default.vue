@@ -1,6 +1,14 @@
 <template>
   <v-app dark>
-    <v-app-bar :clipped-left="clipped" absolute fixed class="" app>
+    <v-app-bar
+      color="transparent"
+      flat
+      :clipped-left="clipped"
+      absolute
+      fixed
+      class=""
+      app
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-lg-none" />
       <v-toolbar-title v-text="title" />
       <v-spacer></v-spacer>
@@ -21,7 +29,7 @@
             </v-list-item>
             <v-list-item>
               <v-btn text small color="secondary" @click="logout()"
-                ><v-icon>mdi-logout</v-icon> Logout {{ user.nickname }}</v-btn
+                ><v-icon>mdi-logout</v-icon> Logout</v-btn
               >
             </v-list-item>
           </v-list>
@@ -85,19 +93,19 @@
         </v-list-item>
 
         <v-list-item
-          ><v-btn block="true" :to="{ name: 'tanda-editor' }" color="primary"
+          ><v-btn block :to="{ name: 'tanda-editor' }" color="primary"
             >+ Create a tanda</v-btn
           ></v-list-item
         >
 
         <v-list-item v-if="!user.id" class="d-flex d-lg-none">
-          <v-btn block="true" to="signin" color="secondary" text large
+          <v-btn block to="signin" color="secondary" text large
             ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
           >
         </v-list-item>
 
         <v-list-item v-if="!user.id" class="d-flex d-lg-none">
-          <v-btn block="true" to="create-account" text large color="secondary"
+          <v-btn block to="create-account" text large color="secondary"
             ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
           >
         </v-list-item>
@@ -105,7 +113,7 @@
         <div class="d-flex d-lg-none">
           <v-menu v-if="user.id" transition="slide-y-transition" bottom>
             <template v-slot:activator="{ on }">
-              <v-btn text color="secondary" block="true" dark v-on="on">
+              <v-btn text color="secondary" block dark v-on="on">
                 <v-icon>mdi-account</v-icon> {{ user.nickname }}
               </v-btn>
             </template>
@@ -132,7 +140,9 @@
       </v-container>
     </v-content>
 
-    <SpotifyPlayer />
+    {{ device }}
+    <SpotifyPlayer v-if="device" />
+    <div v-if="device">COUCOUUUUUUUUUUUUUUU</div>
   </v-app>
 </template>
 
@@ -145,13 +155,14 @@ export default {
   components: {
     SpotifyPlayer
   },
-  middleware: ['initializeAppData'],
+  middleware: ['initializeAppData', 'spotifyConnexion'],
   data() {
     return {
       clipped: false,
       drawer: !this.$vuetify.breakpoint.mdAndDown,
       fixed: false,
       user: this.$store.getters['authApp/getUser'],
+      device: null,
       items: [
         {
           icon: 'mdi-home',
@@ -179,7 +190,9 @@ export default {
       subtitle: 'The tanda creation tool'
     }
   },
-  mounted() {},
+  mounted() {
+    console.log('device', this.device)
+  },
   methods: {
     logout() {
       userService.logout()

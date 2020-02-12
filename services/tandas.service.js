@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const urlApi = 'https://tandafuria.herokuapp.com/tandas'
-// const urlApi = 'http://localhost:4000/tandas'
 
 export const tandaService = {
   async getTandas() {
@@ -14,19 +13,22 @@ export const tandaService = {
     return result.data
   },
   async getOneTanda(idTanda) {
-    const result = await axios.get(`${urlApi}/${idTanda}`)
+    const result = await axios.get(`${urlApi}/find/${idTanda}`)
+    return result.data
+  },
+  async save(tanda, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = await axios.post(urlApi, tanda, header)
     return result
   },
-  async save(tanda) {
-    const result = await axios.post(urlApi, tanda)
+  update(idTanda, tanda, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = axios.put(`${urlApi}/${idTanda}`, tanda, header)
     return result
   },
-  update(idTanda, tanda) {
-    const result = axios.put(`${urlApi}/${idTanda}`, tanda)
-    return result
-  },
-  delete(idTanda) {
-    const result = axios.delete(`${urlApi}/${idTanda}`)
+  delete(idTanda, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = axios.delete(`${urlApi}/${idTanda}`, header)
     return result
   }
 }

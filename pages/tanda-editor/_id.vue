@@ -4,8 +4,9 @@
       <v-card-title>
         Tanda editor
       </v-card-title>
-      <v-card-text
-        ><TandaForm v-if="loaded" :tandaToModify="tanda"
+
+      <v-card-text v-if="loaded"
+        ><TandaForm :tandaToModify="tanda"
       /></v-card-text>
     </v-card>
   </v-container>
@@ -16,7 +17,7 @@ import TandaForm from '@/components/TandaForm'
 import { tandaService } from '@/services/tandas.service.js'
 
 export default {
-  middleware: ['spotifyConnexion', 'appAuthorization'],
+  middleware: ['appAuthorization'],
 
   components: {
     TandaForm
@@ -31,7 +32,8 @@ export default {
     const tandaQueryResult = await tandaService.getOneTanda(
       this.$route.params.id
     )
-    this.tanda = tandaQueryResult.data
+    this.tanda = tandaQueryResult
+    console.log('tanda', this.tanda)
     this.loaded = true
   }
 }

@@ -1,3 +1,4 @@
 export default function({ store, redirect }) {
-  if (store.getters['authApp/getUser'].length == null) redirect('/signin')
+  const user = store.getters['authApp/getUser']
+  if (user.id === null) redirect('/signin')
 }

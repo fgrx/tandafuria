@@ -6,9 +6,9 @@ export const state = () => ({
 export const mutations = {
   ADD_TANDA(state, { target, tanda }) {
     if (target === 'allTandas') {
-      state.allTandas.push(tanda)
+      state.allTandas.unshift(tanda)
     } else {
-      state.myTandas.push(tanda)
+      state.myTandas.unshift(tanda)
     }
   },
   DELETE_TANDA(state, idTanda) {

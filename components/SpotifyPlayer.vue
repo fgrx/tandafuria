@@ -5,8 +5,11 @@
 <script>
 export default {
   mounted() {
-    window.onSpotifyWebPlaybackSDKReady = () => {}
-    this.initiatePlayer()
+    const user = this.$store.getters['authApp/getUser']
+    if (user.spotify) {
+      window.onSpotifyWebPlaybackSDKReady = () => {}
+      this.initiatePlayer()
+    }
   },
   methods: {
     waitForSpotifyWebPlaybackSDKToLoad() {
@@ -24,6 +27,7 @@ export default {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
       const token = this.$store.getters['authSpotify/getToken']
 
+      console.log('player token', token)
       const sdk = new Player({
         name: 'TandaFuria',
         volume: 1.0,

@@ -43,7 +43,7 @@
           >
 
           <v-btn
-            :to="{ name: 'tandaEditor-id', params: { id: tanda._id } }"
+            :to="{ name: 'tanda-editor-id', params: { id: tanda._id } }"
             v-if="tanda.author.id === currentUser.id"
             color="primary"
             text

@@ -23,7 +23,7 @@
       >
         <h2>Results</h2>
         <template v-for="(track, index) in tracks">
-          <TrackItem :track="track" @clicked="addTrackAction" />
+          <TrackItem :track="track" mode="browser" @clicked="addTrackAction" />
 
           <v-divider v-if="index + 1 < tracks.length" :key="index"></v-divider>
         </template>
@@ -95,7 +95,6 @@ export default {
       }
     },
     addTrackAction(track) {
-      console.log('pouet')
       this.$emit('clicked', track)
     }
   }
