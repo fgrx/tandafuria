@@ -54,9 +54,11 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
+    '@bazzite/nuxt-netlify',
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
+  netlify: {},
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
