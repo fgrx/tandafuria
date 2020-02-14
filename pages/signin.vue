@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title><h1>Sign in</h1></v-card-title>
-    <v-card-text>
+    <v-card-text class="body-1">
       <p>To access all functionnalities, please connect to your account</p>
       <p>
         You don't have an account yet ? please register by clicking

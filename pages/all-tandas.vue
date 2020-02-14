@@ -2,7 +2,7 @@
   <v-container fluid grid-list-md>
     <h1>All tandas</h1>
     <v-layout row wrap>
-      <v-flex v-for="(tanda, index) in tandas" :key="index" lg4 md6 xs12>
+      <v-flex v-for="(tanda, index) in tandas" :key="index" xl3 lg4 md6 xs12>
         <TandaItem :tanda="tanda" />
       </v-flex>
     </v-layout>
