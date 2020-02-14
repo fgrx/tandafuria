@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="ma-2 pa-1" shaped>
       <v-list-item three-line>
         <v-list-item-content>
-          <div class="overline mb-4">{{ tanda.genre }} - {{ tanda.speed }}</div>
+          <div class="overline ">{{ tanda.genre }} - {{ tanda.speed }}</div>
           <v-list-item-title two-line class="headline mb-1">{{
             orchestra.title
           }}</v-list-item-title>
@@ -24,60 +24,59 @@
           <v-img :src="tanda.tracks[0].album.images[2].url"></v-img>
         </v-list-item-avatar>
       </v-list-item>
-      <v-card-text>
-        <template v-for="(track, index) in tanda.tracks">
-          <TrackItem :track="track" />
-          <v-divider
-            v-if="index + 1 < tanda.tracks.length"
-            :key="index"
-          ></v-divider>
-        </template>
 
-        <v-card-actions>
-          <v-btn
-            v-if="tanda.author.id !== currentUser.id"
-            @click="importTandaToLibrary(tanda)"
-            color="primary"
-            text
-            ><v-icon>mdi-import</v-icon> Add to my tandas</v-btn
-          >
+      <template v-for="(track, index) in tanda.tracks">
+        <TrackItem :track="track" />
+        <v-divider
+          v-if="index + 1 < tanda.tracks.length"
+          :key="index"
+        ></v-divider>
+      </template>
 
-          <v-btn
-            :to="{ name: 'tanda-editor-id', params: { id: tanda._id } }"
-            v-if="tanda.author.id === currentUser.id"
-            color="primary"
-            text
-            ><v-icon>mdi-pencil</v-icon>
-            Edit
-          </v-btn>
+      <v-card-actions v-if="currentUser.id">
+        <v-btn
+          v-if="tanda.author.id !== currentUser.id"
+          @click="importTandaToLibrary(tanda)"
+          color="primary"
+          text
+          ><v-icon>mdi-import</v-icon> Add to my tandas</v-btn
+        >
 
-          <v-spacer></v-spacer>
+        <v-btn
+          :to="{ name: 'tanda-editor-id', params: { id: tanda._id } }"
+          v-if="tanda.author.id === currentUser.id"
+          color="primary"
+          text
+          ><v-icon>mdi-pencil</v-icon>
+          Edit
+        </v-btn>
 
-          <v-btn @click="showMore = !showMore" icon>
-            <v-icon>{{
-              showMore ? 'mdi-chevron-up' : 'mdi-chevron-down'
-            }}</v-icon>
-          </v-btn>
-        </v-card-actions>
+        <v-spacer></v-spacer>
 
-        <v-expand-transition>
-          <div v-show="showMore">
-            <v-divider></v-divider>
+        <v-btn @click="showMore = !showMore" icon>
+          <v-icon>{{
+            showMore ? 'mdi-chevron-up' : 'mdi-chevron-down'
+          }}</v-icon>
+        </v-btn>
+      </v-card-actions>
 
-            <v-card-text>
-              <p class="tandaDateCreator">
-                Date :
-                {{ tanda.date }}<br />
-                <span v-if="period">period : {{ period }}</span
-                ><br v-if="period && duration" />
-              </p>
-              <div v-if="tanda.description" class="tandaDescription">
-                {{ tanda.description }}
-              </div>
-            </v-card-text>
-          </div>
-        </v-expand-transition>
-      </v-card-text>
+      <v-expand-transition>
+        <div v-show="showMore">
+          <v-divider></v-divider>
+
+          <v-card-text>
+            <p class="tandaDateCreator">
+              Date :
+              {{ tanda.date }}<br />
+              <span v-if="period">period : {{ period }}</span
+              ><br v-if="period && duration" />
+            </p>
+            <div v-if="tanda.description" class="tandaDescription">
+              {{ tanda.description }}
+            </div>
+          </v-card-text>
+        </div>
+      </v-expand-transition>
     </v-card>
     <v-snackbar v-model="flash.display" :color="flash.color">
       <v-icon>{{ flash.icon }}</v-icon
