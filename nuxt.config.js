@@ -18,10 +18,10 @@ export default {
       }
     ],
     script: [
-      {
-        src: 'https://sdk.scdn.co/spotify-player.js',
-        body: true
-      }
+      // {
+      //   src: 'https://sdk.scdn.co/spotify-player.js',
+      //   body: true
+      // }
       // {
       //   src: '@assets/spotifyPlayer.js',
       //   body: true

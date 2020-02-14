@@ -10,27 +10,28 @@
         >
       </p>
 
-      <v-alert type="warning" v-if="fail">
+      <v-alert v-if="fail" type="warning">
         <h2>Connexion failed</h2>
         <p>Your login / password doesn't match</p>
       </v-alert>
 
       <form ref="form">
         <v-text-field
-          label="Email address"
           v-model="username"
+          label="Email address"
           placeholder="myemail@gmail.com"
         ></v-text-field>
 
         <v-text-field
-          label="Password"
           v-model="password"
+          @keydown.enter="signin()"
+          label="Password"
           type="password"
         ></v-text-field>
       </form>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" @click="signin()">Sign in</v-btn>
+      <v-btn @click="signin()" color="primary">Sign in</v-btn>
       <v-btn to="/">Back</v-btn>
     </v-card-actions>
   </v-card>
@@ -50,8 +51,9 @@ export default {
     async signin() {
       try {
         const result = await userService.signin(this.username, this.password)
+        //console.log('result user !', result)
         const token = result.data.accessToken
-        const infos = this.parseJwt(token)
+        const infos = result.data.userData
 
         const user = {
           id: infos.id,
@@ -68,7 +70,7 @@ export default {
         localStorage.setItem('user', JSON.stringify(user))
 
         // this.$router.replace({ path: '/my-tandas' })
-        document.location.href = '/my-tandas'
+        document.location.href = '/'
       } catch (e) {
         this.fail = true
       }

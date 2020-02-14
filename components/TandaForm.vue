@@ -1,24 +1,24 @@
 <template>
-  <v-form ref="form" class="tandaForm" v-model="valid">
+  <v-form ref="form" v-model="valid" class="tandaForm">
     <v-select
+      v-model="genreField"
+      :rules="[(v) => !!v || 'Musical genre is required']"
+      :items="genreList"
       label="musical genre"
       class="inputGenre"
-      :items="genreList"
       item-text="name"
       item-value="id"
-      :rules="[(v) => !!v || 'Musical genre is required']"
       required
-      v-model="genreField"
     ></v-select>
 
     <v-select
-      label="Orchestra"
+      v-model="orchestraField"
       :items="orchestraList"
+      :rules="[(v) => !!v || 'Orchestra is required']"
+      label="Orchestra"
       item-text="title"
       item-value="id"
-      :rules="[(v) => !!v || 'Orchestra is required']"
       required
-      v-model="orchestraField"
     ></v-select>
 
     <v-switch
@@ -27,43 +27,43 @@
     ></v-switch>
 
     <v-text-field
+      v-model="singerField"
       v-if="!isInstrumentalField"
       label="Singer"
-      v-model="singerField"
       placeholder="example : Alberto Moran"
     ></v-text-field>
 
     <v-row>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="periodStartField"
           outlined
           label="Start period (year only, 4 digits)"
-          v-model="periodStartField"
           placeholder="example : 1942"
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="6">
         <v-text-field
+          v-model="periodEndField"
           outlined
           label="End period (year only, 4 digits)"
-          v-model="periodEndField"
           placeholder="example : 1946"
         ></v-text-field>
       </v-col>
     </v-row>
 
     <v-select
-      label="Speed"
-      :items="speedList"
       v-model="speedField"
+      :items="speedList"
       :rules="[(v) => !!v || 'Music speed is required']"
+      label="Speed"
       required
     ></v-select>
 
     <v-textarea
+      v-model="descriptionField"
       label="description"
       rows="4"
-      v-model="descriptionField"
       placeholder="Write a small description of your tanda"
     ></v-textarea>
 
@@ -87,7 +87,7 @@
                   <v-btn icon>
                     <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
                   </v-btn>
-                  <v-btn icon @click="deleteTrack(track.id)">
+                  <v-btn @click="deleteTrack(track.id)" icon>
                     <v-icon color="danger">mdi-delete</v-icon>
                   </v-btn>
                 </v-list-item-action>
@@ -116,19 +116,19 @@
     <v-dialog v-model="dialogBrowserSpotify" max-width="800px">
       <SpotifyBrowser @clicked="addTrack" />
 
-      <v-btn color="success" @click="browserClose">Close</v-btn>
+      <v-btn @click="browserClose" color="success">Close</v-btn>
     </v-dialog>
     <v-spacer></v-spacer>
     <v-card-actions>
-      <v-btn :disabled="!valid" color="primary" @click="saveAction()"
+      <v-btn @click="saveAction()" :disabled="!valid" color="primary"
         >Save</v-btn
       >
       <v-btn to="/">Back</v-btn>
 
       <v-btn
-        v-if="this.tandaToModify && tandaToModify.author.id === currentUser.id"
-        color="warning"
+        v-if="tandaToModify && tandaToModify.author.id === currentUser.id"
         @click="deleteTanda(tandaToModify._id)"
+        color="warning"
         ><v-icon>mdi-delete</v-icon> Delete
       </v-btn>
     </v-card-actions>
@@ -159,7 +159,8 @@ export default {
   },
   props: {
     tandaToModify: {
-      type: Object
+      type: Object,
+      default: null
     }
   },
   data() {

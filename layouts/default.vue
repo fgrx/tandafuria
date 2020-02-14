@@ -1,9 +1,9 @@
 <template>
   <v-app dark>
     <v-app-bar
+      :clipped-left="clipped"
       color="transparent"
       flat
-      :clipped-left="clipped"
       absolute
       fixed
       class=""
@@ -16,7 +16,7 @@
       <div class="d-none d-lg-flex">
         <v-menu v-if="user.id" transition="slide-y-transition" bottom>
           <template v-slot:activator="{ on }">
-            <v-btn text color="secondary" dark v-on="on">
+            <v-btn v-on="on" text color="secondary" dark>
               <v-icon>mdi-account</v-icon>
               {{ user.nickname }}
             </v-btn>
@@ -28,7 +28,7 @@
               >
             </v-list-item>
             <v-list-item>
-              <v-btn text small color="secondary" @click="logout()"
+              <v-btn @click="logout()" text small color="secondary"
                 ><v-icon>mdi-logout</v-icon> Logout</v-btn
               >
             </v-list-item>
@@ -74,7 +74,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/my-tandas" v-if="user.id">
+        <v-list-item v-if="user.id" to="/my-tandas">
           <v-list-item-action>
             <v-icon>mdi-library-music</v-icon>
           </v-list-item-action>
@@ -93,7 +93,7 @@
         </v-list-item>
 
         <v-list-item
-          ><v-btn block :to="{ name: 'tanda-editor' }" color="primary"
+          ><v-btn :to="{ name: 'tanda-editor' }" block color="primary"
             >+ Create a tanda</v-btn
           ></v-list-item
         >
@@ -113,7 +113,7 @@
         <div class="d-flex d-lg-none">
           <v-menu v-if="user.id" transition="slide-y-transition" bottom>
             <template v-slot:activator="{ on }">
-              <v-btn text color="secondary" block dark v-on="on">
+              <v-btn v-on="on" text color="secondary" block dark>
                 <v-icon>mdi-account</v-icon> {{ user.nickname }}
               </v-btn>
             </template>
@@ -124,7 +124,7 @@
                 >
               </v-list-item>
               <v-list-item class="d-flex d-lg-none">
-                <v-btn text small color="secondary" @click="logout()"
+                <v-btn @click="logout()" text small color="secondary"
                   ><v-icon>mdi-logout</v-icon> Logout {{ user.nickname }}</v-btn
                 >
               </v-list-item>
@@ -134,15 +134,12 @@
       </v-list>
     </v-navigation-drawer>
 
+    <SpotifyPlayer v-if="user.spotify && accessToken" />
     <v-content>
       <v-container fluid>
         <nuxt />
       </v-container>
     </v-content>
-
-    {{ device }}
-    <SpotifyPlayer v-if="device" />
-    <div v-if="device">COUCOUUUUUUUUUUUUUUU</div>
   </v-app>
 </template>
 
@@ -155,7 +152,7 @@ export default {
   components: {
     SpotifyPlayer
   },
-  middleware: ['initializeAppData', 'spotifyConnexion'],
+  middleware: ['initializeAppData'],
   data() {
     return {
       clipped: false,
@@ -163,6 +160,7 @@ export default {
       fixed: false,
       user: this.$store.getters['authApp/getUser'],
       device: null,
+      accessToken: this.$store.getters['authSpotify/getToken'],
       items: [
         {
           icon: 'mdi-home',
@@ -190,14 +188,62 @@ export default {
       subtitle: 'The tanda creation tool'
     }
   },
-  mounted() {
-    console.log('device', this.device)
+  created() {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'authSpotify/SET_TOKEN') {
+        this.accessToken = state.authSpotify.token
+      }
+    })
+  },
+  async mounted() {
+    const code = this.$route.query.code
+    const state = this.$route.query.state
+    if (code) {
+      await this.initializeSpotifyTokens(code, state)
+    }
   },
   methods: {
     logout() {
       userService.logout()
       this.$store.dispatch('authApp/clearUser')
       document.location.href = '/'
+    },
+    async initializeSpotifyTokens(code, state) {
+      const resultTokensFromSpotify = await this.getTokenFromSpotify(
+        code,
+        state
+      )
+
+      if (resultTokensFromSpotify.accessToken)
+        this.memorizeTokenFromSpotify(resultTokensFromSpotify)
+    },
+    async getTokenFromSpotify(code, state) {
+      const resultSpotify = await this.$axios.get(
+        `https://tandafuria.herokuapp.com/spotify/callback/${code}?state=${state}`
+      )
+
+      const tokens = {
+        accessToken: resultSpotify.data.access_token,
+        refreshToken: resultSpotify.data.refresh_token
+      }
+
+      return tokens
+    },
+    async memorizeTokenFromSpotify(resultTokensFromSpotify) {
+      await this.$store.dispatch(
+        'authSpotify/setToken',
+        resultTokensFromSpotify.accessToken
+      )
+      localStorage.setItem('access_token', resultTokensFromSpotify.accessToken)
+
+      await this.$store.dispatch(
+        'authSpotify/setRefreshToken',
+        resultTokensFromSpotify.refreshToken
+      )
+      localStorage.setItem(
+        'refresh_token',
+        resultTokensFromSpotify.refreshToken
+      )
     }
   }
 }

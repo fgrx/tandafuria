@@ -18,7 +18,7 @@
       </vue-plyr>
     </v-list-item-content>
     <v-list-item-action v-if="mode === 'browser'">
-      <v-btn icon @click="addTrackAction(track)">
+      <v-btn @click="addTrackAction(track)" icon>
         <v-icon color="grey lighten-1">mdi-plus-box</v-icon>
       </v-btn>
     </v-list-item-action>
@@ -33,7 +33,8 @@ export default {
   },
   props: {
     track: {
-      type: Object
+      type: Object,
+      default: null
     },
     mode: {
       type: String,

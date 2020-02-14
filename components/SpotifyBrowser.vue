@@ -5,33 +5,33 @@
     <v-card-text>
       <v-text-field
         ref="searchString"
+        @click:append-outer="searchSpotify"
+        @keydown.enter="searchSpotify"
         v-model="searchString"
         placeholder="search an artist, a song, ... exemple : la cumparsita"
         append-outer-icon="mdi-magnify"
         solo
         prepend-inner-icon="mdi-file-find-outline"
-        @click:append-outer="searchSpotify"
         clearable
-        @keydown.enter="searchSpotify"
       ></v-text-field>
       <v-list
+        v-if="tracks.length > 0"
         two-line
         subheader
-        v-if="tracks.length > 0"
         style="max-height: 500px"
         class="overflow-y-auto"
       >
         <h2>Results</h2>
         <template v-for="(track, index) in tracks">
-          <TrackItem :track="track" mode="browser" @clicked="addTrackAction" />
+          <TrackItem @clicked="addTrackAction" :track="track" mode="browser" />
 
           <v-divider v-if="index + 1 < tracks.length" :key="index"></v-divider>
         </template>
         <div class="text-center">
-          <v-btn color="primary" @click="showMore()">Show more</v-btn>
+          <v-btn @click="showMore()" color="primary">Show more</v-btn>
         </div>
       </v-list>
-      <div class="text-center" v-if="loading">
+      <div v-if="loading" class="text-center">
         <v-progress-circular
           size="70"
           width="7"
@@ -91,7 +91,7 @@ export default {
         const resultSearch = await this.$axios.get(url)
         return resultSearch
       } catch (e) {
-        console.log('search error', e)
+        alert('Search error, please contact me to help me fix this problem', e)
       }
     },
     addTrackAction(track) {

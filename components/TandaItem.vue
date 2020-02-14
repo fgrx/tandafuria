@@ -20,7 +20,7 @@
           </v-list-item-subtitle>
         </v-list-item-content>
 
-        <v-list-item-avatar tile size="64" color="grey" v-if="tanda.tracks[0]">
+        <v-list-item-avatar v-if="tanda.tracks[0]" tile size="64" color="grey">
           <v-img :src="tanda.tracks[0].album.images[2].url"></v-img>
         </v-list-item-avatar>
       </v-list-item>
@@ -53,7 +53,7 @@
 
           <v-spacer></v-spacer>
 
-          <v-btn icon @click="showMore = !showMore">
+          <v-btn @click="showMore = !showMore" icon>
             <v-icon>{{
               showMore ? 'mdi-chevron-up' : 'mdi-chevron-down'
             }}</v-icon>
@@ -71,7 +71,7 @@
                 <span v-if="period">period : {{ period }}</span
                 ><br v-if="period && duration" />
               </p>
-              <div class="tandaDescription" v-if="tanda.description">
+              <div v-if="tanda.description" class="tandaDescription">
                 {{ tanda.description }}
               </div>
             </v-card-text>
@@ -82,7 +82,7 @@
     <v-snackbar v-model="flash.display" :color="flash.color">
       <v-icon>{{ flash.icon }}</v-icon
       >{{ flash.message }}
-      <v-btn text @click="snackbar = false">
+      <v-btn @click="snackbar = false" text>
         Close
       </v-btn>
     </v-snackbar>
@@ -101,7 +101,8 @@ export default {
   },
   props: {
     tanda: {
-      type: Object
+      type: Object,
+      default: null
     }
   },
   data() {

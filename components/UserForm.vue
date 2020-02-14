@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    <v-alert type="info" v-if="successCreation">
+    <v-alert v-if="successCreation" type="info">
       <h2>Congratulation !</h2>
       <h3>your account has be succesfully created</h3>
       <p>
@@ -9,35 +9,33 @@
       <p><v-btn to="/signin">signin</v-btn></p>
     </v-alert>
 
-    <v-form ref="form" class="" v-model="valid" v-if="!successCreation">
+    <v-form ref="form" v-model="valid" v-if="!successCreation" class="">
       <v-text-field
-        :disabled="disableUsername"
-        label="Email address"
-        :rules="emailRules"
         v-model="username"
+        :disabled="disableUsername"
+        :rules="emailRules"
+        label="Email address"
         placeholder="myemail@gmail.com"
       ></v-text-field>
 
-      {{ this.mode }}
-
       <v-text-field
-        label="Password"
         v-model="password"
         :rules="passwordRules"
+        label="Password"
         type="password"
         autocomplete="new-password"
       ></v-text-field>
 
       <v-text-field
-        label="Nickname (will credit your public tanda)"
         v-model="nickname"
         :rules="[(v) => !!v || 'Choose a Nickname']"
+        label="Nickname (will credit your public tanda)"
         placeholder='example : John "El Mano"'
       ></v-text-field>
 
       <v-text-field
-        label="Facebook or website link"
         v-model="link"
+        label="Facebook or website link"
         placeholder='example : https://www.facebook.com/fabien.grignoux"'
       ></v-text-field>
 
@@ -58,24 +56,24 @@
     </v-form>
     <v-card-actions v-if="!successCreation">
       <v-btn
-        :disabled="!valid"
-        v-if="mode === 'create'"
-        color="primary"
         @click="createAction()"
+        v-if="mode === 'create'"
+        :disabled="!valid"
+        color="primary"
         >Create</v-btn
       >
       <v-btn
-        :disabled="!valid"
-        v-if="mode === 'update'"
-        color="primary"
         @click="updateAction()"
+        v-if="mode === 'update'"
+        :disabled="!valid"
+        color="primary"
         >Update</v-btn
       >
       <v-btn to="/">Back</v-btn>
     </v-card-actions>
     <v-snackbar v-model="snackbar">
       {{ scnackMessage }}
-      <v-btn color="pink" text @click="snackbar = false">
+      <v-btn @click="snackbar = false" color="pink" text>
         Close
       </v-btn>
     </v-snackbar>
@@ -131,6 +129,7 @@ export default {
   methods: {
     async createAction() {
       const user = this.userBuilder()
+      user.role = 'user'
       const result = await userService.addUser(user)
       if (result.status === 201 || result.status === 200) {
         this.successCreation = true
@@ -143,19 +142,27 @@ export default {
     async updateAction() {
       const user = this.userBuilder()
       user.username = this.userInStore.username
+      user.id = this.userInStore.id
+      user.role = this.userInStore.role
+      user.token = this.userInStore.token
+
       const result = await userService.updateUser(user, this.userInStore.token)
 
       if (result.status === 201 || result.status === 200) {
         this.scnackMessage = 'Your account has been succesfully updated'
         this.snackbar = true
-        // this.$store.dispatch('authApp/setUser', user)
-        //  need to signin again
-        alert(
-          'Your modifications have been saved. You will have to sign in again, thank you !'
-        )
-        userService.logout()
-        this.$store.dispatch('authApp/clearUser')
-        document.location.href = '/signin'
+
+        this.$store.dispatch('authApp/setUser', user)
+        localStorage.setItem('user', JSON.stringify(user))
+
+        //  need to signin again if password has changed
+        if (this.password) {
+          alert(
+            'Your modifications have been saved. You will have to sign in again, thank you !'
+          )
+          userService.logout()
+          document.location.href = '/signin'
+        }
       } else {
         alert(
           'An error has happened. Please send me an email at fab.grignoux@gmail to help me resolve this problem. Thank you !'
@@ -168,8 +175,7 @@ export default {
         nickname: this.nickname,
         spotify: this.spotify,
         contactByMail: this.contactByMail,
-        link: this.link,
-        role: 'user'
+        link: this.link
       }
 
       if (this.password != null && this.password !== '') {
