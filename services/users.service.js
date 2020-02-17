@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const urlApi = 'https://tandafuria.herokuapp.com'
-// const urlApi = 'http://localhost:4000'
+const urlApi = process.env.serverUrl || 'http://localhost:4000'
 
 export const userService = {
   async addUser(user) {

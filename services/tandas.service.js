@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const urlApi = 'https://tandafuria.herokuapp.com/tandas'
+const baseUrl = process.env.serverUrl || 'http://localhost:4000'
+const urlApi = baseUrl + '/tandas'
 
 export const tandaService = {
   async getTandas() {

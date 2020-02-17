@@ -5,6 +5,9 @@ export default {
   /*
    ** Headers of the page
    */
+  env: {
+    //serverUrl: 'http://localhost:4000'
+  },
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
