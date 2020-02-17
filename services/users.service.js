@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const urlApi = process.env.serverUrl || 'http://localhost:4000'
+const urlApi = process.env.serverUrl
 
 export const userService = {
   async addUser(user) {

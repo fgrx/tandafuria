@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = process.env.serverUrl || 'http://localhost:4000'
+const baseUrl = process.env.serverUrl
 const urlApi = baseUrl + '/tandas'
 
 export const tandaService = {
