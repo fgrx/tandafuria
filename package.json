@@ -16,9 +16,9 @@
     "@bazzite/nuxt-netlify": "^0.1.1",
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "core-js": "^2.6.5",
+    "core-js": "^2.6.11",
     "nuxt": "^2.0.0",
-    "plyr": "^3.5.9",
+    "plyr": "^3.5.10",
     "vue-plyr": "^6.0.4",
     "vuedraggable": "^2.23.2"
   },

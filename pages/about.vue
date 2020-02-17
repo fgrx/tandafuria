@@ -1,14 +1,14 @@
 <template>
   <v-layout>
     <v-flex>
-      <v-card raised class="mx-auto mb-4" max-width="800">
+      <v-card raised class="mx-auto mb-4" max-width="850">
         <v-card-title>
           <h1>About Tanda Furia</h1>
         </v-card-title>
         <v-card-text class="body-1">
           <p>
-            TandaFuria is made by Fabien Grignoux. I'm a tango dancer / Dj /
-            geek from France in Lyon.<br />
+            TandaFuria is made by Fabien Grignoux. I'm a tango dancer / Dj / Web
+            developer from Lyon in France.<br />
             If you like this application or if you have any suggestions or ideas
             to improve this app, please contact me on Facebook or LinkedIn :
           </p>
@@ -31,7 +31,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-card raised class="mx-auto mt-4 mb-4" max-width="800">
+      <v-card raised class="mx-auto mt-4 mb-4" max-width="850">
         <v-card-title>
           <h2>Frequently Asked Questions</h2>
         </v-card-title>

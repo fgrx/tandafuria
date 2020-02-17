@@ -1,8 +1,8 @@
 <template>
   <v-container justify-center align-center>
-    <v-card>
+    <v-card class="mx-auto mt-4 mb-4" max-width="850">
       <v-card-title>
-        Tanda editor
+        <h1>Tanda editor</h1>
       </v-card-title>
 
       <v-card-text v-if="loaded"

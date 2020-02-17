@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card raised class="mx-auto mt-4 mb-4" max-width="850">
     <v-card-title><h1>Sign in</h1></v-card-title>
     <v-card-text class="body-1">
       <p>To access all functionnalities, please connect to your account</p>

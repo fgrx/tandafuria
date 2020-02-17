@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="ma-2 pa-1" shaped>
+    <v-card class="ma-2 pa-1 element" light shaped>
       <v-list-item three-line>
         <v-list-item-content>
           <div class="overline ">{{ tanda.genre }} - {{ tanda.speed }}</div>
