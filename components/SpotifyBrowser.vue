@@ -50,6 +50,7 @@ export default {
   components: {
     TrackItem
   },
+  middleware: ['spotifyConnexion'],
   data() {
     return {
       searchString: '',
@@ -61,8 +62,12 @@ export default {
   mounted() {
     // sfautofocus
     this.$nextTick(this.$refs.searchString.focus)
+    this.$bus.$on('initBrowser', (orchestra) => this.initBrowser(orchestra))
   },
   methods: {
+    initBrowser(orchestra) {
+      this.tracks = []
+    },
     browserClose() {
       this.dialogBrowserSpotify = false
     },
@@ -87,7 +92,7 @@ export default {
 
     async sendRequestToSpotify({ search, offset }) {
       try {
-        const url = `https://tandafuria.herokuapp.com/spotify/search/${search}/${offset}`
+        const url = `${process.env.serverUrl}/spotify/search/${search}/${offset}`
         const resultSearch = await this.$axios.get(url)
         return resultSearch
       } catch (e) {

@@ -6,8 +6,8 @@ export default {
    ** Headers of the page
    */
   env: {
-    //serverUrl: 'http://localhost:4000'
-    serverUrl: 'https://tandafuria.herokuapp.com'
+    serverUrl: 'http://localhost:4000'
+    //serverUrl: 'https://tandafuria.herokuapp.com'
   },
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
@@ -44,7 +44,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/draggable', '~/plugins/vue-plyr'],
+  plugins: ['~/plugins/draggable', '~/plugins/vue-plyr', '~/plugins/bus'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -78,11 +78,13 @@ export default {
       light: true,
       themes: {
         light: {
-          base: colors.blueGrey.lighten5,
-          //navigationDrawer: colors.purple.darken4,
-          navigationDrawer: colors.deepPurple.darken3,
-          element: colors.white,
+          navigationDrawer: colors.deepPurple.darken4,
           primary: colors.purple.lighten1,
+          //navigationDrawer: colors.indigo.darken4,
+
+          base: colors.blueGrey.lighten5,
+          element: colors.white,
+
           accent: colors.grey.darken3,
           secondary: colors.cyan.lighten1,
           info: colors.teal.lighten1,

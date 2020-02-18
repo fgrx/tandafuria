@@ -19,9 +19,8 @@ export default {
       icon: 'mdi-play-circle',
       activePlayer: false,
       refComponent: null,
-      paramsSpotify: {},
-      deviceId: null,
-      accessToken: null
+      deviceId: this.$store.getters['authSpotify/getDeviceId'],
+      accessToken: this.$store.getters['authSpotify/getToken']
     }
   },
   created() {
@@ -42,6 +41,9 @@ export default {
       }
     })
   },
+  beforeDestroy() {
+    this.stop()
+  },
   methods: {
     playOrPause() {
       if (this.icon === 'mdi-pause-circle') {
@@ -50,7 +52,7 @@ export default {
         this.play()
       }
     },
-    play(paramsSpotify) {
+    play() {
       const currentTrackPlaying = this.$store.getters['player/getTrackPlaying']
 
       if (currentTrackPlaying.id)
@@ -62,7 +64,7 @@ export default {
       this.$store.dispatch('player/setTrackPlaying', this.track)
       //console.log('is playing', this.track.id)
     },
-    stop(paramsSpotify) {
+    stop() {
       this.icon = 'mdi-play-circle'
       this.StopFromSpotify(this.track)
     },

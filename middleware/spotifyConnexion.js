@@ -3,8 +3,8 @@ import axios from 'axios'
 export default function({ store, route, redirect }) {
   reinitTokens(store)
   // if (localStorage.getItem('access_token') == null) reinitTokens(store)
-
   const user = store.getters['authApp/getUser']
+  // console.log('middleware!!!!!!!!!!!')
   if (user.spotify === true) initSpotifyTokens(store)(redirect)(route)
 }
 
@@ -15,6 +15,14 @@ const initSpotifyTokens = (store) => (redirect) => async (route) => {
   const refreshToken =
     store.getters['authSpotify/getRefreshToken'] ||
     localStorage.getItem('refresh_token')
+
+  if (token) store.dispatch('authSpotify/setToken', token)
+  if (refreshToken) store.dispatch('authSpotify/setRefreshToken', refreshToken)
+
+  // console.log('tokens', {
+  //   roken: store.getters['authSpotify/getToken'],
+  //   refreshtoken: store.getters['authSpotify/getRefreshToken']
+  // })
 
   if (
     token == null ||
@@ -47,7 +55,7 @@ const initializeDevice = (store) => {
       store.getters['authSpotify/getToken']
     )
 
-    //console.log('find', device)
+    // console.log('find', device)
     if (device) {
       await store.dispatch('authSpotify/setDeviceId', device.id)
       localStorage.setItem('deviceId', device.id)
@@ -75,7 +83,7 @@ const getDeviceFromSpotify = async (token) => {
 
 const refreshTokenFromSpotify = async (refresh_token) => {
   const resultSpotify = await axios.get(
-    `https://tandafuria.herokuapp.com/spotify/refresh_token/${refresh_token}`
+    `${process.env.serverUrl}/spotify/refresh_token/${refresh_token}`
   )
 
   return resultSpotify.data.body.access_token

@@ -17,7 +17,7 @@
           src="~/assets/logo.png"
           alt="Tanda Furia"
           class="mt-8 mx-auto"
-          height="50px"
+          height="50em"
           centered
       /></v-toolbar-title>
 
@@ -231,7 +231,7 @@ export default {
     },
     async getTokenFromSpotify(code, state) {
       const resultSpotify = await this.$axios.get(
-        `https://tandafuria.herokuapp.com/spotify/callback/${code}?state=${state}`
+        `${process.env.serverUrl}/spotify/callback/${code}?state=${state}`
       )
 
       const tokens = {

@@ -113,10 +113,15 @@
       label="My tanda is public (other users will be able to see your tanda)"
     ></v-switch>
 
-    <v-dialog v-model="dialogBrowserSpotify" max-width="800px">
+    <v-dialog
+      v-model="dialogBrowserSpotify"
+      @input="initSpotifyBrowser()"
+      max-width="800px"
+      ref="dialogi"
+    >
       <SpotifyBrowser @clicked="addTrack" />
 
-      <v-btn @click="browserClose" color="success">Close</v-btn>
+      <v-btn ref="monBouton" @click="browserClose" color="success">Close</v-btn>
     </v-dialog>
     <v-spacer></v-spacer>
     <v-card-actions>
@@ -209,6 +214,7 @@ export default {
   methods: {
     openSpotifyBrowser() {
       this.dialogBrowserSpotify = true
+      this.initSpotifyBrowser()
     },
     browserClose() {
       this.dialogBrowserSpotify = false
@@ -216,6 +222,13 @@ export default {
     addTrack(track) {
       this.tracks.push(track)
       this.browserClose()
+    },
+    initSpotifyBrowser() {
+      console.log('etape 1')
+      const orchestra =
+        this.orchestraField !== 'other' ? this.orchestraField : ''
+
+      this.$bus.$emit('initBrowser', orchestra)
     },
     deleteTrack(trackId) {
       if (window.confirm('Do you really want to delete this track ?')) {

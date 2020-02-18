@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     askCode() {
-      window.location.href = 'https://tandafuria.herokuapp.com/spotify/askcode'
+      window.location.href = `${process.env.serverUrl}/spotify/askcode`
     },
     async leaveConnexion() {
       const modifiedUser = { ...this.userInStore }

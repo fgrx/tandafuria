@@ -25,6 +25,8 @@ export default {
       tandas: this.$store.getters['tandas/getMyTandas']
     }
   },
-  mounted() {}
+  mounted() {
+    console.log(this.tandas)
+  }
 }
 </script>
