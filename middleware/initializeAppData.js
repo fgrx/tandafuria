@@ -12,7 +12,7 @@ export default async function({ store }) {
     if (user.id) {
       const myTandas = await tandaService.getTandasUser(user.id)
 
-      myTandas.forEach((tanda) => {
+      myTandas.tandas.forEach((tanda) => {
         store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
       })
     }
@@ -20,7 +20,8 @@ export default async function({ store }) {
 
   if (store.getters['tandas/getAllTandas'].length === 0) {
     const allTandas = await tandaService.getTandas()
-    allTandas.forEach((tanda) => {
+
+    allTandas.tandas.forEach((tanda) => {
       store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
     })
   }

@@ -6,8 +6,8 @@ export default {
    ** Headers of the page
    */
   env: {
-    serverUrl: 'http://localhost:4000'
-    //serverUrl: 'https://tandafuria.herokuapp.com'
+    //serverUrl: 'http://localhost:4000'
+    serverUrl: 'https://tandafuria.herokuapp.com'
   },
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
