@@ -35,9 +35,16 @@ export default {
   },
   mounted() {
     this.refComponent = this.track.id
+
     this.$root.$on('stopPlaying', (playingComponentRef) => {
       if (playingComponentRef === this.refComponent) {
         this.stop()
+      }
+    })
+
+    this.$root.$on('changeTrack', (playingComponentRef) => {
+      if (playingComponentRef === this.refComponent) {
+        this.icon = 'mdi-play-circle'
       }
     })
   },
@@ -52,23 +59,22 @@ export default {
         this.play()
       }
     },
-    play() {
+    async play() {
       const currentTrackPlaying = this.$store.getters['player/getTrackPlaying']
 
-      if (currentTrackPlaying.id)
-        this.$root.$emit('stopPlaying', currentTrackPlaying.id)
-
       this.icon = 'mdi-pause-circle'
-      this.PlayFromSpotify(this.track)
+      await this.PlayFromSpotify(this.track)
+
+      if (currentTrackPlaying.id !== this.track.id)
+        this.$root.$emit('changeTrack', currentTrackPlaying.id)
 
       this.$store.dispatch('player/setTrackPlaying', this.track)
-      //console.log('is playing', this.track.id)
     },
-    stop() {
+    async stop() {
       this.icon = 'mdi-play-circle'
-      this.StopFromSpotify(this.track)
+      await this.StopFromSpotify(this.track)
     },
-    PlayFromSpotify(track) {
+    async PlayFromSpotify(track) {
       if (this.deviceId == null) {
         alert(
           'Listening to full length track is only available for Spotify Premium users. If you do not have a premium account you should disable this functionnality in your preference panel. Thank you !'
@@ -85,16 +91,19 @@ export default {
         Authorization: `Bearer ${this.accessToken}`
       }
 
-      this.$axios.put(urlSpotify, body, { headers: headersApi })
+      const responseFromSpotify = await this.$axios.put(urlSpotify, body, {
+        headers: headersApi
+      })
+      return responseFromSpotify
     },
-    StopFromSpotify(track) {
+    async StopFromSpotify(track) {
       const urlSpotify = `https://api.spotify.com/v1/me/player/pause?device_id=${this.deviceId}`
       const headersApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.accessToken}`
       }
 
-      this.$axios.put(urlSpotify, null, { headers: headersApi })
+      await this.$axios.put(urlSpotify, null, { headers: headersApi })
     }
   }
 }

@@ -291,8 +291,8 @@ export default {
     deleteTanda(idTanda) {
       if (window.confirm('Do you really want to delete this tanda ? ')) {
         tandaService.delete(idTanda, this.currentUser.token)
+        this.$router.replace({ path: '/my-tandas' })
         this.$store.dispatch('tandas/deleteTanda', idTanda)
-        this.$router.replace({ path: '/' })
       }
     }
   }

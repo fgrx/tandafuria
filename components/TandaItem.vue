@@ -67,9 +67,10 @@
           <v-card-text>
             <p class="tandaDateCreator">
               Date :
-              {{ tanda.date }}<br />
-              <span v-if="period">period : {{ period }}</span
-              ><br v-if="period && duration" />
+              {{ $moment(tanda.date).calendar() }}<br />
+
+              <span v-if="period.start">period : {{ period }}</span
+              ><br v-if="period.start" />
             </p>
             <div v-if="tanda.description" class="tandaDescription">
               {{ tanda.description }}
