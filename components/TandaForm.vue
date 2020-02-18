@@ -224,7 +224,6 @@ export default {
       this.browserClose()
     },
     initSpotifyBrowser() {
-      console.log('etape 1')
       const orchestra =
         this.orchestraField !== 'other' ? this.orchestraField : ''
 
@@ -256,6 +255,9 @@ export default {
       )
 
       tanda._id = newTandaInDB.data._id
+      tanda.date = newTandaInDB.data.date
+      tanda.author = newTandaInDB.data.author
+
       this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
       if (tanda.isPublic)
         this.$store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
