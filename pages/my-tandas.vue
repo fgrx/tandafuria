@@ -6,8 +6,9 @@
         <TandaItem :tanda="tanda" />
       </v-flex>
     </v-layout>
+    <loader v-if="loading" />
     <NoTandaMessage
-      v-if="tandas.length === 0"
+      v-if="tandas.length === 0 && !loading"
       title="No tanda in your library"
     />
   </v-container>
@@ -16,15 +17,29 @@
 <script>
 import TandaItem from '@/components/TandaItem'
 import NoTandaMessage from '@/components/NoTandaMessage'
+import loader from '@/components/loader'
+import { tandaService } from '@/services/tandas.service'
 
 export default {
   middleware: ['appAuthorization', 'spotifyConnexion'],
-  components: { TandaItem, NoTandaMessage },
+  components: { TandaItem, NoTandaMessage, loader },
   data() {
     return {
-      tandas: this.$store.getters['tandas/getMyTandas']
+      tandas: this.$store.getters['tandas/getMyTandas'],
+      loading: false
     }
   },
-  mounted() {}
+  async mounted() {
+    this.loading = true
+    const user = this.$store.getters['authApp/getUser']
+    if (user.id) {
+      const myTandas = await tandaService.getTandasUser(user.id)
+
+      myTandas.tandas.forEach((tanda) => {
+        this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
+      })
+    }
+    this.loading = false
+  }
 }
 </script>

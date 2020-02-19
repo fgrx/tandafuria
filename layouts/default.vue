@@ -230,8 +230,12 @@ export default {
         this.memorizeTokenFromSpotify(resultTokensFromSpotify)
     },
     async getTokenFromSpotify(code, state) {
+      const serverUrl =
+        process.env.NODE_ENV === 'development'
+          ? process.env.DEV_serverUrl
+          : process.PROD_serverUrl
       const resultSpotify = await this.$axios.get(
-        `${process.env.serverUrl}/spotify/callback/${code}?state=${state}`
+        `${serverUrl}/spotify/callback/${code}?state=${state}`
       )
 
       const tokens = {

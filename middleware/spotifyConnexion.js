@@ -82,8 +82,12 @@ const getDeviceFromSpotify = async (token) => {
 }
 
 const refreshTokenFromSpotify = async (refresh_token) => {
+  const serverUrl =
+    process.env.NODE_ENV === 'development'
+      ? process.env.DEV_serverUrl
+      : process.PROD_serverUrl
   const resultSpotify = await axios.get(
-    `${process.env.serverUrl}/spotify/refresh_token/${refresh_token}`
+    `${serverUrl}/spotify/refresh_token/${refresh_token}`
   )
 
   return resultSpotify.data.body.access_token

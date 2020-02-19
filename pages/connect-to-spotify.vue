@@ -37,7 +37,11 @@ export default {
   },
   methods: {
     askCode() {
-      window.location.href = `${process.env.serverUrl}/spotify/askcode`
+      const serverUrl =
+        process.env.NODE_ENV === 'development'
+          ? process.env.DEV_serverUrl
+          : process.PROD_serverUrl
+      window.location.href = `${serverUrl}/spotify/askcode`
     },
     async leaveConnexion() {
       const modifiedUser = { ...this.userInStore }

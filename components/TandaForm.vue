@@ -116,8 +116,8 @@
     <v-dialog
       v-model="dialogBrowserSpotify"
       @input="initSpotifyBrowser()"
+      ref="dialog"
       max-width="800px"
-      ref="dialogi"
     >
       <SpotifyBrowser @clicked="addTrack" />
 

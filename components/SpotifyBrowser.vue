@@ -31,24 +31,20 @@
           <v-btn @click="showMore()" color="primary">Show more</v-btn>
         </div>
       </v-list>
-      <div v-if="loading" class="text-center">
-        <v-progress-circular
-          size="70"
-          width="7"
-          indeterminate
-          color="primary"
-        ></v-progress-circular>
-      </div>
+
+      <loader v-if="loading" />
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import TrackItem from '~/components/TrackItem'
+import loader from '@/components/loader'
 
 export default {
   components: {
-    TrackItem
+    TrackItem,
+    loader
   },
   middleware: ['spotifyConnexion'],
   data() {
@@ -92,7 +88,11 @@ export default {
 
     async sendRequestToSpotify({ search, offset }) {
       try {
-        const url = `${process.env.serverUrl}/spotify/search/${search}/${offset}`
+        const serverUrl =
+          process.env.NODE_ENV === 'development'
+            ? process.env.DEV_serverUrl
+            : process.PROD_serverUrl
+        const url = `${serverUrl}/spotify/search/${search}/${offset}`
         const resultSearch = await this.$axios.get(url)
         return resultSearch
       } catch (e) {
