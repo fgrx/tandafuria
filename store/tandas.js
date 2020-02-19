@@ -4,11 +4,15 @@ export const state = () => ({
 })
 
 export const mutations = {
-  ADD_TANDA(state, { target, tanda }) {
+  ADD_TANDA(state, { target, tanda, order }) {
     if (target === 'allTandas') {
-      state.allTandas.unshift(tanda)
+      order === 'end'
+        ? state.allTandas.push(tanda)
+        : state.allTandas.unshift(tanda)
     } else {
-      state.myTandas.unshift(tanda)
+      order === 'end'
+        ? state.myTandas.push(tanda)
+        : state.myTandas.unshift(tanda)
     }
   },
   DELETE_TANDA(state, idTanda) {
@@ -34,6 +38,9 @@ export const mutations = {
         return Object.assign({}, tandaItem, tanda)
       return tandaItem
     })
+  },
+  CLEAR_TANDAS(state, target) {
+    if (target === 'allTandas') state.allTandas = []
   }
 }
 
@@ -47,13 +54,16 @@ export const getters = {
 }
 
 export const actions = {
-  addTanda({ commit }, { target, tanda }) {
-    commit('ADD_TANDA', { target, tanda })
+  addTanda({ commit }, { target, tanda, order }) {
+    commit('ADD_TANDA', { target, tanda, order })
   },
   updateTanda({ commit }, tanda) {
     commit('UPDATE_TANDA', tanda)
   },
   deleteTanda({ commit }, idTanda) {
     commit('DELETE_TANDA', idTanda)
+  },
+  clearTandas({ commit }, target) {
+    commit('CLEAR_TANDAS', target)
   }
 }
