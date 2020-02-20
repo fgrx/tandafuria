@@ -33,9 +33,9 @@
         ></v-divider>
       </template>
 
-      <v-card-actions v-if="currentUser.id">
+      <v-card-actions>
         <v-btn
-          v-if="tanda.author.id !== currentUser.id"
+          v-if="tanda.author.id !== currentUser.id && currentUser.id"
           @click="importTandaToLibrary(tanda)"
           color="primary"
           text

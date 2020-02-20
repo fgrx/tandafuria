@@ -40,7 +40,11 @@ export const mutations = {
     })
   },
   CLEAR_TANDAS(state, target) {
-    if (target === 'allTandas') state.allTandas = []
+    if (target === 'allTandas') {
+      state.allTandas = []
+    } else {
+      state.myTandas = []
+    }
   }
 }
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 const baseUrl =
   process.env.NODE_ENV === 'development'
     ? process.env.DEV_serverUrl
-    : process.PROD_serverUrl
+    : process.env.PROD_serverUrl
 const urlApi = baseUrl + '/tandas'
 
 export const tandaService = {
@@ -14,8 +14,10 @@ export const tandaService = {
     const result = await axios.get(urlGetTandas)
     return result.data
   },
-  async getTandasUser(id) {
-    const url = `${urlApi}/user/${id}/0`
+  async getTandasUser(id, offset, params) {
+    if (!offset) offset = 0
+    const url = `${urlApi}/user/${id}/${offset}${params}`
+
     const result = await axios.get(url)
     return result.data
   },

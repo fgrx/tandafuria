@@ -233,7 +233,7 @@ export default {
       const serverUrl =
         process.env.NODE_ENV === 'development'
           ? process.env.DEV_serverUrl
-          : process.PROD_serverUrl
+          : process.env.PROD_serverUrl
       const resultSpotify = await this.$axios.get(
         `${serverUrl}/spotify/callback/${code}?state=${state}`
       )

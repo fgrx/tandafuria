@@ -114,8 +114,8 @@
     ></v-switch>
 
     <v-dialog
-      v-model="dialogBrowserSpotify"
       ref="dialog"
+      v-model="dialogBrowserSpotify"
       @input="initSpotifyBrowser()"
       max-width="800px"
     >

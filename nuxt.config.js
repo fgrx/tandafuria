@@ -90,7 +90,7 @@ export default {
           accent: colors.grey.darken3,
           secondary: colors.cyan.lighten1,
           info: colors.teal.lighten1,
-          warning: colors.amber.base,
+          warning: colors.red.lighten1,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         }

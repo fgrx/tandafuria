@@ -85,7 +85,7 @@ const refreshTokenFromSpotify = async (refresh_token) => {
   const serverUrl =
     process.env.NODE_ENV === 'development'
       ? process.env.DEV_serverUrl
-      : process.PROD_serverUrl
+      : process.env.PROD_serverUrl
   const resultSpotify = await axios.get(
     `${serverUrl}/spotify/refresh_token/${refresh_token}`
   )

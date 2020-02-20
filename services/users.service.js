@@ -3,7 +3,7 @@ import axios from 'axios'
 const urlApi =
   process.env.NODE_ENV === 'development'
     ? process.env.DEV_serverUrl
-    : process.PROD_serverUrl
+    : process.env.PROD_serverUrl
 
 export const userService = {
   async addUser(user) {

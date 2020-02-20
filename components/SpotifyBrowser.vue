@@ -32,19 +32,19 @@
         </div>
       </v-list>
 
-      <loader v-if="loading" />
+      <Loader v-if="loading" />
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import TrackItem from '~/components/TrackItem'
-import loader from '@/components/loader'
+import Loader from '@/components/Loader'
 
 export default {
   components: {
     TrackItem,
-    loader
+    Loader
   },
   middleware: ['spotifyConnexion'],
   data() {
@@ -91,7 +91,7 @@ export default {
         const serverUrl =
           process.env.NODE_ENV === 'development'
             ? process.env.DEV_serverUrl
-            : process.PROD_serverUrl
+            : process.env.PROD_serverUrl
         const url = `${serverUrl}/spotify/search/${search}/${offset}`
         const resultSearch = await this.$axios.get(url)
         return resultSearch
