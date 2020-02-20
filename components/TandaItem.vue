@@ -128,14 +128,19 @@ export default {
     importTandaToLibrary(tanda) {
       // Ugly way to deep clone an object in JS to avoid vuex mutations errors
       const newTanda = JSON.parse(JSON.stringify(tanda))
+      newTanda.origin = {
+        author: { id: tanda.author.id, name: tanda.author.name },
+        id: tanda._id
+      }
 
       delete newTanda._id
       delete newTanda.date
       newTanda.isPublic = false
+
       newTanda.author.id = this.currentUser.id
       newTanda.author.name = this.currentUser.name
 
-      tandaService.save(newTanda)
+      tandaService.save(newTanda, this.currentUser.token)
 
       this.$store.dispatch('tandas/addTanda', {
         target: 'myTandas',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 v-if="!loading">
+    <h2 v-if="!loading && countTotalResults !== 0">
       {{ countTotalResults }} tanda<span v-if="countTotalResults > 1">s</span>
       found
     </h2>
@@ -16,7 +16,7 @@
 
           <v-expansion-panel-content>
             <v-row>
-              <v-col md-6>
+              <v-col cols="12" sm="12" md="6">
                 <v-select
                   v-model="genreField"
                   :items="genreList"
@@ -33,7 +33,7 @@
                   item-text="title"
                   item-value="id"
                 ></v-select> </v-col
-              ><v-col md-6>
+              ><v-col cols="12" sm="12" md="6">
                 <v-select
                   v-model="speedField"
                   :items="speedList"
@@ -96,7 +96,6 @@ import { tandaService } from '@/services/tandas.service'
 import Loader from '@/components/Loader'
 
 export default {
-  middleware: ['spotifyConnexion'],
   components: { TandaItem, NoTandaMessage, Loader },
   props: { context: { type: String, default: 'allTandas' } },
   data() {
@@ -153,6 +152,7 @@ export default {
       this.speedField = ''
       this.singerField = ''
       this.offset = 0
+      this.countTotalResults = 0
 
       this.tandas = []
 
@@ -185,6 +185,7 @@ export default {
           order: 'end'
         })
       })
+
       this.countTotalResults = resTandas.countTotalResults
       this.endOfResults = this.isEndOfResult(resTandas.countTotalResults)
 
