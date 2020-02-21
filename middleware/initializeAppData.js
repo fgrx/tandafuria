@@ -3,5 +3,6 @@ export default function({ store }) {
   if (localStorage.getItem('user')) {
     const user = JSON.parse(localStorage.getItem('user'))
     store.dispatch('authApp/setUser', user)
+    console.log(user)
   }
 }

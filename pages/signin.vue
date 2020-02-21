@@ -51,7 +51,6 @@ export default {
     async signin() {
       try {
         const result = await userService.signin(this.username, this.password)
-        //console.log('result user !', result)
         const token = result.data.accessToken
         const infos = result.data.userData
 
@@ -63,6 +62,7 @@ export default {
           spotify: infos.spotify,
           link: infos.link,
           contactByMail: infos.contactByMail,
+          countTanda: infos.countTanda,
           token
         }
 

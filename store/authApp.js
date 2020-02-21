@@ -12,6 +12,7 @@ export const mutations = {
     state.user.spotify = user.spotify
     state.user.link = user.link
     state.user.contactByMail = user.contactByMail
+    state.user.countTanda = user.countTanda
   },
   CLEAR_USER(state) {
     state.user = {}

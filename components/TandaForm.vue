@@ -154,6 +154,7 @@ import TrackItem from '~/components/TrackItem'
 import SpotifyPlayer from '~/components/SpotifyPlayer'
 
 import { tandaService } from '@/services/tandas.service.js'
+import { userService } from '@/services/users.service'
 
 export default {
   components: {
@@ -258,9 +259,23 @@ export default {
       tanda.date = newTandaInDB.data.date
       tanda.author = newTandaInDB.data.author
 
+      if (tanda.isPublic) this.incrementTandaCountForUser()
+
       this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
       if (tanda.isPublic)
         this.$store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
+    },
+    incrementTandaCountForUser() {
+      this.userInStore = this.$store.getters['authApp/getUser']
+      const modifiedUser = { ...this.userInStore }
+
+      if (modifiedUser.countTanda == null) modifiedUser.countTanda = 0
+      modifiedUser.countTanda++
+      console.log('modified user', modifiedUser)
+      this.$store.dispatch('authApp/setUser', modifiedUser)
+
+      userService.updateUser(modifiedUser, this.userInStore.token)
+      localStorage.setItem('user', JSON.stringify(modifiedUser))
     },
     updateTanda() {
       const tanda = this.buildTandaFromForm()
