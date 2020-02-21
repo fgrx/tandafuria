@@ -4,7 +4,14 @@
       <div id="topSite">
         <div class="centerVertically">
           <div>
-            <h1 class="title1 display-4">Tanda Furia !</h1>
+            <h1 class="title1 display-4">
+              <span class="invisible">Tanda Furia</span>
+              <v-img
+                :src="require('~/static/logo-white.png')"
+                alt="Tanda Furia"
+                max-width="680px"
+              />
+            </h1>
           </div>
 
           <div>
@@ -26,9 +33,17 @@
         /> -->
     </v-card>
 
+    <h2 class="display-3 mt-12 mb-3">Start digging in our tandas</h2>
+
     <v-row>
-      <v-col v-for="(maestro, key) in maestros1" :key="key" cols="12" md="3">
-        <v-card shaped raised class="mx-auto" max-width="400">
+      <v-col v-for="maestro in maestros1" cols="6" md="3">
+        <v-card
+          :to="`/all-tandas?orchestra=${maestro.url}`"
+          shaped
+          raised
+          class="mx-auto"
+          max-width="400"
+        >
           <div class="centerVertically">
             <h3 class="maestroName title">{{ maestro.name }}</h3>
           </div>
@@ -41,8 +56,14 @@
         </v-card>
       </v-col>
 
-      <v-col v-for="maestro in maestros2" cols="12" md="3">
-        <v-card shaped raised class="mx-auto" max-width="400">
+      <v-col v-for="maestro in maestros2" cols="6" md="3">
+        <v-card
+          :to="`/all-tandas?orchestra=${maestro.url}`"
+          shaped
+          raised
+          class="mx-auto"
+          max-width="400"
+        >
           <div class="centerVertically">
             <h3 class="maestroName title">{{ maestro.name }}</h3>
           </div>
@@ -65,45 +86,45 @@ export default {
       maestros1: [
         {
           name: "Juan D'arienzo",
-          url: '',
+          url: 'jdarienzo',
           image: require('@/static/arienzov.jpg')
         },
         {
           name: 'Osvaldo Pugliese',
-          url: '',
+          url: 'opugliese',
           image: require('@/static/pugliesev.png')
         },
         {
           name: 'Carlos Di Sarli',
-          url: '',
+          url: 'cdisarli',
           image: require('@/static/sarliv.png')
         },
         {
           name: 'Francisco Canaro',
-          url: '',
+          url: 'fcanaro',
           image: require('@/static/canarov.png')
         }
       ],
       maestros2: [
         {
           name: 'Alfredo De Angelis',
-          url: '',
+          url: 'adeangelis',
           image: require('@/static/angelisv.jpg')
         },
         {
           name: 'Anibal Troilo',
-          url: '',
+          url: 'atroilo',
           image: require('@/static/troilov.png')
         },
 
         {
           name: 'Edgardo Donato',
-          url: '',
+          url: 'edonato',
           image: require('@/static/donatov.jpg')
         },
         {
           name: 'Miguel Calo',
-          url: '',
+          url: 'mcalo',
           image: require('@/static/calov.jpg')
         }
       ]
@@ -113,30 +134,43 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.invisible {
+  display: none;
+}
+
+h1 {
+  img {
+    width: '200px' !important;
+  }
+}
+
 #topSite {
   .title1 {
     color: white;
     display: block;
+    font-family: 'Overpass' !important;
   }
 
   .title2 {
     color: white;
+    font-family: 'Overpass' !important;
   }
 }
 
 .maestroName {
   color: white;
+  font-family: 'Overpass' !important;
 }
 
 #topSite {
-  z-index: 20;
+  z-index: 0;
   position: relative;
-  height: 60vh;
+  height: 70vh;
   width: 100%;
 }
 
 .centerVertically {
-  z-index: 30;
+  z-index: 1;
   position: absolute;
   align-items: center;
   top: 50%;
@@ -146,7 +180,7 @@ export default {
 }
 
 #imageHome {
-  height: 60vh;
+  height: 70vh;
 }
 
 #imageHome::after {
@@ -158,8 +192,8 @@ export default {
   height: 100%;
   background: -webkit-linear-gradient(
     top,
-    rgba(49, 27, 146, 0.91) 0%,
-    rgba(206, 39, 161, 0.91) 100%
+    rgba(49, 27, 146, 0.83) 0%,
+    rgba(206, 39, 161, 0.83) 100%
   );
 }
 

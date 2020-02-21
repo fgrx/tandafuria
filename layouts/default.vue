@@ -13,12 +13,7 @@
 
       <v-toolbar-title centered
         ><v-spacer></v-spacer>
-        <img
-          src="~/static/icon.png"
-          alt="Tanda Furia"
-          class="mt-8 mx-auto"
-          height="40em"
-          centered/>
+
         <img
           src="~/static/logo.png"
           alt="Tanda Furia"
@@ -276,5 +271,6 @@ h1,
 h2,
 h3 {
   color: #4527a0;
+  font-family: 'Overpass' !important;
 }
 </style>

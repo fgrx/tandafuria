@@ -129,6 +129,7 @@ export default {
     this.loadSearchStore()
   },
   mounted() {
+    this.getParamsInUrlAndSearch()
     const storeToWatch = this.selectStoreForTanda()
     this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
 
@@ -262,6 +263,13 @@ export default {
     },
     selectStoreForTanda() {
       return this.context === 'allTandas' ? 'getAllTandas' : 'getMyTandas'
+    },
+    getParamsInUrlAndSearch() {
+      this.orchestraField = this.$route.query.orchestra
+      if (this.$route.query.orchestra) {
+        this.searchEngine = 0
+        this.initTandas()
+      }
     }
   }
 }

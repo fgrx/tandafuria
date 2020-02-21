@@ -36,7 +36,11 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Heebo&display=swap'
+        href: 'https://fonts.googleapis.com/css?family=Fjalla+One&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Overpass&display=swap'
       }
     ]
   },
