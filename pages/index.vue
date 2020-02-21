@@ -16,7 +16,9 @@
           </div>
 
           <div>
-            <h2 class="title2 display-2">The tanda temple for tango djs</h2>
+            <h2 class="title2 display-1 ma-5">
+              The tanda temple for tango djs
+            </h2>
           </div>
         </div>
 
