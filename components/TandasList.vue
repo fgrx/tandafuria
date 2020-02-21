@@ -56,7 +56,7 @@
                 ><v-icon>mdi-magnify</v-icon> Search</v-btn
               >
 
-              <v-btn @click="searchClear()" rounded class="ma-2"
+              <v-btn @click="searchClearAction()" rounded class="ma-2"
                 ><v-icon>mdi-broom</v-icon> Clear</v-btn
               >
             </v-row>
@@ -147,6 +147,11 @@ export default {
         this.initTandas()
       }
     },
+    searchClearAction() {
+      this.searchClear()
+
+      this.initTandas()
+    },
     searchClear() {
       this.genreField = ''
       this.orchestraField = ''
@@ -156,8 +161,6 @@ export default {
       this.countTotalResults = 0
 
       this.tandas = []
-
-      this.initTandas()
     },
     async showMore() {
       this.offset += process.env.numberOfItemsToDisplay
@@ -178,7 +181,6 @@ export default {
       this.$store.dispatch('tandas/clearTandas', this.context)
 
       const resTandas = await this.searchTandas()
-
       resTandas.tandas.forEach((tanda) => {
         this.$store.dispatch('tandas/addTanda', {
           target: this.context,
@@ -265,11 +267,12 @@ export default {
       return this.context === 'allTandas' ? 'getAllTandas' : 'getMyTandas'
     },
     getParamsInUrlAndSearch() {
-      this.orchestraField = this.$route.query.orchestra
       if (this.$route.query.orchestra) {
         this.searchEngine = 0
-        this.initTandas()
+        this.tandas = []
+        this.$store.dispatch('tandas/clearTandas', this.context)
       }
+      this.orchestraField = this.$route.query.orchestra
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-card raised align="center" class="mx-auto">
+    <v-card raised align="center">
       <div id="topSite">
         <div class="centerVertically">
           <div>
@@ -10,6 +10,7 @@
                 :src="require('~/static/logo-white.png')"
                 alt="Tanda Furia"
                 max-width="680px"
+                class="logoTandaFuria"
               />
             </h1>
           </div>
@@ -144,6 +145,10 @@ h1 {
   }
 }
 
+.logoTandaFuria {
+  width: '200px' !important;
+}
+
 #topSite {
   .title1 {
     color: white;
@@ -173,6 +178,8 @@ h1 {
   z-index: 1;
   position: absolute;
   align-items: center;
+  width: 100%;
+  padding: 30px;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);

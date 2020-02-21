@@ -10,7 +10,6 @@ export const tandaService = {
   async getTandas(offset, params) {
     if (!offset) offset = 0
     const urlGetTandas = `${urlApi}/${offset}${params}`
-
     const result = await axios.get(urlGetTandas)
     return result.data
   },
