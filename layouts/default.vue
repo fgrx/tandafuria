@@ -12,12 +12,18 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-lg-none" />
 
       <v-toolbar-title centered
-        ><v-spacer></v-spacer
-        ><img
-          src="~/assets/logo.png"
+        ><v-spacer></v-spacer>
+        <img
+          src="~/static/icon.png"
           alt="Tanda Furia"
           class="mt-8 mx-auto"
-          height="50em"
+          height="40em"
+          centered/>
+        <img
+          src="~/static/logo.png"
+          alt="Tanda Furia"
+          class="mt-8 mx-auto"
+          height="40em"
           centered
       /></v-toolbar-title>
 
