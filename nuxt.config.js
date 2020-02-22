@@ -76,7 +76,7 @@ export default {
     [
       '@nuxtjs/google-analytics',
       {
-        id: 'G-3WP2B8XG4X',
+        id: 'UA-141104841-2',
         debug: {
           enabled: true,
           sendHitTask: true,
