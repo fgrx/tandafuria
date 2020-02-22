@@ -72,9 +72,19 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@bazzite/nuxt-netlify',
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'G-3WP2B8XG4X',
+        debug: {
+          enabled: true,
+          sendHitTask: true,
+          trace: true
+        }
+      }
+    ]
   ],
-  netlify: {},
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

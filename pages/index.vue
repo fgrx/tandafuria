@@ -39,7 +39,7 @@
     <h2 class="display-3 mt-12 mb-3">Start digging in our tandas</h2>
 
     <v-row>
-      <v-col v-for="maestro in maestros1" cols="6" md="3">
+      <v-col v-for="maestro in maestros1" :key="maestro.url" cols="6" md="3">
         <v-card
           :to="`/all-tandas?orchestra=${maestro.url}`"
           shaped
@@ -59,7 +59,7 @@
         </v-card>
       </v-col>
 
-      <v-col v-for="maestro in maestros2" cols="6" md="3">
+      <v-col v-for="maestro in maestros2" :key="maestro.url" cols="6" md="3">
         <v-card
           :to="`/all-tandas?orchestra=${maestro.url}`"
           shaped

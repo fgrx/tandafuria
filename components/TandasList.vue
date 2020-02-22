@@ -66,7 +66,7 @@
     </v-row>
 
     <v-layout row wrap>
-      <v-flex v-for="(tanda, index) in tandas" :key="index" xl3 lg4 md6 xs12>
+      <v-flex v-for="tanda in tandas" :key="tanda._id" xl3 lg4 md6 xs12>
         <TandaItem :tanda="tanda" />
       </v-flex>
     </v-layout>
@@ -133,7 +133,7 @@ export default {
     const storeToWatch = this.selectStoreForTanda()
     this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
 
-    if (this.tandas.length <= 0) this.initTandas()
+    if (this.tandas.length <= 1) this.initTandas()
   },
   methods: {
     searchAction() {

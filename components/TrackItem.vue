@@ -1,15 +1,25 @@
 <template>
-  <v-list-item three-line>
+  <v-list-item four-line>
     <v-list-item-icon v-if="fullSong"
       ><TrackPlayerSpotify :track="track" />
     </v-list-item-icon>
     <v-list-item-content>
       <v-list-item-title v-text="track.name"></v-list-item-title>
+
       <v-list-item-subtitle>
         <span v-for="(artist, index) in track.artists" :key="index"
           >{{ artist.name }} </span
         ><br />
-        <span v-if="track.album">Album : {{ track.album.name }}</span>
+        <span v-if="track.album">Album : {{ track.album.name }}</span
+        ><br />
+        <v-btn
+          :href="youtubeLink"
+          target="_blank"
+          color="secondary"
+          outlined
+          small
+          ><v-icon>mdi-youtube</v-icon>Find on Youtube
+        </v-btn>
       </v-list-item-subtitle>
       <vue-plyr v-if="!fullSong">
         <audio>
@@ -43,12 +53,19 @@ export default {
   },
   data() {
     return {
-      fullSong: false
+      fullSong: false,
+      youtubeLink: ''
     }
   },
   mounted() {
     const user = this.$store.getters['authApp/getUser']
     if (user.spotify) this.fullSong = true
+
+    const reducer = (acc, artist) => acc + ',' + artist.name
+
+    const artistsSearch = this.track.artists.reduce(reducer, '')
+
+    this.youtubeLink = `https://www.youtube.com/results?search_query=${this.track.name}+${artistsSearch}`
   },
   methods: {
     addTrackAction(track) {

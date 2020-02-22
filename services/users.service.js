@@ -18,12 +18,10 @@ export const userService = {
   },
 
   async signin(username, password) {
-    console.log('pouuuuuuuuuuuuueeeeeeeeeeeeeet')
     const result = await axios.post(urlApi + '/auth/signin', {
       username,
       password
     })
-    console.log('result', result)
     return result
   },
 

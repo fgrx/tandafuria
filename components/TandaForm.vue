@@ -261,9 +261,17 @@ export default {
 
       if (tanda.isPublic) this.incrementTandaCountForUser()
 
-      this.$store.dispatch('tandas/addTanda', { target: 'myTandas', tanda })
+      this.$store.dispatch('tandas/addTanda', {
+        target: 'myTandas',
+        tanda,
+        order: 'top'
+      })
       if (tanda.isPublic)
-        this.$store.dispatch('tandas/addTanda', { target: 'allTandas', tanda })
+        this.$store.dispatch('tandas/addTanda', {
+          target: 'allTandas',
+          tanda,
+          order: 'top'
+        })
     },
     incrementTandaCountForUser() {
       this.userInStore = this.$store.getters['authApp/getUser']
@@ -271,7 +279,6 @@ export default {
 
       if (modifiedUser.countTanda == null) modifiedUser.countTanda = 0
       modifiedUser.countTanda++
-      console.log('modified user', modifiedUser)
       this.$store.dispatch('authApp/setUser', modifiedUser)
 
       userService.updateUser(modifiedUser, this.userInStore.token)
