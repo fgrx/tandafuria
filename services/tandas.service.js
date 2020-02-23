@@ -34,6 +34,11 @@ export const tandaService = {
     const result = axios.put(`${urlApi}/${idTanda}`, tanda, header)
     return result
   },
+  updateTandaComments(idTanda, tanda, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = axios.put(`${urlApi}/${idTanda}/comments`, tanda, header)
+    return result
+  },
   delete(idTanda, token) {
     const header = { headers: { Authorization: 'Bearer ' + token } }
     const result = axios.delete(`${urlApi}/${idTanda}`, header)

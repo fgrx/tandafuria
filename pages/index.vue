@@ -36,7 +36,45 @@
         /> -->
     </v-card>
 
-    <h2 class="display-3 mt-12 mb-3">Start digging in our tandas</h2>
+    <v-container v-if="!signed">
+      <h2 class="display-3 mt-12 mb-3">Register to get full access</h2>
+
+      <v-row class="title" align="center">
+        <v-col cols="11" offset-md="1" md="3">
+          <p>
+            <v-btn to="signin" color="secondary" rounded x-large block
+              ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
+            >
+          </p>
+
+          <p>
+            <v-btn to="create-account" rounded x-large color="primary" block
+              ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
+            >
+          </p>
+        </v-col>
+        <v-col cols="12" md="7" offset-md="1" class="text-left">
+          <ul>
+            <li>Discover new tandas</li>
+
+            <li>
+              Create your own tandas and share them (or not) with the community
+            </li>
+
+            <li>Create your own playlists</li>
+
+            <li>
+              Access to full length track if you have a
+              <v-icon>mdi-spotify</v-icon> Spotify <u>premium</u> account
+            </li>
+            <li>
+              Comment others work and help other Djs to improve their tandas
+            </li>
+          </ul>
+        </v-col>
+      </v-row>
+    </v-container>
+    <h2 class="display-3 mt-12 mb-3">Start digging in tandas !</h2>
 
     <v-row>
       <v-col v-for="maestro in maestros1" :key="maestro.url" cols="6" md="3">
@@ -86,6 +124,7 @@
 export default {
   data() {
     return {
+      signed: false,
       maestros1: [
         {
           name: "Juan D'arienzo",
@@ -132,6 +171,10 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    const user = this.$store.getters['authApp/getUser']
+    if (user.id) this.signed = true
   }
 }
 </script>
@@ -172,7 +215,7 @@ h1 {
 #topSite {
   z-index: 0;
   position: relative;
-  height: 70vh;
+  height: 65vh;
   width: 100%;
 }
 
@@ -189,7 +232,7 @@ h1 {
 }
 
 #imageHome {
-  height: 70vh;
+  height: 65vh;
 }
 
 #imageHome::after {

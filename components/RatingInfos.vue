@@ -4,52 +4,75 @@
       <v-rating
         v-model="rating"
         @input="rateAction()"
+        :hover="hover"
+        :readonly="readonly"
         label="rating"
         small
-        hover
       ></v-rating>
-      <span class="grey--text text--lighten-2 caption mr-2">({{ count }})</span>
+      <v-btn
+        v-if="count"
+        @click="seeCommentsAction()"
+        color="secondary"
+        small
+        text
+        ><v-icon small>mdi-comment-text-multiple</v-icon> {{ count }}</v-btn
+      >
     </v-row>
 
-    <v-dialog
-      ref="dialog"
-      v-model="dialogComment"
-      @input="initComment()"
-      max-width="800px"
-    >
+    <v-dialog ref="dialog" v-model="dialogComment" max-width="800px">
       <v-card>
-        <v-card-title><h1>Give your advice</h1></v-card-title>
+        <div v-if="rateMode">
+          <v-card-title>Give your advice</v-card-title>
 
-        <v-card-text>
-          <form ef="CommentForm" class="CommentForm">
-            <v-rating
-              v-model="rating"
-              label="rating"
-              :hover="this.hover"
-            ></v-rating>
-            <v-textarea
-              v-model="comment"
-              label="Comment"
-              rows="4"
-              placeholder="Write a comment about this tanda"
-            ></v-textarea>
-          </form>
+          <v-card-text>
+            <form ef="CommentForm" class="CommentForm">
+              <v-rating
+                v-model="rating"
+                :hover="hover"
+                label="rating"
+              ></v-rating>
+              <v-textarea
+                v-model="comment"
+                label="Comment"
+                rows="4"
+                placeholder="Write a comment about this tanda"
+              ></v-textarea>
+            </form>
+          </v-card-text>
+        </div>
+        <v-spacer></v-spacer>
+
+        <v-card-text v-if="tanda.comments">
+          <v-card-title class="display-1">Comments</v-card-title>
+          <v-spacer></v-spacer>
+          <div
+            v-for="(commentElement, keyComment) in tanda.comments"
+            :key="keyComment"
+            class="comment"
+          >
+            <h3>
+              {{ commentElement.author.name }}
+              - {{ $moment(commentElement.date).calendar() }}
+            </h3>
+            <p><v-rating :value="commentElement.rating" /></p>
+            <p>{{ commentElement.comment }}</p>
+          </div>
         </v-card-text>
         <v-spacer></v-spacer>
         <v-card-actions>
-          <v-btn @click="saveCommentAction()" color="primary">Save</v-btn>
+          <v-btn v-if="rateMode" @click="saveCommentAction()" color="primary"
+            >Save</v-btn
+          >
           <v-btn @click="commentFormClose()">Back</v-btn>
         </v-card-actions>
       </v-card>
-
-      <v-btn ref="commentFormBtn" @click="commentFormClose()" color="primary"
-        >Close</v-btn
-      >
     </v-dialog>
   </div>
 </template>
 
 <script>
+import { tandaService } from '@/services/tandas.service'
+
 export default {
   props: {
     tanda: {
@@ -65,7 +88,10 @@ export default {
       comment: '',
       dialogComment: false,
       tandaToComment: null,
-      user: {}
+      user: {},
+      readonly: false,
+      rateMode: false,
+      comments: []
     }
   },
   mounted() {
@@ -73,9 +99,36 @@ export default {
     this.rating = this.tanda.overallRating || 0
 
     this.user = this.$store.getters['authApp/getUser']
+    const alreadyCommented = this.isAlreadyCommented()
+
+    if (
+      this.user.id === this.tanda.author.id ||
+      alreadyCommented === true ||
+      this.user.id == null
+    ) {
+      this.readonly = true
+      this.hover = false
+    }
   },
   methods: {
+    seeCommentsAction() {
+      this.rateMode = false
+      this.dialogComment = true
+    },
+    isAlreadyCommented() {
+      let result = false
+
+      if (this.tanda.comments) {
+        const commentsAuthorId = this.tanda.comments.map(
+          (comment) => comment.author.id
+        )
+        if (commentsAuthorId.includes(this.user.id)) result = true
+      }
+
+      return result
+    },
     rateAction(rate) {
+      this.rateMode = true
       this.dialogComment = true
     },
     commentFormClose() {
@@ -98,9 +151,11 @@ export default {
         sumOfAllRating =
           this.tanda.comments.reduce(sumOfAllRatingReducer, 0) +
           parseInt(this.rating, 10)
+      } else {
+        sumOfAllRating += parseInt(this.rating, 10)
       }
 
-      let numberOfComments = 0
+      let numberOfComments = 1
 
       if (this.tanda.comments) {
         numberOfComments = this.tanda.comments.length + 1
@@ -108,9 +163,16 @@ export default {
 
       tandaUpdated.overallRating = sumOfAllRating / numberOfComments
 
+      const aujd = new Date()
+      const ms = aujd.getMilliseconds()
+
+      const calculatedId = this.tanda._id + ms
+
       const commentInfos = {
+        id: calculatedId,
         rating: this.rating,
         comment: this.comment,
+        date: new Date(),
         author: {
           id: this.user.id,
           name: this.user.nickname
@@ -123,10 +185,19 @@ export default {
         tandaUpdated.comments = [commentInfos]
       }
 
-      console.log('update', tandaUpdated)
+      tandaService.updateTandaComments(
+        this.tanda._id,
+        tandaUpdated,
+        this.user.token
+      )
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.comment {
+  margin-bottom: 2rem;
+  border-bottom: 1px dotted grey;
+}
+</style>
