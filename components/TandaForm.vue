@@ -121,7 +121,7 @@
     >
       <SpotifyBrowser @clicked="addTrack" />
 
-      <v-btn ref="monBouton" @click="browserClose" color="success">Close</v-btn>
+      <v-btn ref="monBouton" @click="browserClose" color="primary">Close</v-btn>
     </v-dialog>
     <v-spacer></v-spacer>
     <v-card-actions>

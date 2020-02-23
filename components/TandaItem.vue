@@ -1,8 +1,12 @@
 <template>
   <div>
     <v-card class="ma-2 pa-1 element" light shaped>
-      <v-list-item three-line>
+      <v-list-item four-line>
         <v-list-item-content>
+          <v-list-item-subtitle>
+            <RatingInfos :tanda="tanda" />
+          </v-list-item-subtitle>
+
           <div class="overline ">{{ tanda.genre }} - {{ tanda.speed }}</div>
           <v-list-item-title two-line class="headline mb-1">{{
             orchestra.title
@@ -95,9 +99,12 @@ import TrackItem from '~/components/TrackItem'
 
 import { tandaService } from '@/services/tandas.service.js'
 
+import RatingInfos from '@/components/RatingInfos'
+
 export default {
   components: {
-    TrackItem
+    TrackItem,
+    RatingInfos
   },
   props: {
     tanda: {
