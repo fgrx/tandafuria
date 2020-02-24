@@ -190,6 +190,11 @@ export default {
         tandaUpdated,
         this.user.token
       )
+
+      this.$bus.$emit('flashMessage', {
+        message: 'Your comment has been saved. Thank you ! ',
+        status: 'success'
+      })
     }
   }
 }

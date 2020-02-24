@@ -83,13 +83,6 @@
         </div>
       </v-expand-transition>
     </v-card>
-    <v-snackbar v-model="flash.display" :color="flash.color">
-      <v-icon>{{ flash.icon }}</v-icon
-      >{{ flash.message }}
-      <v-btn @click="snackbar = false" text>
-        Close
-      </v-btn>
-    </v-snackbar>
   </div>
 </template>
 
@@ -115,9 +108,7 @@ export default {
   data() {
     return {
       orchestra: {},
-      flash: { message: '', display: false, icon: 'mdi-check-circle-outline' },
-      flashMessage: false,
-      textFlashMessage: '',
+
       period: '',
       duration: '',
       showMore: false,
@@ -145,7 +136,7 @@ export default {
       newTanda.isPublic = false
 
       newTanda.author.id = this.currentUser.id
-      newTanda.author.name = this.currentUser.name
+      newTanda.author.name = this.currentUser.nickname
 
       tandaService.save(newTanda, this.currentUser.token)
 
@@ -153,12 +144,10 @@ export default {
         target: 'myTandas',
         tanda: newTanda
       })
-      this.flash = {
-        color: 'success',
+      this.$bus.$emit('flashMessage', {
         message: 'Tanda imported to your library',
-        display: true,
-        icon: 'mdi-check-circle-outline'
-      }
+        status: 'success'
+      })
     },
     displayPeriod(tanda) {
       if (tanda.tracks.length > 0) {

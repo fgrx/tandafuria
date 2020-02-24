@@ -272,6 +272,11 @@ export default {
           tanda,
           order: 'top'
         })
+
+      this.$bus.$emit('flashMessage', {
+        message: 'Your tanda has been saved',
+        status: 'success'
+      })
     },
     incrementTandaCountForUser() {
       this.userInStore = this.$store.getters['authApp/getUser']
@@ -292,6 +297,11 @@ export default {
       tanda._id = this.tandaToModify._id
 
       this.$store.dispatch('tandas/updateTanda', tanda)
+
+      this.$bus.$emit('flashMessage', {
+        message: 'Your tanda has been saved',
+        status: 'success'
+      })
     },
     buildTandaFromForm() {
       const user = this.$store.getters['authApp/getUser']

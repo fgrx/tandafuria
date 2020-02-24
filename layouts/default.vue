@@ -148,6 +148,14 @@
         </v-list>
       </v-navigation-drawer>
 
+      <v-snackbar v-model="flash.display" :color="flash.color">
+        <v-icon>{{ flash.icon }}</v-icon
+        >{{ flash.message }}
+        <v-btn @click="snackbar = false" text>
+          Close
+        </v-btn>
+      </v-snackbar>
+
       <SpotifyPlayer v-if="user.spotify && accessToken" />
       <v-container fluid>
         <nuxt />
@@ -158,6 +166,7 @@
 
 <script>
 // import { mapState } from 'vuex'
+//import { tandaService } from '../services/tandas.service'
 import SpotifyPlayer from '~/components/SpotifyPlayer'
 import { userService } from '@/services/users.service'
 
@@ -174,6 +183,9 @@ export default {
       user: this.$store.getters['authApp/getUser'],
       device: null,
       accessToken: this.$store.getters['authSpotify/getToken'],
+      flash: { message: '', display: false, icon: 'mdi-check-circle-outline' },
+      flashMessage: false,
+      textFlashMessage: '',
       items: [
         {
           icon: 'mdi-home',
@@ -213,6 +225,17 @@ export default {
     const state = this.$route.query.state
     if (code) {
       await this.initializeSpotifyTokens(code, state)
+    }
+
+    this.$bus.$on('flashMessage', (params) => {
+      this.displayFlashMessage(params.message, params.status)
+    })
+
+    //refresh user infos
+    try {
+      if (this.user) await userService.getUser(this.user)
+    } catch (e) {
+      this.$router.replace({ path: 'signin' })
     }
   },
   methods: {
@@ -261,6 +284,15 @@ export default {
         'refresh_token',
         resultTokensFromSpotify.refreshToken
       )
+    },
+    displayFlashMessage(message, status) {
+      const color = status === 'success' ? 'primary' : 'info'
+      this.flash = {
+        color,
+        message,
+        display: true,
+        icon: 'mdi-check-circle-outline'
+      }
     }
   }
 }

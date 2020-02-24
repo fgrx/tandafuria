@@ -100,6 +100,8 @@ export default {
       }
     },
     addTrackAction(track) {
+      track.available_markets = null
+      track.album.available_markets = null
       this.$emit('clicked', track)
     }
   }

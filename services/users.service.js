@@ -11,6 +11,12 @@ export const userService = {
     return result
   },
 
+  async getUser(user) {
+    const header = { headers: { Authorization: 'Bearer ' + user.token } }
+    const result = await axios.get(urlApi + '/users/' + user.id, header)
+    return result
+  },
+
   async updateUser(user, token) {
     const header = { headers: { Authorization: 'Bearer ' + token } }
     const result = await axios.put(urlApi + '/users', user, header)

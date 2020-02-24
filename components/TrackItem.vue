@@ -21,11 +21,7 @@
           ><v-icon>mdi-youtube</v-icon>Find on Youtube
         </v-btn>
       </v-list-item-subtitle>
-      <vue-plyr v-if="!fullSong">
-        <audio>
-          <source :src="track.preview_url" type="audio/mp3" />
-        </audio>
-      </vue-plyr>
+      <TrackPlyr v-if="!fullSong" :track="track" />
     </v-list-item-content>
     <v-list-item-action v-if="mode === 'browser'">
       <v-btn @click="addTrackAction(track)" icon>
@@ -37,9 +33,12 @@
 
 <script>
 import TrackPlayerSpotify from '~/components/TrackPlayerSpotify'
+import TrackPlyr from '~/components/TrackPlyr'
+
 export default {
   components: {
-    TrackPlayerSpotify
+    TrackPlayerSpotify,
+    TrackPlyr
   },
   props: {
     track: {
