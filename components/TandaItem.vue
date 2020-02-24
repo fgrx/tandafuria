@@ -29,8 +29,10 @@
         </v-list-item-avatar>
       </v-list-item>
 
-      <template v-for="(track, index) in tanda.tracks">
-        <TrackItem :track="track" />
+      <v-btn @click="playTandaMp3()">Play tanda</v-btn>
+
+      <template v-for="(track, index) in tanda.tracks" :keys="index">
+        <TrackItem :track="track" :playerId="tanda.playerId" />
         <v-divider
           v-if="index + 1 < tanda.tracks.length"
           :key="index"
@@ -108,7 +110,6 @@ export default {
   data() {
     return {
       orchestra: {},
-
       period: '',
       duration: '',
       showMore: false,
@@ -116,13 +117,27 @@ export default {
     }
   },
   mounted() {
+    this.randomString = this.randomizeString()
+
     this.orchestra = orchestras.find(
       (orchestra) => orchestra.id === this.tanda.orchestra
     )
 
+    this.tanda.tracks.forEach((track) => {
+      track.playerId = track.id + this.randomizeString()
+    })
+
     this.period = this.displayPeriod(this.tanda)
   },
   methods: {
+    playTandaMp3() {
+      this.tanda.tracks[0].playerId.play()
+    },
+    randomizeString() {
+      return Math.random()
+        .toString(36)
+        .substring(7)
+    },
     importTandaToLibrary(tanda) {
       // Ugly way to deep clone an object in JS to avoid vuex mutations errors
       const newTanda = JSON.parse(JSON.stringify(tanda))

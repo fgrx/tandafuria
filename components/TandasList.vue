@@ -10,7 +10,7 @@
         <v-expansion-panel>
           <v-expansion-panel-header>
             <div class="title">
-              <v-icon>mdi-magnify</v-icon><span>Search in all tandas</span>
+              <v-icon>mdi-magnify</v-icon><span>Search</span>
             </div>
           </v-expansion-panel-header>
 
@@ -97,7 +97,10 @@ import Loader from '@/components/Loader'
 
 export default {
   components: { TandaItem, NoTandaMessage, Loader },
-  props: { context: { type: String, default: 'allTandas' } },
+  props: {
+    context: { type: String, default: 'allTandas' },
+    userId: { type: String, default: '' }
+  },
   data() {
     return {
       tandas: [],
@@ -218,6 +221,7 @@ export default {
       const paramsArray = []
       let paramsString = ''
 
+      if (this.userId) paramsArray.push = 'author=' + this.userId
       if (this.genreField) paramsArray.push('genre=' + this.genreField)
       if (this.speedField) paramsArray.push('speed=' + this.speedField)
       if (this.singerField) paramsArray.push('singer=' + this.singerField)

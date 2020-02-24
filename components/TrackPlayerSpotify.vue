@@ -12,6 +12,10 @@ export default {
     track: {
       type: Object,
       default: null
+    },
+    playerId: {
+      type: String,
+      default: ''
     }
   },
   data() {

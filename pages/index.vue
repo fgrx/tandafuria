@@ -117,14 +117,39 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-container>
+      <h2 class="display-3 mt-12 mb-3">Tanks to our contributors</h2>
+      <ul>
+        <li v-for="(user, userId) in topUsers" :key="userId" class="noTick">
+          <v-btn
+            v-if="user.countTanda > 0"
+            :to="{ name: 'djs-id', params: { id: user.id } }"
+            text
+          >
+            <v-badge
+              :content="user.countTanda"
+              color="primary"
+              left
+              transition="slide-x-transition"
+              inline
+            >
+              {{ user.nickname }}
+            </v-badge>
+          </v-btn>
+        </li>
+      </ul>
+    </v-container>
   </div>
 </template>
 
 <script>
+import { userService } from '@/services/users.service'
 export default {
   data() {
     return {
       signed: false,
+      topUsers: {},
       maestros1: [
         {
           name: "Juan D'arienzo",
@@ -172,9 +197,11 @@ export default {
       ]
     }
   },
-  mounted() {
+  async mounted() {
     const user = this.$store.getters['authApp/getUser']
     if (user.id) this.signed = true
+
+    this.topUsers = await userService.getTopUsers()
   }
 }
 </script>
@@ -286,5 +313,9 @@ h1 {
     rgba(49, 27, 146, 0.81) 0%,
     rgba(18, 204, 148, 0.81) 100%
   );
+}
+
+li.noTick {
+  list-style-type: none;
 }
 </style>

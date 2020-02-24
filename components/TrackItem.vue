@@ -1,7 +1,7 @@
 <template>
   <v-list-item four-line>
     <v-list-item-icon v-if="fullSong"
-      ><TrackPlayerSpotify :track="track" />
+      ><TrackPlayerSpotify :track="track" :playerId="playerId" />
     </v-list-item-icon>
     <v-list-item-content>
       <v-list-item-title v-text="track.name"></v-list-item-title>
@@ -21,7 +21,7 @@
           ><v-icon>mdi-youtube</v-icon>Find on Youtube
         </v-btn>
       </v-list-item-subtitle>
-      <TrackPlyr v-if="!fullSong" :track="track" />
+      <TrackPlyr v-if="!fullSong" :track="track" :playerId="playerId" />
     </v-list-item-content>
     <v-list-item-action v-if="mode === 'browser'">
       <v-btn @click="addTrackAction(track)" icon>
@@ -48,6 +48,10 @@ export default {
     mode: {
       type: String,
       default: ''
+    },
+    playerId: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -66,6 +70,7 @@ export default {
 
     this.youtubeLink = `https://www.youtube.com/results?search_query=${this.track.name}+${artistsSearch}`
   },
+
   methods: {
     addTrackAction(track) {
       this.$emit('clicked', track)

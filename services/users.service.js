@@ -17,6 +17,11 @@ export const userService = {
     return result
   },
 
+  async getUserInfos(id) {
+    const result = await axios.get(urlApi + '/users/infos/' + id)
+    return result
+  },
+
   async updateUser(user, token) {
     const header = { headers: { Authorization: 'Bearer ' + token } }
     const result = await axios.put(urlApi + '/users', user, header)
@@ -29,6 +34,11 @@ export const userService = {
       password
     })
     return result
+  },
+
+  async getTopUsers() {
+    const result = await axios.get(urlApi + '/users')
+    return result.data
   },
 
   logout() {

@@ -1,5 +1,5 @@
 <template>
-  <vue-plyr :ref="track.id">
+  <vue-plyr :ref="playerId">
     <audio>
       <source :src="track.preview_url" type="audio/mp3" />
     </audio>
@@ -12,31 +12,30 @@ export default {
     track: {
       type: Object,
       default: null
+    },
+    playerId: {
+      type: String,
+      default: null
     }
   },
   computed: {
     player() {
-      return this.$refs[this.track.id].player
+      const playerRef = this.playerId
+      return this.$refs[playerRef].player
     }
   },
   mounted() {
-    this.refComponent = this.track.id
+    const playerComponentRef = this.player
+    const trackComponent = this.track.id
+    const bus = this.$bus
 
-    const playingComponentRef = this.player
-    console.log(playingComponentRef)
-    this.player.on('play', function() {
-      playingComponentRef.stop()
+    playerComponentRef.on('play', function() {
+      bus.$emit('playTrackPlyr', trackComponent)
     })
 
-    // console.log(playingComponentRef)
-
-    /*
-    this.$root.$on('stopPlaying', (playingComponentRef) => {
-      if (playingComponentRef === this.refComponent) {
-        this.stop()
-      }
+    bus.$on('playTrackPlyr', (element) => {
+      if (trackComponent !== element) playerComponentRef.stop()
     })
-    */
   }
 }
 </script>
