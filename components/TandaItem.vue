@@ -131,7 +131,11 @@ export default {
   },
   methods: {
     playTandaMp3() {
-      this.tanda.tracks[0].playerId.play()
+      const playlist = this.tanda.tracks
+      this.$bus.$emit('playlistPlyr', {
+        display: true,
+        playlist
+      })
     },
     randomizeString() {
       return Math.random()

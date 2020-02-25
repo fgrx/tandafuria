@@ -160,6 +160,7 @@
       <v-container fluid>
         <nuxt />
       </v-container>
+      <PlaylistPlyr />
     </v-content>
   </v-app>
 </template>
@@ -169,10 +170,12 @@
 //import { tandaService } from '../services/tandas.service'
 import SpotifyPlayer from '~/components/SpotifyPlayer'
 import { userService } from '@/services/users.service'
+import PlaylistPlyr from '~/components/PlaylistPlyr'
 
 export default {
   components: {
-    SpotifyPlayer
+    SpotifyPlayer,
+    PlaylistPlyr
   },
   middleware: ['initializeAppData'],
   data() {
@@ -233,7 +236,7 @@ export default {
 
     //refresh user infos
     try {
-      if (this.user) await userService.getUser(this.user)
+      if (this.user.token) await userService.getUser(this.user)
     } catch (e) {
       this.$router.replace({ path: 'signin' })
     }

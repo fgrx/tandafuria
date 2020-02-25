@@ -2,14 +2,14 @@
   <div class=" ma-4">
     <h2 class="display-2">
       Dj {{ user.nickname }}
-      <v-btn :href="user.link" target="_blank"
-        ><v-icon>mdi-link</v-icon> contact
-      </v-btn>
+      <p>
+        <v-btn v-if="user.link" :href="user.link" target="_blank" text
+          ><v-icon>mdi-link</v-icon> {{ user.link }}
+        </v-btn>
+      </p>
     </h2>
 
-    <p v-if="user.countTanda">Number of tandas : {{ user.countTanda }}</p>
-
-    <TandasList context="allTandas" :userId="userId" />
+    <TandasList :userIdParam="userId" context="publicUserTandas" />
   </div>
 </template>
 

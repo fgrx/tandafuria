@@ -20,6 +20,7 @@
                 <v-select
                   v-model="genreField"
                   :items="genreList"
+                  @keydown.enter="searchAction()"
                   label="musical genre"
                   class="inputGenre"
                   item-text="name"
@@ -29,6 +30,7 @@
                 <v-select
                   v-model="orchestraField"
                   :items="orchestraList"
+                  @keydown.enter="searchAction()"
                   label="Orchestra"
                   item-text="title"
                   item-value="id"
@@ -37,11 +39,13 @@
                 <v-select
                   v-model="speedField"
                   :items="speedList"
+                  @keydown.enter="searchAction()"
                   label="Speed"
                 ></v-select>
 
                 <v-text-field
                   v-model="singerField"
+                  @keydown.enter="searchAction()"
                   label="Singer"
                   placeholder="example : Alberto Moran"
                 ></v-text-field>
@@ -99,7 +103,7 @@ export default {
   components: { TandaItem, NoTandaMessage, Loader },
   props: {
     context: { type: String, default: 'allTandas' },
-    userId: { type: String, default: '' }
+    userIdParam: { type: String, default: '' }
   },
   data() {
     return {
@@ -170,32 +174,40 @@ export default {
 
       const resTandas = await this.searchTandas()
 
-      resTandas.tandas.forEach((tanda) => {
-        this.$store.dispatch('tandas/addTanda', {
-          target: this.context,
-          tanda,
-          order: 'end'
+      if (this.context === 'allTandas' || this.context === 'myTandas') {
+        resTandas.tandas.forEach((tanda) => {
+          this.$store.dispatch('tandas/addTanda', {
+            target: this.context,
+            tanda,
+            order: 'end'
+          })
         })
-      })
+      }
       this.countTotalResults = resTandas.countTotalResults
       this.endOfResults = this.isEndOfResult(resTandas.countTotalResults)
     },
     async initTandas() {
-      this.$store.dispatch('tandas/clearTandas', this.context)
-
       const resTandas = await this.searchTandas()
-      resTandas.tandas.forEach((tanda) => {
-        this.$store.dispatch('tandas/addTanda', {
-          target: this.context,
-          tanda,
-          order: 'end'
+
+      if (this.context === 'allTandas' || this.context === 'myTandas') {
+        this.$store.dispatch('tandas/clearTandas', this.context)
+        resTandas.tandas.forEach((tanda) => {
+          this.$store.dispatch('tandas/addTanda', {
+            target: this.context,
+            tanda,
+            order: 'end'
+          })
         })
-      })
+      } else {
+        this.tandas = resTandas.tandas
+      }
 
       this.countTotalResults = resTandas.countTotalResults
       this.endOfResults = this.isEndOfResult(resTandas.countTotalResults)
 
-      this.saveSearchToStore()
+      if (this.context === 'allTandas' || this.context === 'myTandas') {
+        this.saveSearchToStore()
+      }
     },
     async searchTandas() {
       this.loading = true
@@ -207,7 +219,17 @@ export default {
         result = await tandaService.getTandas(this.offset, params)
       } else {
         const user = this.$store.getters['authApp/getUser']
-        result = await tandaService.getTandasUser(user.id, this.offset, params)
+        let userIdSearch = user.id
+
+        if (this.context === 'publicUserTandas') {
+          userIdSearch = this.userIdParam
+        }
+
+        result = await tandaService.getTandasUser(
+          userIdSearch,
+          this.offset,
+          params
+        )
       }
 
       this.loading = false
@@ -220,8 +242,8 @@ export default {
     buildParams() {
       const paramsArray = []
       let paramsString = ''
-
-      if (this.userId) paramsArray.push = 'author=' + this.userId
+      if (this.context === 'publicUserTandas') paramsArray.push('isPublic=true')
+      if (this.userId) paramsArray.push('author=' + this.userId)
       if (this.genreField) paramsArray.push('genre=' + this.genreField)
       if (this.speedField) paramsArray.push('speed=' + this.speedField)
       if (this.singerField) paramsArray.push('singer=' + this.singerField)
@@ -261,8 +283,10 @@ export default {
         singerField: this.singerField,
         countTotalResults: this.countTotalResults
       }
-      const storeForSearch = this.selectStoreForSearch()
-      this.$store.dispatch(`${storeForSearch}/setSearchState`, search)
+      if (this.context === 'allTandas' || this.context === 'myTandas') {
+        const storeForSearch = this.selectStoreForSearch()
+        this.$store.dispatch(`${storeForSearch}/setSearchState`, search)
+      }
     },
     selectStoreForSearch() {
       return this.context === 'allTandas' ? 'searchAllTandas' : 'searchMyTandas'
