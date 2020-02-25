@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="ma-2 pa-1 element" light shaped>
-      <v-list-item four-line>
+      <v-list-item five-line>
         <v-list-item-content>
           <v-list-item-subtitle>
             <RatingInfos :tanda="tanda" />
@@ -18,8 +18,13 @@
           </v-list-item-subtitle>
 
           <v-list-item-subtitle v-if="duration || period">
-            <span>Created by : {{ tanda.author.name }}</span
-            ><br />
+            Created by :
+            <nuxt-link
+              :to="{ name: 'djs-id', params: { id: tanda.author.id } }"
+            >
+              {{ tanda.author.name }}
+            </nuxt-link>
+            <br />
             <span v-if="duration">Duration : {{ duration }}</span>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -29,7 +34,11 @@
         </v-list-item-avatar>
       </v-list-item>
 
-      <v-btn @click="playTandaMp3()">Play tanda</v-btn>
+      <v-card-text>
+        <v-btn @click="playTandaMp3()" block
+          ><v-icon>mdi-play</v-icon>Play tanda</v-btn
+        >
+      </v-card-text>
 
       <template v-for="(track, index) in tanda.tracks" :keys="index">
         <TrackItem :track="track" :playerId="tanda.playerId" />

@@ -38,31 +38,6 @@
           </v-list-item-icon>
         </v-list-item>
       </v-list>
-
-      <!-- <v-sheet class="text-center">
-        <p v-if="currentTrack" class="text-center">
-          Playing : {{ currentTrack.name }}
-        </p>
-        <v-btn @click="previous()">
-          <v-icon>mdi-skip-previous</v-icon>
-        </v-btn>
-
-        <v-btn v-if="!isPlaying" @click="undoPause()" value="favorites">
-          <v-icon>mdi-play-circle-outline</v-icon>
-        </v-btn>
-        <v-btn v-if="isPlaying" @click="pause()" value="favorites">
-          <v-icon>mdi-pause-circle-outline</v-icon>
-        </v-btn>
-
-        <v-btn @click="next()" value="next">
-          <v-icon>mdi-skip-next</v-icon>
-        </v-btn>
-
-        <v-btn @click="close()" value="close" color="primary">
-          <v-icon>mdi-close</v-icon>
-          Close
-        </v-btn>
-      </v-sheet> -->
     </v-bottom-sheet>
     <vue-plyr ref="bottomPlayer">
       <audio>
