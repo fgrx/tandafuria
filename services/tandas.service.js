@@ -20,6 +20,11 @@ export const tandaService = {
     const result = await axios.get(url)
     return result.data
   },
+  async getCountTandaUser(id) {
+    const url = `${urlApi}/count-tandas/${id}`
+    const result = await axios.get(url)
+    return result.data
+  },
   async getOneTanda(idTanda) {
     const result = await axios.get(`${urlApi}/find/${idTanda}`)
     return result.data

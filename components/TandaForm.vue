@@ -137,8 +137,6 @@
         ><v-icon>mdi-delete</v-icon> Delete
       </v-btn>
     </v-card-actions>
-
-    <TrackPlayer />
   </v-form>
 </template>
 
@@ -150,7 +148,6 @@ import { speed } from '@/data/speed'
 import { orchestras } from '@/data/orchestras'
 
 import SpotifyBrowser from '@/components/SpotifyBrowser'
-import TrackPlayer from '~/components/TrackPlayer'
 import TrackItem from '~/components/TrackItem'
 
 import { tandaService } from '@/services/tandas.service.js'
@@ -160,8 +157,7 @@ export default {
   components: {
     SpotifyBrowser,
     TrackItem,
-    draggable,
-    TrackPlayer
+    draggable
   },
   props: {
     tandaToModify: {
@@ -259,7 +255,7 @@ export default {
       tanda.date = newTandaInDB.data.date
       tanda.author = newTandaInDB.data.author
 
-      if (tanda.isPublic) this.incrementTandaCountForUser()
+      this.updateTandaCountForUser()
 
       this.$store.dispatch('tandas/addTanda', {
         target: 'myTandas',
@@ -278,12 +274,17 @@ export default {
         status: 'success'
       })
     },
-    incrementTandaCountForUser() {
+    async updateTandaCountForUser() {
       this.userInStore = this.$store.getters['authApp/getUser']
       const modifiedUser = { ...this.userInStore }
 
+      const countTanda = await tandaService.getCountTandaUser(
+        this.userInStore.id
+      )
+
       if (modifiedUser.countTanda == null) modifiedUser.countTanda = 0
-      modifiedUser.countTanda++
+
+      modifiedUser.countTanda = countTanda + 1
       this.$store.dispatch('authApp/setUser', modifiedUser)
 
       userService.updateUser(modifiedUser, this.userInStore.token)
@@ -322,9 +323,11 @@ export default {
     },
     deleteTanda(idTanda) {
       if (window.confirm('Do you really want to delete this tanda ? ')) {
+        this.updateTandaCountForUser()
+
         tandaService.delete(idTanda, this.currentUser.token)
-        this.$router.replace({ path: '/my-tandas' })
         this.$store.dispatch('tandas/deleteTanda', idTanda)
+        this.$router.replace({ path: '../my-tandas' })
       }
     }
   }
