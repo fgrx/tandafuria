@@ -128,7 +128,7 @@
       <v-btn @click="saveAction()" :disabled="!valid" color="primary"
         >Save</v-btn
       >
-      <v-btn to="/">Back</v-btn>
+      <v-btn to="/my-tandas">Back</v-btn>
 
       <v-btn
         v-if="tandaToModify && tandaToModify.author.id === currentUser.id"
@@ -138,7 +138,7 @@
       </v-btn>
     </v-card-actions>
 
-    <SpotifyPlayer />
+    <TrackPlayer />
   </v-form>
 </template>
 
@@ -150,8 +150,8 @@ import { speed } from '@/data/speed'
 import { orchestras } from '@/data/orchestras'
 
 import SpotifyBrowser from '@/components/SpotifyBrowser'
+import TrackPlayer from '~/components/TrackPlayer'
 import TrackItem from '~/components/TrackItem'
-import SpotifyPlayer from '~/components/SpotifyPlayer'
 
 import { tandaService } from '@/services/tandas.service.js'
 import { userService } from '@/services/users.service'
@@ -160,8 +160,8 @@ export default {
   components: {
     SpotifyBrowser,
     TrackItem,
-    SpotifyPlayer,
-    draggable
+    draggable,
+    TrackPlayer
   },
   props: {
     tandaToModify: {

@@ -1,8 +1,6 @@
 <template>
   <v-list-item four-line>
-    <v-list-item-icon v-if="fullSong"
-      ><TrackPlayerSpotify :track="track" :playerId="playerId" />
-    </v-list-item-icon>
+    <v-list-item-icon><TrackPlayer :track="track" /> </v-list-item-icon>
     <v-list-item-content>
       <v-list-item-title v-text="track.name"></v-list-item-title>
 
@@ -21,7 +19,6 @@
           ><v-icon>mdi-youtube</v-icon>Find on Youtube
         </v-btn>
       </v-list-item-subtitle>
-      <TrackPlyr v-if="!fullSong" :track="track" :playerId="playerId" />
     </v-list-item-content>
     <v-list-item-action v-if="mode === 'browser'">
       <v-btn @click="addTrackAction(track)" icon>
@@ -32,13 +29,11 @@
 </template>
 
 <script>
-import TrackPlayerSpotify from '~/components/TrackPlayerSpotify'
-import TrackPlyr from '~/components/TrackPlyr'
+import TrackPlayer from '~/components/TrackPlayer'
 
 export default {
   components: {
-    TrackPlayerSpotify,
-    TrackPlyr
+    TrackPlayer
   },
   props: {
     track: {

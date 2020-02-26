@@ -35,7 +35,7 @@
       </v-list-item>
 
       <v-card-text>
-        <v-btn @click="playTandaMp3()" block
+        <v-btn @click="playTanda()" block
           ><v-icon>mdi-play</v-icon>Play tanda</v-btn
         >
       </v-card-text>
@@ -139,9 +139,9 @@ export default {
     this.period = this.displayPeriod(this.tanda)
   },
   methods: {
-    playTandaMp3() {
+    playTanda() {
       const playlist = this.tanda.tracks
-      this.$bus.$emit('playlistPlyr', {
+      this.$bus.$emit('playlistPlayer', {
         display: true,
         playlist
       })

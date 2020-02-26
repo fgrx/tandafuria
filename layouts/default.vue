@@ -156,26 +156,21 @@
         </v-btn>
       </v-snackbar>
 
-      <SpotifyPlayer v-if="user.spotify && accessToken" />
       <v-container fluid>
         <nuxt />
       </v-container>
-      <PlaylistPlyr />
+      <PlaylistPlayer />
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import { mapState } from 'vuex'
-//import { tandaService } from '../services/tandas.service'
-import SpotifyPlayer from '~/components/SpotifyPlayer'
 import { userService } from '@/services/users.service'
-import PlaylistPlyr from '~/components/PlaylistPlyr'
+import PlaylistPlayer from '~/components/PlaylistPlayer'
 
 export default {
   components: {
-    SpotifyPlayer,
-    PlaylistPlyr
+    PlaylistPlayer
   },
   middleware: ['initializeAppData'],
   data() {
