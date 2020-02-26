@@ -229,7 +229,7 @@ export default {
       this.displayFlashMessage(params.message, params.status)
     })
 
-    //refresh user infos
+    //refresh user infos if credentials are too old
     try {
       if (this.user.token) await userService.getUser(this.user)
     } catch (e) {
@@ -282,6 +282,11 @@ export default {
         'refresh_token',
         resultTokensFromSpotify.refreshToken
       )
+
+      const userUpdated = JSON.parse(JSON.stringify(this.user))
+      userUpdated.refreshToken = resultTokensFromSpotify.refreshToken
+
+      await userService.updateUser(userUpdated, this.user.token)
     },
     displayFlashMessage(message, status) {
       const color = status === 'success' ? 'primary' : 'info'

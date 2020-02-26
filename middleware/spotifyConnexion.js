@@ -5,6 +5,11 @@ export default function({ store, route, redirect }) {
   // if (localStorage.getItem('access_token') == null) reinitTokens(store)
   const user = store.getters['authApp/getUser']
   // console.log('middleware!!!!!!!!!!!')
+
+  if (user.refreshToken) {
+    store.dispatch('authSpotify/setRefreshToken', user.refreshToken)
+  }
+
   if (user.spotify === true) initSpotifyTokens(store)(redirect)(route)
 }
 
@@ -19,16 +24,11 @@ const initSpotifyTokens = (store) => (redirect) => async (route) => {
   if (token) store.dispatch('authSpotify/setToken', token)
   if (refreshToken) store.dispatch('authSpotify/setRefreshToken', refreshToken)
 
-  // console.log('tokens', {
-  //   roken: store.getters['authSpotify/getToken'],
-  //   refreshtoken: store.getters['authSpotify/getRefreshToken']
-  // })
-
   if (
-    token == null ||
-    refreshToken == null ||
-    token === 'undefined' ||
-    token === ''
+    // token == null ||
+    refreshToken == null
+    // || token === 'undefined' ||
+    // token === ''
   ) {
     askCodeFromSpotify(redirect)
   } else {

@@ -41,7 +41,11 @@
       </v-card-text>
 
       <template v-for="(track, index) in tanda.tracks" :keys="index">
-        <TrackItem :track="track" :playerId="tanda.playerId" />
+        <TrackItem
+          :track="track"
+          :playerId="track.id + randomizeString()"
+          :key="track.id"
+        />
         <v-divider
           v-if="index + 1 < tanda.tracks.length"
           :key="index"
@@ -131,10 +135,6 @@ export default {
     this.orchestra = orchestras.find(
       (orchestra) => orchestra.id === this.tanda.orchestra
     )
-
-    this.tanda.tracks.forEach((track) => {
-      track.playerId = track.id + this.randomizeString()
-    })
 
     this.period = this.displayPeriod(this.tanda)
   },
