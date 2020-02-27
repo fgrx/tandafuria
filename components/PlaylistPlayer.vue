@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { spotifyConnexionService } from '@/services/spotifyConnexion'
 export default {
   data() {
     return {
@@ -81,7 +82,8 @@ export default {
   computed: {
     player() {
       const playerRef = 'bottomPlayer'
-      return this.$refs[playerRef].player
+      const domRefPlayer = this.$refs[playerRef].player
+      return domRefPlayer
     }
   },
   created() {
@@ -101,11 +103,9 @@ export default {
       this.playTrack = this.playlist[0].preview_url
       this.isPlaying = true
       this.currentTrackPosition = 0
-      if (this.user.spotify && this.accesToken) {
+      if (this.user.spotify && this.accessToken) {
         this.mode = 'spotify'
         this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
-
-        //this.initSpotifyPlaylist(this.playlist)
         this.watchSpotifyWebPlayer()
       } else {
         this.mode = 'classic'
@@ -121,7 +121,6 @@ export default {
   methods: {
     watchSpotifyWebPlayer() {
       this.spotifyPlayer.addListener('player_state_changed', (state) => {
-        //this.calculRefreshTiming(state)
         if (
           this.state &&
           !this.state.paused &&
@@ -131,7 +130,6 @@ export default {
           this.currentTrack &&
           this.isPlaying === true
         ) {
-          // if (this.position >= this.duration) this.next()
           this.next()
         }
         this.state = state
@@ -263,9 +261,13 @@ export default {
     },
     async initiatePlayerSpotifyPlayer() {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
-      const token = this.accessToken
 
-      console.log('Token 4 the player', token)
+      if (!this.accessToken) {
+        this.accessToken = await spotifyConnexionService.refreshTokenFromSpotify(
+          this.user.refreshToken
+        )
+      }
+      const token = this.accessToken
 
       const sdk = new Player({
         name: 'TandaFuria',
@@ -276,7 +278,7 @@ export default {
       })
 
       this.spotifyPlayer = sdk
-
+      // console.log('player', this.spotifyPlayer)
       // Error handling
       sdk.addListener('initialization_error', ({ message }) => {
         // console.log('Initialization_error: ' + message)
@@ -293,12 +295,13 @@ export default {
       // Playback status updates
       sdk.addListener('player_state_changed', (state) => {
         // Update UI information on player state changed
+        //console.log('state changed')
       })
       // Ready
       sdk.addListener('ready', ({ device_id }) => {
         this.deviceId = device_id
 
-        // console.log('Ready with Device Id: ', device_id)
+        //console.log('Ready with Device Id: ', device_id)
       })
       // Not Ready
       sdk.addListener('not_ready', ({ device_id }) => {
