@@ -102,6 +102,7 @@ export default {
       this.isPlaying = true
       this.currentTrackPosition = 0
       if (this.user.spotify && this.user.token) {
+        console.log('pouete')
         this.mode = 'spotify'
         this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
 
