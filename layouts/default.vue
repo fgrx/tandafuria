@@ -96,14 +96,14 @@
             </v-list-item-content>
           </v-list-item>
 
-          <!-- <v-list-item v-if="user.id" to="/playlists">
+          <v-list-item v-if="user.id" to="/playlists">
             <v-list-item-action>
               <v-icon>mdi-playlist-music</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>My Playlists</v-list-item-title>
             </v-list-item-content>
-          </v-list-item> -->
+          </v-list-item>
 
           <v-list-item to="/about">
             <v-list-item-action>
