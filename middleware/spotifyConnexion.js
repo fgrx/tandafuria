@@ -33,9 +33,12 @@ const initSpotifyTokens = (store) => (redirect) => async (route) => {
     askCodeFromSpotify(redirect)
   } else {
     const newToken = await refreshTokenFromSpotify(refreshToken)
+    console.log('newtok', newToken)
     await store.dispatch('authSpotify/setToken', newToken)
     localStorage.setItem('access_token', newToken)
   }
+
+  console.log('tok', { token, refreshToken })
 
   initializeDevice(store)
 }

@@ -96,6 +96,15 @@
             </v-list-item-content>
           </v-list-item>
 
+          <v-list-item v-if="user.id" to="/playlists">
+            <v-list-item-action>
+              <v-icon>mdi-playlist-music</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>My Playlists</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
           <v-list-item to="/about">
             <v-list-item-action>
               <v-icon>mdi-information-outline</v-icon>
@@ -172,7 +181,7 @@ export default {
   components: {
     PlaylistPlayer
   },
-  middleware: ['initializeAppData'],
+  middleware: ['initializeAppData', 'spotifyConnexion'],
   data() {
     return {
       clipped: false,
@@ -199,6 +208,11 @@ export default {
           icon: 'mdi-library-music',
           title: 'My tandas',
           to: '/my-tandas'
+        },
+        {
+          icon: 'mdi-playlist-music',
+          title: 'My playlists',
+          to: '/playlists'
         },
         {
           icon: 'mdi-information-outline',

@@ -17,7 +17,7 @@ import TandaForm from '@/components/TandaForm'
 import { tandaService } from '@/services/tandas.service.js'
 
 export default {
-  middleware: ['appAuthorization', 'spotifyConnexion'],
+  middleware: ['appAuthorization'],
 
   components: {
     TandaForm

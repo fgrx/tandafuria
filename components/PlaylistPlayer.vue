@@ -93,7 +93,7 @@ export default {
   },
 
   mounted() {
-    this.initiatePlayerSpotifyPlayer()
+    if (this.user.spotify) this.initiatePlayerSpotifyPlayer()
 
     this.$bus.$on('playlistPlayer', (params) => {
       this.display = true
@@ -101,7 +101,7 @@ export default {
       this.playTrack = this.playlist[0].preview_url
       this.isPlaying = true
       this.currentTrackPosition = 0
-      if (this.user.spotify && this.user.token) {
+      if (this.user.spotify && this.accesToken) {
         this.mode = 'spotify'
         this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
 
@@ -263,9 +263,9 @@ export default {
     },
     async initiatePlayerSpotifyPlayer() {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
-      const token = this.$store.getters['authSpotify/getToken']
+      const token = this.accessToken
 
-      //console.log('Token 4 the player', token)
+      console.log('Token 4 the player', token)
 
       const sdk = new Player({
         name: 'TandaFuria',
