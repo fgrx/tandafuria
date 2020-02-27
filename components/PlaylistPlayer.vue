@@ -275,6 +275,8 @@ export default {
         }
       })
 
+      this.spotifyPlayer = sdk
+
       // Error handling
       sdk.addListener('initialization_error', ({ message }) => {
         // console.log('Initialization_error: ' + message)
@@ -295,7 +297,7 @@ export default {
       // Ready
       sdk.addListener('ready', ({ device_id }) => {
         this.deviceId = device_id
-        this.spotifyPlayer = sdk
+
         // console.log('Ready with Device Id: ', device_id)
       })
       // Not Ready
