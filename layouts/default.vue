@@ -165,11 +165,11 @@
         </v-btn>
       </v-snackbar>
 
-      <v-container fluid>
+      <v-container>
         <nuxt />
       </v-container>
-      <PlaylistPlayer />
     </v-content>
+    <PlaylistPlayer />
   </v-app>
 </template>
 

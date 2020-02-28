@@ -1,55 +1,70 @@
 <template>
-  <div class="text-center">
-    <script src="https://sdk.scdn.co/spotify-player.js"></script>
-    <v-bottom-sheet v-model="display" @input="(v) => v || close()" dark inset>
-      <v-list>
-        <v-list-item>
-          <v-list-item-content v-if="currentTrack">
-            <v-slider
-              v-model="playingPosition"
-              v-if="user && user.spotify"
-              @click="changeTiming()"
-              :max="duration"
-              min="0"
-              track-color="primary"
-            ></v-slider>
+  <div class="">
+    <script
+      v-if="user.spotify"
+      src="https://sdk.scdn.co/spotify-player.js"
+    ></script>
+    <div
+      tabindex="-1"
+      class="v-dialog__content v-dialog__content--active"
+      style="z-index: 202; height:auto; bottom:0"
+      v-if="display"
+    >
+      <div
+        class="v-dialog v-bottom-sheet v-bottom-sheet--inset v-dialog--active v-dialog--persistent"
+      >
+        <v-list dark>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-btn @click="close()" color="primary">Close</v-btn>
+            </v-list-item-icon>
+            <v-list-item-content v-if="currentTrack">
+              <v-slider
+                v-model="playingPosition"
+                v-if="user && user.spotify"
+                @click="changeTiming()"
+                :max="duration"
+                min="0"
+                track-color="primary"
+              ></v-slider>
 
-            <v-list-item-title>{{ currentTrack.name }}</v-list-item-title>
+              <v-list-item-title>{{ currentTrack.name }}</v-list-item-title>
 
-            <v-list-item-subtitle
-              ><span
-                v-for="(artist, index) in currentTrack.artists"
-                :key="index"
-                >{{ artist.name }}
-              </span></v-list-item-subtitle
-            >
-          </v-list-item-content>
+              <v-list-item-subtitle
+                ><span
+                  v-for="(artist, index) in currentTrack.artists"
+                  :key="index"
+                  >{{ artist.name }}
+                </span></v-list-item-subtitle
+              >
+            </v-list-item-content>
 
-          <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
 
-          <v-list-item-icon>
-            <v-btn @click="previous()" icon>
-              <v-icon>mdi-skip-previous</v-icon>
-            </v-btn>
-          </v-list-item-icon>
+            <v-list-item-icon>
+              <v-btn @click="previous()" icon>
+                <v-icon>mdi-skip-previous</v-icon>
+              </v-btn>
+            </v-list-item-icon>
 
-          <v-list-item-icon>
-            <v-btn v-if="!isPlaying" @click="undoPause()" value="favorites">
-              <v-icon>mdi-play-circle-outline</v-icon>
-            </v-btn>
-            <v-btn v-if="isPlaying" @click="pause()" value="favorites">
-              <v-icon>mdi-pause-circle-outline</v-icon>
-            </v-btn>
-          </v-list-item-icon>
+            <v-list-item-icon>
+              <v-btn v-if="!isPlaying" @click="undoPause()" value="favorites">
+                <v-icon>mdi-play-circle-outline</v-icon>
+              </v-btn>
+              <v-btn v-if="isPlaying" @click="pause()" value="favorites">
+                <v-icon>mdi-pause-circle-outline</v-icon>
+              </v-btn>
+            </v-list-item-icon>
 
-          <v-list-item-icon class="ml-0">
-            <v-btn @click="next()" icon>
-              <v-icon>mdi-skip-next</v-icon>
-            </v-btn>
-          </v-list-item-icon>
-        </v-list-item>
-      </v-list>
-    </v-bottom-sheet>
+            <v-list-item-icon class="ml-0">
+              <v-btn @click="next()" icon>
+                <v-icon>mdi-skip-next</v-icon>
+              </v-btn>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list>
+      </div>
+    </div>
     <vue-plyr ref="bottomPlayer" class="hide">
       <audio>
         <source :src="playTrack" type="audio/mp3" />

@@ -182,6 +182,7 @@ export default {
       })
 
       this.playlists.unshift(newPlaylist.data)
+      this.dialogPlaylist = false
     }
   }
 }
