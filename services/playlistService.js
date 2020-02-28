@@ -13,6 +13,22 @@ export const playlistService = {
     return result
   },
 
+  async update(playlist, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = await axios.put(
+      urlApi + '/' + playlist._id,
+      playlist,
+      header
+    )
+    return result
+  },
+
+  async delete(playlist, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = await axios.delete(urlApi + '/' + playlist._id, header)
+    return result
+  },
+
   async getPlaylists(userId, token) {
     const header = { headers: { Authorization: 'Bearer ' + token } }
     const result = await axios.get(urlApi + '/user/' + userId, header)
