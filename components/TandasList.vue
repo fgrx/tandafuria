@@ -144,15 +144,8 @@ export default {
   },
   methods: {
     searchAction() {
-      if (
-        this.genreField ||
-        this.orchestraField ||
-        this.speedField ||
-        this.singerField
-      ) {
-        this.tandas = []
-        this.initTandas()
-      }
+      this.tandas = []
+      this.initTandas()
     },
     searchClearAction() {
       this.searchClear()
