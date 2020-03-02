@@ -75,6 +75,8 @@
       </v-flex>
     </v-layout>
 
+    <PlaylistSelector />
+
     <loader v-if="loading" />
 
     <v-row v-if="!loading && !endOfResults" justify="center">
@@ -99,8 +101,10 @@ import { orchestras } from '@/data/orchestras'
 import { tandaService } from '@/services/tandas.service'
 import Loader from '@/components/Loader'
 
+import PlaylistSelector from '@/components/PlaylistSelector'
+
 export default {
-  components: { TandaItem, NoTandaMessage, Loader },
+  components: { TandaItem, NoTandaMessage, Loader, PlaylistSelector },
   props: {
     context: { type: String, default: 'allTandas' },
     userIdParam: { type: String, default: '' }

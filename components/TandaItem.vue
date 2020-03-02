@@ -70,6 +70,11 @@
           Edit
         </v-btn>
 
+        <v-btn @click="addToPlaylist(tanda.tracks)" color="primary" text
+          ><v-icon>mdi-playlist-music</v-icon>
+          Add to playlist
+        </v-btn>
+
         <v-spacer></v-spacer>
 
         <v-btn @click="showMore = !showMore" icon>
@@ -176,6 +181,10 @@ export default {
         message: 'Tanda imported to your library',
         status: 'success'
       })
+    },
+
+    addToPlaylist(tracks) {
+      console.log('tracks >>', tracks)
     },
     displayPeriod(tanda) {
       if (tanda.tracks.length > 0) {
