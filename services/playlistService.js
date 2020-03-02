@@ -33,5 +33,11 @@ export const playlistService = {
     const header = { headers: { Authorization: 'Bearer ' + token } }
     const result = await axios.get(urlApi + '/user/' + userId, header)
     return result
+  },
+  async findOne(idPlaylist) {
+    //const header = { headers: { Authorization: 'Bearer ' + token } }
+    //const result = await axios.get(urlApi + '/user/' + userId, header)
+    const result = await axios.get(urlApi + '/' + idPlaylist)
+    return result
   }
 }

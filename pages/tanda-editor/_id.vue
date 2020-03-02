@@ -1,5 +1,6 @@
 <template>
   <v-container justify-center align-center>
+    <Loader v-if="!loaded" />
     <v-card class="mx-auto mt-4 mb-4" max-width="850">
       <v-card-title>
         <h1>Tanda editor</h1>
@@ -15,12 +16,14 @@
 <script>
 import TandaForm from '@/components/TandaForm'
 import { tandaService } from '@/services/tandas.service.js'
+import Loader from '@/components/Loader'
 
 export default {
   middleware: ['appAuthorization'],
 
   components: {
-    TandaForm
+    TandaForm,
+    Loader
   },
   data() {
     return {

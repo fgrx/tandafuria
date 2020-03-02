@@ -5,10 +5,10 @@
       src="https://sdk.scdn.co/spotify-player.js"
     ></script>
     <div
+      v-if="display"
       tabindex="-1"
       class="v-dialog__content v-dialog__content--active"
       style="z-index: 202; height:auto; bottom:0"
-      v-if="display"
     >
       <div
         class="v-dialog v-bottom-sheet v-bottom-sheet--inset v-dialog--active v-dialog--persistent"
@@ -57,7 +57,11 @@
             </v-list-item-icon>
 
             <v-list-item-icon class="ml-0">
-              <v-btn @click="next()" icon>
+              <v-btn
+                v-if="currentTrackPosition + 1 < playlist.length"
+                @click="next()"
+                icon
+              >
                 <v-icon>mdi-skip-next</v-icon>
               </v-btn>
             </v-list-item-icon>
@@ -179,6 +183,11 @@ export default {
         const playerComponentRef = this.player
         playerComponentRef.pause()
       }
+
+      this.$bus.$emit('playingTrack', {
+        trackId: ''
+      })
+
       this.isPlaying = false
     },
     pause() {
@@ -201,6 +210,10 @@ export default {
     },
     next() {
       this.position = 0
+      console.log({
+        'position+1': this.currentTrackPosition + 1,
+        length: this.playlist.length
+      })
       if (this.currentTrackPosition + 1 < this.playlist.length) {
         this.currentTrackPosition++
         this.mode === 'classic'
@@ -221,6 +234,11 @@ export default {
         this.isPlaying = true
       }
     },
+    eventIsPlaying(id) {
+      this.$bus.$emit('playingTrack', {
+        trackId: id
+      })
+    },
     playClassicPlayer(track) {
       const playerComponentRef = this.player
       playerComponentRef.source = this.setSource(track)
@@ -229,6 +247,7 @@ export default {
       })
       this.isPlaying = true
       this.currentTrack = track
+      this.eventIsPlaying(track.id)
     },
     async playSpotifyPlayer(track) {
       this.isPlaying = true
@@ -244,6 +263,7 @@ export default {
       }
 
       this.currentTrack = track
+      this.eventIsPlaying(track.id)
       this.isPlaying = true
 
       const responseFromSpotify = await this.$axios.put(urlSpotify, body, {

@@ -11,11 +11,14 @@
         </v-card-title>
 
         <v-card-text>
-          <div v-for="(playlist, index) in playlists" :key="playlist._id">
+          <div
+            v-for="(playlistItem, index) in playlists"
+            :key="playlistItem._id"
+          >
             <v-list-item>
               <v-list-item-icon
                 ><v-btn
-                  @click="editPlaylistAction(playlist)"
+                  @click="editPlaylistAction(playlistItem)"
                   color="primary"
                   fab
                   x-small
@@ -24,30 +27,33 @@
                 >
               </v-list-item-icon>
               <v-list-item-content
-                :to="{ name: 'playlists-id', params: { id: playlist._id } }"
+                :to="{ name: 'playlists-id', params: { id: playlistItem._id } }"
               >
                 <v-list-item-title
-                  :to="{ name: 'playlists-id', params: { id: playlist._id } }"
+                  :to="{
+                    name: 'playlists-id',
+                    params: { id: playlistItem._id }
+                  }"
                   two-line
                   class="headline mb-1"
                 >
                   <v-btn
                     :to="{
                       name: 'playlists-id',
-                      params: { id: playlist._id }
+                      params: { id: playlistItem._id }
                     }"
                     text
-                    >{{ playlist.name }}</v-btn
+                    >{{ playlistItem.name }}</v-btn
                   >
                 </v-list-item-title>
 
-                <v-list-item-subtitle v-if="playlist.countTracks">
-                  {{ playlist.countTracks }} tracks
+                <v-list-item-subtitle v-if="playlistItem.countTracks">
+                  {{ playlistItem.countTracks }} tracks
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-divider
-              v-if="index + 1 < playlists.length"
+              v-if="index + 1 < playlistItem.length"
               :key="index"
             ></v-divider>
           </div>
@@ -62,9 +68,9 @@
             <v-form ref="form" v-model="valid">
               <v-text-field
                 v-model="name"
+                :rules="[(v) => !!v || 'A playlist name is required']"
                 label="Playlist name"
                 placeholder="example : My awesome milonga"
-                :rules="[(v) => !!v || 'A playlist name is required']"
               ></v-text-field>
               <v-textarea
                 v-model="description"
