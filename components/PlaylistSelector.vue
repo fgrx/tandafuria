@@ -1,12 +1,7 @@
 <template>
-  <v-dialog
-    ref="dialog"
-    v-model="dialogPlaylistPicker"
-    @input="initSpotifyBrowser()"
-    max-width="800px"
-  >
+  <v-dialog ref="dialog" v-model="dialogPlaylistPicker" max-width="800px">
     <v-card>
-      <v-card-title><h1 class="display-2">Select a playlist</h1></v-card-title>
+      <v-card-title><h1 class="display-2">Choose a playlist</h1></v-card-title>
 
       <v-card-text>
         <loader v-if="loading" />
@@ -17,13 +12,20 @@
           style="max-height: 500px"
           class="overflow-y-auto"
         >
-          <template v-for="(playlist, index) in playlists">
-            {{ playlist.name }}
-            <v-divider
-              v-if="index + 1 < playlists.length"
-              :key="index"
-            ></v-divider>
-          </template>
+          <v-list-item-group color="primary">
+            <v-list-item
+              v-for="playlist in playlists"
+              :key="playlist._id"
+              @click="addToPlaylist(playlist._id)"
+            >
+              <v-list-item-content>
+                <v-list-item-title>{{ playlist.name }}</v-list-item-title>
+                <v-list-item-subtitle v-if="playlist.countTracks"
+                  >{{ playlist.countTracks }} tracks</v-list-item-subtitle
+                >
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
         </v-list>
       </v-card-text>
     </v-card>
@@ -44,10 +46,16 @@ export default {
       playlists: [],
       loading: false,
       dialogPlaylistPicker: false,
-      currentUser: this.$store.getters['authApp/getUser']
+      currentUser: this.$store.getters['authApp/getUser'],
+      tracks: []
     }
   },
   async mounted() {
+    this.$bus.$on('openDialogPlaylistPicker', (tracks) => {
+      this.dialogPlaylistPicker = true
+      this.tracks = tracks
+    })
+
     this.loading = true
     const reqPlaylists = await playlistService.getPlaylists(
       this.currentUser.id,
@@ -60,6 +68,22 @@ export default {
   methods: {
     closeDialog() {
       this.dialogPlaylistPicker = false
+    },
+    async addToPlaylist(playlistId) {
+      const result = await playlistService.addTracks(
+        playlistId,
+        this.tracks,
+        this.currentUser.token
+      )
+
+      if (result) {
+        this.$bus.$emit('flashMessage', {
+          message: 'Tracks has been added to your playlist',
+          status: 'success'
+        })
+      }
+
+      this.closeDialog()
     }
   }
 }

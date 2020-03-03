@@ -184,7 +184,7 @@ export default {
     },
 
     addToPlaylist(tracks) {
-      console.log('tracks >>', tracks)
+      this.$bus.$emit('openDialogPlaylistPicker', tracks)
     },
     displayPeriod(tanda) {
       if (tanda.tracks.length > 0) {

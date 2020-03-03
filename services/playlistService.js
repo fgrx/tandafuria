@@ -39,5 +39,15 @@ export const playlistService = {
     //const result = await axios.get(urlApi + '/user/' + userId, header)
     const result = await axios.get(urlApi + '/' + idPlaylist)
     return result
+  },
+
+  async addTracks(playlistId, tracks, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = await axios.put(
+      urlApi + '/addtracks/' + playlistId,
+      tracks,
+      header
+    )
+    return result
   }
 }

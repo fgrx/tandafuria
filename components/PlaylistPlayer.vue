@@ -210,10 +210,7 @@ export default {
     },
     next() {
       this.position = 0
-      console.log({
-        'position+1': this.currentTrackPosition + 1,
-        length: this.playlist.length
-      })
+
       if (this.currentTrackPosition + 1 < this.playlist.length) {
         this.currentTrackPosition++
         this.mode === 'classic'
