@@ -57,6 +57,7 @@
           v-if="tanda.author.id !== currentUser.id && currentUser.id"
           @click="importTandaToLibrary(tanda)"
           color="primary"
+          small
           text
           ><v-icon>mdi-import</v-icon> Add to my tandas</v-btn
         >
@@ -65,12 +66,18 @@
           :to="{ name: 'tanda-editor-id', params: { id: tanda._id } }"
           v-if="tanda.author.id === currentUser.id"
           color="primary"
+          small
           text
           ><v-icon>mdi-pencil</v-icon>
           Edit
         </v-btn>
 
-        <v-btn @click="addToPlaylist(tanda.tracks)" color="primary" text
+        <v-btn
+          v-if="currentUser.id"
+          @click="addToPlaylist(tanda.tracks)"
+          color="primary"
+          text
+          small
           ><v-icon>mdi-playlist-music</v-icon>
           Add to playlist
         </v-btn>

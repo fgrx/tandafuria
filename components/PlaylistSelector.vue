@@ -5,6 +5,13 @@
 
       <v-card-text>
         <loader v-if="loading" />
+
+        <p v-if="playlists.length === 0">
+          You have not created any playlist. Please create a new one before
+          adding tracks to it.<br />
+          <v-btn to="playlists" color="primary">Create a playlist</v-btn>
+        </p>
+
         <v-list
           v-if="playlists.length > 0"
           two-line
