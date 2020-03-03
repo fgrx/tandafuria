@@ -41,7 +41,8 @@
           </h3>
           <p>
             TandaFuria use a Spotify player to send sound to your speaker. Due
-            to Spotify's policy, only premium users can use this functionnality.
+            to Spotify's policies, only premium users can use this
+            functionnality.
           </p>
           <v-divider class="mb-4"></v-divider>
           <h3>
@@ -72,7 +73,8 @@
             check device compatibility list go here :
             <a
               href="https://developer.spotify.com/documentation/web-playback-sdk/"
-            ></a>
+              >https://developer.spotify.com/documentation/web-playback-sdk/</a
+            >
           </p>
 
           <v-divider class="mb-4"></v-divider>
