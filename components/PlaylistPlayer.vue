@@ -6,12 +6,14 @@
     ></script>
     <div
       v-if="display"
-      tabindex="-1"
+      role="document"
       class="v-dialog__content v-dialog__content--active"
-      style="z-index: 202; height:auto; bottom:0"
+      style="top:auto;height:auto;bottom:0px;z-index:202;"
+      tabindex="0"
     >
       <div
-        class="v-dialog v-bottom-sheet v-bottom-sheet--inset v-dialog--active v-dialog--persistent"
+        class="v-dialog v-dialog--active v-dialog--persistent v-bottom-sheet v-bottom-sheet--inset"
+        style="max-width:70%;margin-bottom:0"
       >
         <v-list dark>
           <v-list-item>
@@ -58,7 +60,7 @@
 
             <v-list-item-icon class="ml-0">
               <v-btn
-                v-if="currentTrackPosition + 1 < playlist.length"
+                v-if="playlist && currentTrackPosition + 1 < playlist.length"
                 @click="next()"
                 icon
               >
@@ -211,7 +213,10 @@ export default {
     next() {
       this.position = 0
 
-      if (this.currentTrackPosition + 1 < this.playlist.length) {
+      if (
+        this.playlist &&
+        this.currentTrackPosition + 1 < this.playlist.length
+      ) {
         this.currentTrackPosition++
         this.mode === 'classic'
           ? this.playClassicPlayer(this.playlist[this.currentTrackPosition])
