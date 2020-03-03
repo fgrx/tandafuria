@@ -7,7 +7,7 @@
         button :
       </p>
       <p>
-        <v-btn :to="{ name: 'tandaEditor' }" color="primary"
+        <v-btn :to="{ name: 'tanda-editor' }" color="primary"
           >+ Create a tanda</v-btn
         >
       </p>
