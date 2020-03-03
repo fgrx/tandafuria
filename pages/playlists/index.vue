@@ -112,6 +112,7 @@
 <script>
 import { playlistService } from '@/services/playlistService'
 export default {
+  middleware: ['spotifyConnexion'],
   data() {
     return {
       dialogPlaylist: false,

@@ -181,7 +181,7 @@ export default {
   components: {
     PlaylistPlayer
   },
-  middleware: ['initializeAppData', 'spotifyConnexion'],
+  middleware: ['initializeAppData'],
   data() {
     return {
       clipped: false,

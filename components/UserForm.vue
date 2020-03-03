@@ -1,6 +1,12 @@
 <template>
   <v-card-text>
-    <v-alert v-if="successCreation" type="info">
+    <v-alert
+      v-if="successCreation"
+      border="left"
+      colored-border
+      color="deep-purple accent-4"
+      elevation="2"
+    >
       <h2>Congratulation !</h2>
       <h3>your account has be succesfully created</h3>
       <p>

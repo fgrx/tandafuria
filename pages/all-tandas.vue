@@ -9,7 +9,7 @@
 import TandasList from '@/components/TandasList'
 
 export default {
-  middleware: [],
+  middleware: ['spotifyConnexion'],
   components: { TandasList },
   data() {
     return {}

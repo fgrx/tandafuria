@@ -89,6 +89,7 @@ export default {
     draggable,
     TrackItem
   },
+  middleware: ['spotifyConnexion'],
   data() {
     return {
       playlist: {},
