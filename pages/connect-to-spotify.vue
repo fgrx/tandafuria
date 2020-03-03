@@ -33,6 +33,7 @@ export default {
     }
   },
   mounted() {
+    console.log('connet to spot')
     this.userInStore = this.$store.getters['authApp/getUser']
   },
   methods: {

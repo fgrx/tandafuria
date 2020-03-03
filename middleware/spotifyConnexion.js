@@ -35,7 +35,7 @@ const initSpotifyTokens = (store) => (redirect) => async (route) => {
 }
 
 const askCodeFromSpotify = (redirect) => {
-  redirect('/connect-to-spotify')
+  window.redirect('/connect-to-spotify')
 }
 
 const reinitTokens = (store) => {
