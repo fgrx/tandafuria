@@ -57,7 +57,22 @@
           </h3>
           <p>
             No, Spotify don't allow users to save music on their computer.
-            However it would be great help for Tando DJ's ...
+            However you can still edit your playlists on Tanda Furia and save
+            them and sync them with the official spotify app (mobile or desktop)
+          </p>
+
+          <v-divider class="mb-4"></v-divider>
+          <h3>
+            Spotify mode doesn't work on my smartphone or my Apple computer
+          </h3>
+          <p>
+            Yes it doesn't work for now. Safari and mobile devices cannot use
+            Spotify mode due to Spotify's limitations and their DRM. They assure
+            they are working on it. I hope it will be available soon too. To
+            check device compatibility list go here :
+            <a
+              href="https://developer.spotify.com/documentation/web-playback-sdk/"
+            ></a>
           </p>
 
           <v-divider class="mb-4"></v-divider>

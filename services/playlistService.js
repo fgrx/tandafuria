@@ -43,7 +43,6 @@ export const playlistService = {
 
   async addTracks(playlistId, tracks, token) {
     const header = { headers: { Authorization: 'Bearer ' + token } }
-    console.log('tracks', tracks)
     const result = await axios.put(
       urlApi + '/addtracks/' + playlistId,
       tracks,
