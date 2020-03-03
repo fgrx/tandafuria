@@ -49,5 +49,15 @@ export const playlistService = {
       header
     )
     return result
+  },
+
+  setAsCortina(playlistId, track, token) {
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const result = axios.put(
+      urlApi + '/updatetrack/' + playlistId,
+      track,
+      header
+    )
+    return result
   }
 }

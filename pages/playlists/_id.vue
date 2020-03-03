@@ -29,11 +29,18 @@
           <transition-group>
             <div v-for="track in tracks" :key="track.id">
               <v-list-item
-                :class="{ playing: track.id === trackPlaying }"
+                :class="[
+                  { playing: track.id === trackPlaying },
+                  { isCortina: track.isCortina === true }
+                ]"
                 draggable
                 two-line
               >
                 <TrackItem :track="track" />
+                <v-btn @click="setAsCortina(track)" text small
+                  ><span v-if="!track.isCortina">Set as a cortina</span
+                  ><span v-if="track.isCortina">unset cortina</span></v-btn
+                >
 
                 <v-list-item-action>
                   <v-btn icon>
@@ -133,6 +140,22 @@ export default {
         this.tracks.splice(indexToDelete, 1)
       }
     },
+    setAsCortina(track) {
+      this.tracks = this.tracks.map((trackItem) => {
+        if (trackItem.id === track.id) {
+          trackItem.isCortina
+            ? (trackItem.isCortina = false)
+            : (trackItem.isCortina = true)
+
+          playlistService.setAsCortina(
+            this.playlist._id,
+            trackItem,
+            this.currentUser.token
+          )
+        }
+        return trackItem
+      })
+    },
     async savePlaylist() {
       this.playlist.tracks = this.tracks
       this.playlist.countTracks = this.tracks.length
@@ -157,5 +180,9 @@ export default {
 <style lang="scss" scoped>
 .playing {
   background: #e3cdf7;
+}
+
+.isCortina {
+  background: #79f8e1;
 }
 </style>
