@@ -209,6 +209,7 @@ export default {
       this.singerField = this.tandaToModify.singer
       this.tracks = this.tandaToModify.tracks
     }
+    this.changeDefaultSearchValue()
   },
   methods: {
     openSpotifyBrowser() {
@@ -242,6 +243,7 @@ export default {
       )
 
       if (
+        orchestraSelected &&
         orchestraSelected[0].id !== 'mixed' &&
         orchestraSelected[0].id !== 'other'
       ) {
@@ -256,7 +258,6 @@ export default {
       }
 
       this.$router.replace({ path: '/my-tandas' })
-      // this.$router.back()
     },
     async saveNewTanda() {
       const tanda = this.buildTandaFromForm()

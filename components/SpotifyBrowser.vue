@@ -142,7 +142,7 @@ export default {
         offset: this.offset
       })
 
-      this.textResults = results.data.name
+      this.textResults = 'album ' + results.data.name
       this.tracks = results.data.tracks.items
 
       this.loading = false
