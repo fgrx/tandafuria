@@ -16,14 +16,14 @@
             text
             outlined
             color="primary"
-            to="https://www.facebook.com/fabien.grignoux"
+            href="https://www.facebook.com/fabien.grignoux"
             ><v-icon>mdi-facebook</v-icon> Facebook</v-btn
           >
           <v-btn
             text
             outlined
             color="primary"
-            to="https://www.linkedin.com/in/fabien-grignoux/"
+            href="https://www.linkedin.com/in/fabien-grignoux/"
             ><v-icon>mdi-linkedin</v-icon> Linkedin</v-btn
           >
         </v-card-text>
@@ -46,31 +46,32 @@
           </p>
           <v-divider class="mb-4"></v-divider>
           <h3>
-            Where do all track data come from ?
+            Where do the track data come from?
           </h3>
           <p>
-            Every tracks informations come from Spotify's databases.
+            The track information come from Spotify databases.
           </p>
 
           <v-divider class="mb-4"></v-divider>
           <h3>
-            Can i save Spotify tracks on my computer ?
+            Can I save Spotify tracks on my computer?
           </h3>
           <p>
-            No, Spotify don't allow users to save music on their computer.
-            However you can still edit your playlists on Tanda Furia and save
-            them and sync them with the official spotify app (mobile or desktop)
+            No, Spotify does not allow users to save music on their computer.
+            However you can still edit your playlists on Tanda Furia, and save
+            and sync them with the official spotify app (mobile or desktop).
           </p>
 
           <v-divider class="mb-4"></v-divider>
           <h3>
-            Spotify mode doesn't work on my smartphone or my Apple computer
+            The Spotify mode doesn't work on my smartphone or my Apple computer.
+            Why?
           </h3>
           <p>
-            Yes it doesn't work for now. Safari and mobile devices cannot use
-            Spotify mode due to Spotify's limitations and their DRM. They assure
-            they are working on it. I hope it will be available soon too. To
-            check device compatibility list go here :
+            No, it doesn't work for now. Safari and mobile devices cannot use
+            the Spotify mode due to Spotify's limitations and their DRM. They
+            say they are working on it. I hope it will be available soon too. To
+            check device compatibility list, follow the link:
             <a
               href="https://developer.spotify.com/documentation/web-playback-sdk/"
               >https://developer.spotify.com/documentation/web-playback-sdk/</a
@@ -82,9 +83,8 @@
             Playing songs is not very stable on my computer, can you fix this ?
           </h3>
           <p>
-            The Spotify player send multiple requests to their servers while you
-            are playing a song. If you use an add blocker it may block these
-            requests and as a result Spotify will stop the listening.
+            If you use an add blocker, it may block these requests and as a
+            result Spotify will stop the playing.
           </p>
         </v-card-text>
       </v-card>

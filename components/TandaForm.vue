@@ -15,6 +15,7 @@
       v-model="orchestraField"
       :items="orchestraList"
       :rules="[(v) => !!v || 'Orchestra is required']"
+      @change="changeDefaultSearchValue()"
       label="Orchestra"
       item-text="title"
       item-value="id"
@@ -73,8 +74,8 @@
       </v-card-title>
 
       <v-card-text v-if="!tracks.length">
-        Your tanda doesn't have any track to play. Click on the button bellow to
-        add your first one !
+        Your tanda doesn't have any track to play. Click on the button below to
+        add one!
       </v-card-text>
       <v-card-text>
         <draggable v-model="tracks">
@@ -119,7 +120,7 @@
       @input="initSpotifyBrowser()"
       max-width="800px"
     >
-      <SpotifyBrowser @clicked="addTrack" />
+      <SpotifyBrowser @clicked="addTrack" :searchDefault="searchDefault" />
 
       <v-btn ref="monBouton" @click="browserClose" color="primary">Close</v-btn>
     </v-dialog>
@@ -184,6 +185,7 @@ export default {
       periodEndField: '',
       isInstrumentalField: false,
       singerField: '',
+      searchDefault: '',
 
       maxPeriod: new Date().getFullYear(),
       minPeriod: 1920,
@@ -232,6 +234,18 @@ export default {
           (track) => track.id === trackId
         )
         this.tracks.splice(indexToDelete, 1)
+      }
+    },
+    changeDefaultSearchValue() {
+      const orchestraSelected = this.orchestraList.filter(
+        (e) => e.id === this.orchestraField
+      )
+
+      if (
+        orchestraSelected[0].id !== 'mixed' &&
+        orchestraSelected[0].id !== 'other'
+      ) {
+        this.searchDefault = orchestraSelected[0].title
       }
     },
     saveAction() {

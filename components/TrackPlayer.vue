@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="play()" color="primary" fab x-small dark>
+    <v-btn @click="play()" color="primary" fab depressed dark>
       <v-icon>{{ icon }}</v-icon>
     </v-btn>
   </div>

@@ -119,7 +119,7 @@
     </v-row>
 
     <v-container v-if="topUsers.length > 0">
-      <h2 class="display-3 mt-12 mb-3">Tanks to our contributors</h2>
+      <h2 class="display-3 mt-12 mb-3">Thanks to our contributors</h2>
       <ul>
         <li v-for="(user, userId) in topUsers" :key="userId" class="noTick">
           <v-btn

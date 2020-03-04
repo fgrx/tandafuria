@@ -21,11 +21,24 @@
         style="max-height: 500px"
         class="overflow-y-auto"
       >
-        <h2>Results</h2>
+        <h2>Results for {{ textResults }}</h2>
+        <v-btn v-if="back" @click="searchSpotify()" text
+          ><v-icon>mdi-arrow-left-circle</v-icon>
+          Back to results
+        </v-btn>
         <template v-for="(track, index) in tracks">
-          <TrackItem @clicked="addTrackAction" :track="track" mode="browser" />
+          <TrackItem
+            @clicked="addTrackAction"
+            @requestAlbum="requestAlbumAction"
+            :track="track"
+            :key="index"
+            mode="browser"
+          />
 
-          <v-divider v-if="index + 1 < tracks.length" :key="index"></v-divider>
+          <v-divider
+            v-if="index + 1 < tracks.length"
+            :key="track._id"
+          ></v-divider>
         </template>
         <div class="text-center">
           <v-btn @click="showMore()" color="primary">Show more</v-btn>
@@ -47,12 +60,20 @@ export default {
     Loader
   },
   middleware: ['spotifyConnexion'],
+  props: {
+    searchDefault: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
-      searchString: '',
+      searchString: this.searchDefault,
       tracks: [],
       loading: false,
-      offset: 0
+      offset: 0,
+      back: false,
+      textResults: ''
     }
   },
   mounted() {
@@ -68,6 +89,8 @@ export default {
       this.dialogBrowserSpotify = false
     },
     async searchSpotify() {
+      this.textResults = this.searchString
+      this.back = false
       this.tracks = await this.launchRequest()
     },
     async showMore(offset) {
@@ -86,13 +109,18 @@ export default {
       return results.data.tracks.items
     },
 
-    async sendRequestToSpotify({ search, offset }) {
+    async sendRequestToSpotify({ search, mode, offset }) {
       try {
         const serverUrl =
           process.env.NODE_ENV === 'development'
             ? process.env.DEV_serverUrl
             : process.env.PROD_serverUrl
-        const url = `${serverUrl}/spotify/search/${search}/${offset}`
+
+        let url = `${serverUrl}/spotify/search/songs/${search}/${offset}`
+        if (mode === 'album') {
+          url = `${serverUrl}/spotify/search/albums/${search}/${offset}`
+        }
+
         const resultSearch = await this.$axios.get(url)
         return resultSearch
       } catch (e) {
@@ -103,6 +131,21 @@ export default {
       track.available_markets = null
       track.album.available_markets = null
       this.$emit('clicked', track)
+    },
+    async requestAlbumAction(album) {
+      this.back = true
+      this.loading = true
+
+      const results = await this.sendRequestToSpotify({
+        search: album.id,
+        mode: 'album',
+        offset: this.offset
+      })
+
+      this.textResults = results.data.name
+      this.tracks = results.data.tracks.items
+
+      this.loading = false
     }
   }
 }
