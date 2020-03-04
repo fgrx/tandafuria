@@ -91,3 +91,23 @@
     </v-flex>
   </v-layout>
 </template>
+
+<script>
+export default {
+  head() {
+    return {
+      title: 'About Tanda Furia',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Tanda Furia is created by Fabien Grignoux, a french web developper in Lyon (France). In this page you will find technical details about this tool and other frequently asked questions.'
+        }
+      ]
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped></style>

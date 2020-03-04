@@ -14,6 +14,18 @@ export default {
   data() {
     return {}
   },
+  head() {
+    return {
+      title: 'Your tandas',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: "Browse all the tanda you've created or imported."
+        }
+      ]
+    }
+  },
   mounted() {},
   methods: {}
 }

@@ -116,6 +116,25 @@
           </v-img>
         </v-card>
       </v-col>
+
+      <v-col v-for="(genre, index) in genres" :key="index" cols="1" md="4">
+        <v-card
+          :to="`/all-tandas?genre=${genre.id}`"
+          raised
+          class="mx-auto"
+          max-width="500"
+        >
+          <div class="centerVertically">
+            <h3 class="genreName display-1">{{ genre.name }}</h3>
+          </div>
+          <v-img
+            :src="genre.image"
+            class="white--text align-end itemGenre"
+            height="200px"
+          >
+          </v-img>
+        </v-card>
+      </v-col>
     </v-row>
 
     <v-container v-if="topUsers.length > 0">
@@ -150,6 +169,23 @@ export default {
     return {
       signed: false,
       topUsers: {},
+      genres: [
+        {
+          id: 'tango',
+          name: 'Tangos',
+          image: require('@/static/tango.jpg')
+        },
+        {
+          id: 'vals',
+          name: 'Vals',
+          image: require('@/static/vals.jpg')
+        },
+        {
+          id: 'milonga',
+          name: 'Milongas',
+          image: require('@/static/milonga.jpg')
+        }
+      ],
       maestros1: [
         {
           name: "Juan D'arienzo",
@@ -197,6 +233,19 @@ export default {
       ]
     }
   },
+  head() {
+    return {
+      title: 'The tanda creator tool for tango djs',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Welcome to Tanda Furia, the only tanda online tool. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
+        }
+      ]
+    }
+  },
   async mounted() {
     const user = this.$store.getters['authApp/getUser']
     if (user.id) this.signed = true
@@ -234,7 +283,8 @@ h1 {
   }
 }
 
-.maestroName {
+.maestroName,
+.genreName {
   color: white;
   font-family: 'Overpass' !important;
 }
@@ -276,6 +326,21 @@ h1 {
   );
 }
 
+.itemGenre::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: -webkit-linear-gradient(
+    top,
+    rgba(36, 26, 80, 0.81) 0%,
+    rgba(49, 27, 146, 0.71) 100%
+  );
+}
+
 .itemMaestro2::after {
   content: '';
   position: absolute;
@@ -289,16 +354,6 @@ h1 {
     rgba(18, 204, 148, 0.81) 0%,
     rgba(49, 27, 146, 0.81) 100%
   );
-  // background: -webkit-linear-gradient(
-  //   top,
-  //   rgba(206, 39, 161, 0.75) 0%,
-  //   rgba(142, 229, 255, 0.75) 100%
-  // );
-  // background: -webkit-linear-gradient(
-  //   top,
-  //   rgba(223, 68, 181, 0.75) 0%,
-  //   rgba(49, 27, 146, 0.86) 100%
-  // );
 }
 
 .itemMaestro1::after {

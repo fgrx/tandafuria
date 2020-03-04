@@ -7,14 +7,42 @@
 
 <script>
 import TandasList from '@/components/TandasList'
+import { orchestras } from '@/data/orchestras'
 
 export default {
   middleware: ['spotifyConnexion'],
   components: { TandasList },
   data() {
-    return {}
+    return {
+      titleSpecified: 'Browse all tandas'
+    }
   },
-  mounted() {},
+  head() {
+    return {
+      title: `Browse all ${this.titleSpecified} tandas`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`
+        }
+      ]
+    }
+  },
+  mounted() {
+    if (this.$route.query.orchestra) {
+      const orchestra = orchestras.filter(
+        (e) => e.id === this.$route.query.orchestra
+      )
+      if (orchestra[0].id !== 'mixed' && orchestra[0].id !== 'other') {
+        this.titleSpecified = orchestra[0].title
+      }
+    }
+
+    if (this.$route.query.genre) {
+      this.titleSpecified = this.$route.query.genre
+    }
+  },
   methods: {}
 }
 </script>

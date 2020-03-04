@@ -298,6 +298,14 @@ export default {
         this.$store.dispatch('tandas/clearTandas', this.context)
       }
       this.orchestraField = this.$route.query.orchestra
+
+      if (this.$route.query.genre) {
+        this.searchEngine = 0
+        this.tandas = []
+        this.$store.dispatch('tandas/clearTandas', this.context)
+
+        this.genreField = this.$route.query.genre
+      }
     }
   }
 }

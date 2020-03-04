@@ -125,6 +125,19 @@ export default {
       mode: 'create'
     }
   },
+  head() {
+    return {
+      title: 'Browse playlist',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Welcome to the tango playlist editor. Create your own playlists and play it in milongas!'
+        }
+      ]
+    }
+  },
   async mounted() {
     const reqPlaylists = await playlistService.getPlaylists(
       this.currentUser.id,
