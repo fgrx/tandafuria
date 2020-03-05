@@ -124,7 +124,10 @@ export default {
       this.playTrack = this.playlist[0].preview_url
       this.isPlaying = true
       this.currentTrackPosition = 0
-      if (this.user.spotify && this.accessToken) {
+
+      const modeInStore = this.$store.getters['authSpotify/getMode']
+      console.log('>>', modeInStore)
+      if (this.user.spotify && this.accessToken && modeInStore !== 'classic') {
         this.mode = 'spotify'
         this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
         this.watchSpotifyWebPlayer()

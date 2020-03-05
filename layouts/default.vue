@@ -114,6 +114,8 @@
             </v-list-item-content>
           </v-list-item>
 
+          <PlayerSwitcher v-if="user.spotify" />
+
           <v-list-item
             ><v-btn :to="{ name: 'tanda-editor' }" block color="primary"
               >+ Create a tanda</v-btn
@@ -176,10 +178,12 @@
 <script>
 import { userService } from '@/services/users.service'
 import PlaylistPlayer from '~/components/PlaylistPlayer'
+import PlayerSwitcher from '@/components/PlayerSwitcher'
 
 export default {
   components: {
-    PlaylistPlayer
+    PlaylistPlayer,
+    PlayerSwitcher
   },
   middleware: ['initializeAppData'],
   data() {

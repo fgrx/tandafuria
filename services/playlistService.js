@@ -63,12 +63,9 @@ export const playlistService = {
   },
 
   async getUserPlaylistsFromSpotify(user) {
-    const token = await spotifyConnexionService.refreshTokenFromSpotify(
-      user.refreshToken
-    )
+    const header = await this.getHeaderSpotify(user)
 
     const serverUrl = 'https://api.spotify.com/v1'
-    const header = { headers: { Authorization: 'Bearer ' + token } }
 
     const urlGetUserInfsos = `${serverUrl}/me`
     const resultUser = await axios.get(urlGetUserInfsos, header)
@@ -85,12 +82,9 @@ export const playlistService = {
     }
   },
   async getTrackFromSpotifyPlaylist(playlist, user) {
-    const token = await spotifyConnexionService.refreshTokenFromSpotify(
-      user.refreshToken
-    )
+    const header = await this.getHeaderSpotify(user)
 
     const serverUrl = 'https://api.spotify.com/v1'
-    const header = { headers: { Authorization: 'Bearer ' + token } }
 
     const url = `${serverUrl}/playlists/${playlist.id}/tracks`
 
@@ -100,5 +94,54 @@ export const playlistService = {
     } catch (e) {
       alert('error, please contact me to help me fix this problem', e)
     }
+  },
+  async createPlaylistSpotify(playlist, user) {
+    const header = await this.getHeaderSpotify(user)
+    const serverUrl = 'https://api.spotify.com/v1'
+
+    const urlGetUserInfsos = `${serverUrl}/me`
+    const resultUser = await axios.get(urlGetUserInfsos, header)
+
+    const userSpotify = resultUser.data.id
+
+    const url = `${serverUrl}/users/${userSpotify}/playlists`
+
+    try {
+      const result = await axios.post(
+        url,
+        { name: playlist.name, description: playlist.description },
+        header
+      )
+      return result
+    } catch (e) {
+      alert('error, please contact me to help me fix this problem', e)
+    }
+  },
+  async updatePlaylistSpotify(playlistId, user, tracks) {
+    const header = await this.getHeaderSpotify(user)
+
+    const serverUrl = 'https://api.spotify.com/v1'
+
+    const url = `${serverUrl}/playlists/${playlistId}/tracks`
+
+    const tracksForSpotify = []
+
+    tracks.forEach((track) => {
+      tracksForSpotify.push(`spotify:track:${track.id}`)
+    })
+
+    try {
+      const result = await axios.put(url, { uris: tracksForSpotify }, header)
+      return result
+    } catch (e) {
+      alert('error, please contact me to help me fix this problem', e)
+    }
+  },
+  async getHeaderSpotify(user) {
+    const token = await spotifyConnexionService.refreshTokenFromSpotify(
+      user.refreshToken
+    )
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+    return header
   }
 }

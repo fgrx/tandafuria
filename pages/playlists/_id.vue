@@ -16,11 +16,12 @@
 
         {{ playlist.description }}
         <v-card-text>
-          <v-btn v-if="tracks && tracks.length" @click="play()" block
-            ><v-icon>mdi-play</v-icon>Play tanda</v-btn
+          <v-btn v-if="tracks.length > 0" @click="play()" block
+            ><v-icon>mdi-play</v-icon>Start playlist</v-btn
           >
         </v-card-text>
-        <v-card-text v-if="!tracks.length">
+
+        <v-card-text v-if="tracks.length === 0">
           Your playlist doesn't have any track to play. Click on the button
           bellow to add your first one !
         </v-card-text>
@@ -55,13 +56,24 @@
             </div>
           </transition-group>
         </draggable>
+        <v-row>
+          <v-col class="text-center">
+            <v-btn @click="openSpotifyBrowser()" color="secondary">
+              <v-icon>mdi-plus</v-icon>Add track
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="openSpotifyBrowser()" color="secondary">
-          <v-icon>mdi-plus</v-icon>Add track
-        </v-btn>
         <v-btn @click="savePlaylist()" color="primary">
           <v-icon>mdi-content-save</v-icon>Save the playlist
+        </v-btn>
+        <v-btn
+          v-if="currentUser.spotify"
+          @click="savePlaylistSpotify()"
+          color="secondary"
+        >
+          <v-icon>mdi-spotify</v-icon>Sync with Spotify
         </v-btn>
         <v-btn to="/playlists"> back </v-btn>
       </v-card-actions>
@@ -97,7 +109,8 @@ export default {
       dialogBrowserSpotify: false,
       tracks: [],
       trackPlaying: '',
-      currentUser: this.$store.getters['authApp/getUser']
+      currentUser: this.$store.getters['authApp/getUser'],
+      modified: false
     }
   },
   async mounted() {
@@ -105,14 +118,16 @@ export default {
     const idPlaylist = this.$route.params.id
     const resultFindPlaylist = await playlistService.findOne(idPlaylist)
     this.playlist = resultFindPlaylist.data
-    this.tracks = this.playlist.tracks
+    if (this.playlist.tracks) this.tracks = this.playlist.tracks
     this.loading = false
 
     this.$bus.$on('playingTrack', (idTrackPlaying) => {
       this.trackPlaying = idTrackPlaying.trackId
     })
   },
-
+  beforeDestroy() {
+    // if (this.modified) this.savePlaylist()
+  },
   methods: {
     play() {
       const playlist = this.tracks
@@ -131,6 +146,7 @@ export default {
     addTrack(track) {
       this.tracks.push(track)
       this.browserClose()
+      this.modified = true
     },
 
     deleteTrack(trackId) {
@@ -159,7 +175,8 @@ export default {
     },
     async savePlaylist() {
       this.playlist.tracks = this.tracks
-      this.playlist.countTracks = this.tracks.length
+      this.playlist.countTracks = this.tracks ? this.tracks.length : 0
+
       try {
         await playlistService.update(this.playlist, this.currentUser.token)
 
@@ -173,6 +190,30 @@ export default {
           status: 'error'
         })
       }
+      this.modified = false
+    },
+    async savePlaylistSpotify() {
+      let playlistSpotifyId = ''
+
+      if (!this.playlist.spotifySync) {
+        const resultCreationPlaylist = await playlistService.createPlaylistSpotify(
+          this.playlist,
+          this.currentUser
+        )
+
+        playlistSpotifyId = resultCreationPlaylist.data.id
+        this.playlist.spotifySync = playlistSpotifyId
+      } else {
+        playlistSpotifyId = this.playlist.spotifySync
+      }
+
+      await playlistService.updatePlaylistSpotify(
+        playlistSpotifyId,
+        this.currentUser,
+        this.tracks
+      )
+
+      this.savePlaylist()
     }
   }
 }

@@ -3,7 +3,8 @@ export const state = () => ({
   user: '',
   refreshToken: '',
   deviceId: '',
-  player: null
+  player: null,
+  mode: ''
 })
 
 export const mutations = {
@@ -21,6 +22,9 @@ export const mutations = {
   },
   SET_PLAYER(state, player) {
     state.player = player
+  },
+  SET_MODE(state, mode) {
+    state.mode = mode
   }
 }
 
@@ -39,6 +43,9 @@ export const getters = {
   },
   getPlayer: (state) => {
     return state.player
+  },
+  getMode: (state) => {
+    return state.mode
   }
 }
 
@@ -57,5 +64,8 @@ export const actions = {
   },
   setPlayer({ commit }, player) {
     commit('SET_PLAYER', player)
+  },
+  setMode({ commit }, mode) {
+    commit('SET_MODE', mode)
   }
 }

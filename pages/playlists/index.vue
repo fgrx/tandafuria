@@ -276,6 +276,8 @@ export default {
       const playlist = {
         name: playlistToImport.name,
         description: playlistToImport.description,
+        spotifySync: playlistToImport.id,
+        countTracks: tracks.length,
         tracks
       }
 

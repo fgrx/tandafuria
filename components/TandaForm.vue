@@ -244,6 +244,7 @@ export default {
 
       if (
         orchestraSelected &&
+        orchestraSelected.length > 0 &&
         orchestraSelected[0].id !== 'mixed' &&
         orchestraSelected[0].id !== 'other'
       ) {

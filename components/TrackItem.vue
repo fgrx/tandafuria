@@ -6,13 +6,13 @@
     <v-list-item-content>
       <v-list-item-title v-text="track.name"></v-list-item-title>
 
-      <v-list-item-subtitle>
+      <v-list-item-subtitle class="text--primary">
         <span v-for="(artist, index) in track.artists" :key="index"
           >{{ artist.name }}
         </span>
         <span v-if="track.album">
           <br />
-          {{ track.album.name }} </span
+          {{ track.album.name.substr(0, 30) }} </span
         ><br />
         <v-btn
           :href="youtubeLink"
