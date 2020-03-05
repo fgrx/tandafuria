@@ -29,6 +29,9 @@
                 min="0"
                 track-color="primary"
               ></v-slider>
+              <p v-if="!currentTrack.preview_url" class="error">
+                No preview available
+              </p>
 
               <v-list-item-title>{{ currentTrack.name }}</v-list-item-title>
 
@@ -165,6 +168,7 @@ export default {
           this.duration = state.duration
           this.playingPosition = state.position
         })
+      } else {
       }
       if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
     },
