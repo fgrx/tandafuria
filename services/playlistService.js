@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { spotifyConnexionService } from '@/services/spotifyConnexion'
 
 const baseUrl =
   process.env.NODE_ENV === 'development'
@@ -59,5 +60,45 @@ export const playlistService = {
       header
     )
     return result
+  },
+
+  async getUserPlaylistsFromSpotify(user) {
+    const token = await spotifyConnexionService.refreshTokenFromSpotify(
+      user.refreshToken
+    )
+
+    const serverUrl = 'https://api.spotify.com/v1'
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+
+    const urlGetUserInfsos = `${serverUrl}/me`
+    const resultUser = await axios.get(urlGetUserInfsos, header)
+
+    const userSpotify = resultUser.data.id
+
+    const url = `${serverUrl}/users/${userSpotify}/playlists`
+
+    try {
+      const result = await axios.get(url, header)
+      return result
+    } catch (e) {
+      alert('error, please contact me to help me fix this problem', e)
+    }
+  },
+  async getTrackFromSpotifyPlaylist(playlist, user) {
+    const token = await spotifyConnexionService.refreshTokenFromSpotify(
+      user.refreshToken
+    )
+
+    const serverUrl = 'https://api.spotify.com/v1'
+    const header = { headers: { Authorization: 'Bearer ' + token } }
+
+    const url = `${serverUrl}/playlists/${playlist.id}/tracks`
+
+    try {
+      const result = await axios.get(url, header)
+      return result
+    } catch (e) {
+      alert('error, please contact me to help me fix this problem', e)
+    }
   }
 }

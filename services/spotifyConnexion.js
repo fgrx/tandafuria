@@ -9,7 +9,6 @@ export const spotifyConnexionService = {
     const resultSpotify = await axios.get(
       `${serverUrl}/spotify/refresh_token/${refresh_token}`
     )
-
     return resultSpotify.data.body.access_token
   }
 }

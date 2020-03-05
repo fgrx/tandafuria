@@ -16,7 +16,7 @@
 
         {{ playlist.description }}
         <v-card-text>
-          <v-btn v-if="tracks.length" @click="play()" block
+          <v-btn v-if="tracks && tracks.length" @click="play()" block
             ><v-icon>mdi-play</v-icon>Play tanda</v-btn
           >
         </v-card-text>

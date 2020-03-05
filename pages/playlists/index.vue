@@ -8,6 +8,14 @@
           <v-btn @click="openDialogAction()" color="primary" large
             >+ New playlist</v-btn
           >
+          <v-btn
+            v-if="user.spotify"
+            @click="openDialogImportAction()"
+            color="secondary"
+            class="ml-4"
+            large
+            ><v-icon>mdi-application-import</v-icon> Import Playlist</v-btn
+          >
         </v-card-title>
 
         <v-card-text>
@@ -105,6 +113,42 @@
           </v-card-text>
         </v-card>
       </v-dialog>
+
+      <v-dialog ref="dialog" v-model="dialogPlaylistImport" max-width="800px">
+        <v-card>
+          <v-card-title><h1>Import a Spotify Playlist</h1></v-card-title>
+
+          <v-list>
+            <div
+              v-for="playlist in usersPlaylistsFromSpotify"
+              :key="playlist.id"
+            >
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ playlist.name }}
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn
+                    @click="importPlaylistAction(playlist)"
+                    color="primary"
+                    small
+                    ><v-icon>mdi-application-import</v-icon> Import</v-btn
+                  >
+                </v-list-item-action>
+              </v-list-item>
+              <v-divider></v-divider>
+            </div>
+          </v-list>
+
+          <v-card-text>
+            <v-card-actions>
+              <v-btn @click="closeImportPlaylistAction()">Back</v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-flex>
   </v-layout>
 </template>
@@ -122,7 +166,10 @@ export default {
       valid: true,
       currentUser: this.$store.getters['authApp/getUser'],
       playlists: null,
-      mode: 'create'
+      mode: 'create',
+      user: this.$store.getters['authApp/getUser'],
+      dialogPlaylistImport: false,
+      usersPlaylistsFromSpotify: []
     }
   },
   head() {
@@ -145,15 +192,28 @@ export default {
     )
 
     this.playlists = reqPlaylists.data
+
+    const playlistsFromSpotify = await playlistService.getUserPlaylistsFromSpotify(
+      this.user
+    )
+    this.usersPlaylistsFromSpotify = playlistsFromSpotify.data.items
   },
   methods: {
     openDialogAction() {
       this.mode = 'create'
       this.dialogPlaylist = true
     },
+    openDialogImportAction() {
+      this.dialogPlaylistImport = true
+    },
+
     closeAction() {
       this.dialogPlaylist = false
     },
+    closeImportPlaylistAction() {
+      this.dialogPlaylistImport = false
+    },
+
     editPlaylistAction(playlist) {
       this.mode = 'edit'
       this.dialogPlaylist = true
@@ -203,6 +263,32 @@ export default {
 
       this.playlists.unshift(newPlaylist.data)
       this.dialogPlaylist = false
+    },
+    async importPlaylistAction(playlistToImport) {
+      const tracksData = await playlistService.getTrackFromSpotifyPlaylist(
+        playlistToImport,
+        this.currentUser
+      )
+
+      const tracks = []
+      tracksData.data.items.forEach((trackItem) => tracks.push(trackItem.track))
+
+      const playlist = {
+        name: playlistToImport.name,
+        description: playlistToImport.description,
+        tracks
+      }
+
+      const newPlaylist = await playlistService.save(
+        playlist,
+        this.currentUser.token
+      )
+
+      newPlaylist.id = newPlaylist._id
+
+      this.playlists.unshift(newPlaylist.data)
+
+      this.closeImportPlaylistAction()
     }
   }
 }
