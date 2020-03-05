@@ -97,7 +97,7 @@ export default {
       mode: 'classic',
       timing: 0,
       playingPosition: 0,
-      duration: 0
+      duration: 30000
     }
   },
   computed: {
@@ -126,7 +126,7 @@ export default {
       this.currentTrackPosition = 0
 
       const modeInStore = this.$store.getters['authSpotify/getMode']
-      console.log('>>', modeInStore)
+
       if (this.user.spotify && this.accessToken && modeInStore !== 'classic') {
         this.mode = 'spotify'
         this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
@@ -165,9 +165,8 @@ export default {
           this.duration = state.duration
           this.playingPosition = state.position
         })
-
-        if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
       }
+      if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
     },
     initClassicPlaylist() {
       const playerComponentRef = this.player
@@ -177,7 +176,12 @@ export default {
       })
     },
     changeTiming() {
-      this.spotifyPlayer.seek(this.playingPosition)
+      if (this.mode === 'spotify') {
+        this.spotifyPlayer.seek(this.playingPosition)
+      } else {
+        const playerComponentRef = this.player
+        playerComponentRef.forward(this.playlingPosition)
+      }
     },
     close() {
       this.display = false
@@ -245,6 +249,7 @@ export default {
       })
     },
     playClassicPlayer(track) {
+      this.playingPosition = 0
       const playerComponentRef = this.player
       playerComponentRef.source = this.setSource(track)
       playerComponentRef.on('ready', (event) => {
