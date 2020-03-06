@@ -2,7 +2,14 @@
   <v-flex>
     <loader v-if="loading" />
     <v-card v-if="playlist" class="mx-auto mb-4 mt-4" max-width="850">
-      <v-btn @click="openSpotifyBrowser()" absolute top right color="secondary">
+      <v-btn
+        v-if="playlist.author && currentUser.id === playlist.author.id"
+        @click="openSpotifyBrowser()"
+        absolute
+        top
+        right
+        color="secondary"
+      >
         <v-icon>mdi-plus</v-icon>Add track
       </v-btn>
 
@@ -10,8 +17,10 @@
         <h1 class="display-1 text--primary">{{ playlist.name }}</h1>
       </v-card-title>
       <v-card-text>
-        <v-card-subtitle v-if="playlist.author"
-          >Playlist by {{ playlist.author.name }}</v-card-subtitle
+        <v-card-subtitle v-if="playlist.author">
+          <span v-if="playlist.isPublic">Public</span>
+          <span v-if="!playlist.isPublic">Private</span> playlist by
+          {{ playlist.author.name }}</v-card-subtitle
         >
 
         {{ playlist.description }}
@@ -56,7 +65,7 @@
             </div>
           </transition-group>
         </draggable>
-        <v-row>
+        <v-row v-if="playlist.author && currentUser.id === playlist.author.id">
           <v-col class="text-center">
             <v-btn @click="openSpotifyBrowser()" color="secondary">
               <v-icon>mdi-plus</v-icon>Add track
@@ -65,17 +74,25 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="savePlaylist()" color="primary">
+        <v-btn
+          v-if="playlist.author && currentUser.id === playlist.author.id"
+          @click="savePlaylist()"
+          color="primary"
+        >
           <v-icon>mdi-content-save</v-icon>Save the playlist
         </v-btn>
         <v-btn
-          v-if="currentUser.spotify"
+          v-if="
+            currentUser.spotify &&
+              playlist.author &&
+              currentUser.id === playlist.author.id
+          "
           @click="savePlaylistSpotify()"
           color="secondary"
         >
           <v-icon>mdi-spotify</v-icon>Sync with Spotify
         </v-btn>
-        <v-btn to="/playlists"> back </v-btn>
+        <v-btn @click="back"> back </v-btn>
       </v-card-actions>
     </v-card>
 
@@ -148,7 +165,9 @@ export default {
       this.browserClose()
       this.modified = true
     },
-
+    back() {
+      this.$router.back()
+    },
     deleteTrack(trackId) {
       if (window.confirm('Do you really want to delete this track ?')) {
         const indexToDelete = this.tracks.findIndex(

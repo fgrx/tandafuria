@@ -55,7 +55,7 @@
           ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
         >&nbsp;
 
-        <v-btn v-if="!user.id" to="signin" color="primary" outlined large
+        <v-btn v-if="!user.id" to="/signin" color="primary" outlined large
           ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
         >
       </div>
@@ -78,15 +78,6 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item to="/all-tandas">
-            <v-list-item-action>
-              <v-icon>mdi-earth</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>All Tandas</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
           <v-list-item v-if="user.id" to="/my-tandas">
             <v-list-item-action>
               <v-icon>mdi-library-music</v-icon>
@@ -96,12 +87,36 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item v-if="user.id" to="/playlists">
+          <v-list-item v-if="user.id" to="/playlists/my-playlists">
             <v-list-item-action>
               <v-icon>mdi-playlist-music</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>My Playlists</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <PlayerSwitcher v-if="user.spotify" />
+
+          <v-list-item v-if="user.id">
+            <v-divider></v-divider>
+          </v-list-item>
+
+          <v-list-item to="/all-tandas">
+            <v-list-item-action>
+              <v-icon>mdi-earth</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>All Tandas</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item to="/playlists/all-playlists">
+            <v-list-item-action>
+              <v-icon>mdi-playlist-music</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>All Playlists</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
@@ -113,8 +128,6 @@
               <v-list-item-title>About</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
-          <PlayerSwitcher v-if="user.spotify" />
 
           <v-list-item
             ><v-btn :to="{ name: 'tanda-editor' }" block color="primary"
@@ -224,7 +237,7 @@ export default {
     try {
       if (this.user.token) await userService.getUser(this.user)
     } catch (e) {
-      this.$router.replace({ path: 'signin' })
+      this.$router.replace({ path: '/signin' })
     }
   },
   methods: {
@@ -297,6 +310,9 @@ h1,
 h2,
 h3 {
   color: #4527a0;
-  font-family: 'Overpass' !important;
+  font-family: 'Overpass', Arial, sans-serif !important;
+}
+a {
+  color: rgb(115, 40, 158);
 }
 </style>

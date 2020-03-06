@@ -13,6 +13,7 @@ export const mutations = {
     state.user.link = user.link
     state.user.contactByMail = user.contactByMail
     state.user.countTanda = user.countTanda
+    state.user.favorites = user.favorites
     state.user.refreshToken = user.refreshToken
   },
   CLEAR_USER(state) {

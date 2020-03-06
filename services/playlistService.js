@@ -35,6 +35,21 @@ export const playlistService = {
     const result = await axios.get(urlApi + '/user/' + userId, header)
     return result
   },
+
+  async getPlublicPlaylists(userId) {
+    const result = await axios.get(urlApi + '/user/public/' + userId)
+    return result
+  },
+
+  async getAllPlaylists(offset) {
+    const result = await axios.get(urlApi + '/all/' + offset)
+    return result
+  },
+  async getFavsPlaylists(userId) {
+    const results = await axios.get(urlApi + '/getFavorites/' + userId)
+    return results
+  },
+
   async findOne(idPlaylist) {
     //const header = { headers: { Authorization: 'Bearer ' + token } }
     //const result = await axios.get(urlApi + '/user/' + userId, header)

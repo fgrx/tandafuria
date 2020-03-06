@@ -22,16 +22,7 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    script: [
-      // {
-      //   src: 'https://sdk.scdn.co/spotify-player.js',
-      //   body: true
-      // }
-      // {
-      //   src: '@assets/spotifyPlayer.js',
-      //   body: true
-      // }
-    ],
+    script: [],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
@@ -51,7 +42,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['plyr/dist/plyr.css'],
+  css: [],
   /*
    ** Plugins to load before mounting the App
    */
