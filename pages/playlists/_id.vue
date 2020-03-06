@@ -35,8 +35,16 @@
           bellow to add your first one !
         </v-card-text>
 
-        <draggable v-model="tracks">
-          <transition-group>
+        <draggable
+          v-model="tracks"
+          class="list-group"
+          tag="ul"
+          v-bind="dragOptions"
+          @start="isDragging = true"
+          @end="isDragging = false"
+          handle=".handle"
+        >
+          <transition-group type="transition" name="flip-list">
             <div v-for="track in tracks" :key="track.id">
               <v-list-item
                 :class="[
@@ -47,14 +55,13 @@
                 two-line
               >
                 <TrackItem :track="track" />
-                <v-btn @click="setAsCortina(track)" text small
-                  ><span v-if="!track.isCortina">Set as a cortina</span
-                  ><span v-if="track.isCortina">unset cortina</span></v-btn
-                >
 
                 <v-list-item-action>
-                  <v-btn icon>
+                  <v-btn class="handle" icon>
                     <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
+                  </v-btn>
+                  <v-btn @click="setAsCortina(track)" icon
+                    ><v-icon>mdi-party-popper</v-icon>
                   </v-btn>
                   <v-btn @click="deleteTrack(track.id)" icon>
                     <v-icon color="danger">mdi-delete</v-icon>
@@ -79,7 +86,7 @@
           @click="savePlaylist()"
           color="primary"
         >
-          <v-icon>mdi-content-save</v-icon>Save the playlist
+          <v-icon>mdi-content-save</v-icon>Save
         </v-btn>
         <v-btn
           v-if="
@@ -90,7 +97,7 @@
           @click="savePlaylistSpotify()"
           color="secondary"
         >
-          <v-icon>mdi-spotify</v-icon>Sync with Spotify
+          <v-icon>mdi-spotify</v-icon>Sync Spotify
         </v-btn>
         <v-btn @click="back"> back </v-btn>
       </v-card-actions>
@@ -245,5 +252,25 @@ export default {
 
 .isCortina {
   background: #79f8e1;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 20px;
+}
+.list-group-item {
+  cursor: move;
+}
+.list-group-item i {
+  cursor: pointer;
 }
 </style>

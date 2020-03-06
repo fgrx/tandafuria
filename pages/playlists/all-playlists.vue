@@ -104,11 +104,10 @@
             >
               <v-list-item>
                 <v-list-item-icon
+                  v-if="
+                    currentUser.id && currentUser.id !== playlistItem.author.id
+                  "
                   ><v-btn
-                    v-if="
-                      currentUser.id &&
-                        currentUser.id !== playlistItem.author.id
-                    "
                     @click="setAsFavAction(playlistItem)"
                     color="primary"
                     small

@@ -4,19 +4,6 @@
       <v-card class="mx-auto mb-4 mt-4" max-width="850">
         <v-card-title>
           <h1>My playlists</h1>
-
-          <v-spacer></v-spacer>
-          <v-btn @click="openDialogAction()" color="primary" large
-            >+ New playlist</v-btn
-          >
-          <v-btn
-            v-if="user.spotify"
-            @click="openDialogImportAction()"
-            color="secondary"
-            class="ml-4"
-            large
-            ><v-icon>mdi-spotify</v-icon> Import Playlist</v-btn
-          >
         </v-card-title>
 
         <v-card-text>
@@ -75,6 +62,18 @@
             ></v-divider>
           </div>
         </v-card-text>
+        <v-card-actions>
+          <v-btn @click="openDialogAction()" color="primary"
+            >+ New playlist</v-btn
+          >
+          <v-btn
+            v-if="user.spotify"
+            @click="openDialogImportAction()"
+            color="secondary"
+            class="ml-4"
+            ><v-icon>mdi-spotify</v-icon> Import Spotify</v-btn
+          >
+        </v-card-actions>
       </v-card>
 
       <v-dialog ref="dialog" v-model="dialogPlaylist" max-width="800px">

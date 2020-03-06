@@ -78,14 +78,22 @@
         add one!
       </v-card-text>
       <v-card-text>
-        <draggable v-model="tracks">
-          <transition-group>
+        <draggable
+          v-model="tracks"
+          class="list-group"
+          tag="ul"
+          v-bind="dragOptions"
+          @start="isDragging = true"
+          @end="isDragging = false"
+          handle=".handle"
+        >
+          <transition-group type="transition" name="flip-list">
             <div v-for="track in tracks" :key="track.id">
               <v-list-item draggable two-line>
                 <TrackItem :track="track" />
 
                 <v-list-item-action>
-                  <v-btn icon>
+                  <v-btn class="handle" icon>
                     <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
                   </v-btn>
                   <v-btn @click="deleteTrack(track.id)" icon>
@@ -350,4 +358,24 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 20px;
+}
+.list-group-item {
+  cursor: move;
+}
+.list-group-item i {
+  cursor: pointer;
+}
+</style>

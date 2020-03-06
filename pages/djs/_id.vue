@@ -18,9 +18,8 @@
       <v-card-text>
         <div v-for="(playlistItem, index) in playlists" :key="playlistItem._id">
           <v-list-item>
-            <v-list-item-icon
+            <v-list-item-icon v-if="userId !== playlistItem.author.id"
               ><v-btn
-                v-if="userId !== playlistItem.author.id"
                 @click="setAsFavAction(playlistItem)"
                 color="primary"
                 small

@@ -11,9 +11,13 @@
       style="top:auto;height:auto;bottom:0px;z-index:202;"
       tabindex="0"
     >
-      <div
+      <!-- <div
         class="v-dialog v-dialog--active v-dialog--persistent v-bottom-sheet v-bottom-sheet--inset"
         style="max-width:70%;margin-bottom:0"
+      > -->
+      <div
+        class="v-dialog v-dialog--active v-dialog--persistent v-bottom-sheet"
+        style="margin-bottom:0"
       >
         <v-list dark>
           <v-list-item>
