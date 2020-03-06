@@ -2,17 +2,6 @@
   <v-flex>
     <loader v-if="loading" />
     <v-card v-if="playlist" class="mx-auto mb-4 mt-4" max-width="850">
-      <v-btn
-        v-if="playlist.author && currentUser.id === playlist.author.id"
-        @click="openSpotifyBrowser()"
-        absolute
-        top
-        right
-        color="secondary"
-      >
-        <v-icon>mdi-plus</v-icon>Add track
-      </v-btn>
-
       <v-card-title>
         <h1 class="display-1 text--primary">{{ playlist.name }}</h1>
       </v-card-title>
