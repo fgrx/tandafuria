@@ -5,70 +5,71 @@
       <v-card-title>
         <h1 class="display-1 text--primary">{{ playlist.name }}</h1>
       </v-card-title>
+
+      <v-card-subtitle v-if="playlist.author">
+        <span v-if="playlist.isPublic">Public</span>
+        <span v-if="!playlist.isPublic">Private</span> playlist by
+        {{ playlist.author.name }}</v-card-subtitle
+      >
+
+      {{ playlist.description }}
       <v-card-text>
-        <v-card-subtitle v-if="playlist.author">
-          <span v-if="playlist.isPublic">Public</span>
-          <span v-if="!playlist.isPublic">Private</span> playlist by
-          {{ playlist.author.name }}</v-card-subtitle
+        <v-btn v-if="tracks.length > 0" @click="play()" block
+          ><v-icon>mdi-play</v-icon>Start playlist</v-btn
         >
-
-        {{ playlist.description }}
-        <v-card-text>
-          <v-btn v-if="tracks.length > 0" @click="play()" block
-            ><v-icon>mdi-play</v-icon>Start playlist</v-btn
-          >
-        </v-card-text>
-
-        <v-card-text v-if="tracks.length === 0">
-          Your playlist doesn't have any track to play. Click on the button
-          bellow to add your first one !
-        </v-card-text>
-
-        <draggable
-          v-model="tracks"
-          class="list-group"
-          tag="ul"
-          v-bind="dragOptions"
-          @start="isDragging = true"
-          @end="isDragging = false"
-          handle=".handle"
-        >
-          <transition-group type="transition" name="flip-list">
-            <div v-for="track in tracks" :key="track.id">
-              <v-list-item
-                :class="[
-                  { playing: track.id === trackPlaying },
-                  { isCortina: track.isCortina === true }
-                ]"
-                draggable
-                two-line
-              >
-                <TrackItem :track="track" />
-
-                <v-list-item-action>
-                  <v-btn class="handle" icon>
-                    <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
-                  </v-btn>
-                  <v-btn @click="setAsCortina(track)" icon
-                    ><v-icon>mdi-party-popper</v-icon>
-                  </v-btn>
-                  <v-btn @click="deleteTrack(track.id)" icon>
-                    <v-icon color="danger">mdi-delete</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-              <v-divider></v-divider>
-            </div>
-          </transition-group>
-        </draggable>
-        <v-row v-if="playlist.author && currentUser.id === playlist.author.id">
-          <v-col class="text-center">
-            <v-btn @click="openSpotifyBrowser()" color="secondary">
-              <v-icon>mdi-plus</v-icon>Add track
-            </v-btn>
-          </v-col>
-        </v-row>
       </v-card-text>
+
+      <v-card-text v-if="tracks.length === 0">
+        Your playlist doesn't have any track to play. Click on the button bellow
+        to add your first one !
+      </v-card-text>
+
+      <draggable
+        v-model="tracks"
+        class="list-group"
+        tag="ul"
+        v-bind="dragOptions"
+        @start="isDragging = true"
+        @end="isDragging = false"
+        handle=".handle"
+      >
+        <transition-group type="transition" name="flip-list">
+          <div v-for="track in tracks" :key="track.id">
+            <v-list-item
+              :class="[
+                { playing: track.id === trackPlaying },
+                { isCortina: track.isCortina === true }
+              ]"
+              draggable
+              three-line
+              class="ml-n4"
+            >
+              <TrackItem :track="track" />
+
+              <v-list-item-action>
+                <v-btn class="handle" icon>
+                  <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
+                </v-btn>
+                <v-btn @click="setAsCortina(track)" icon
+                  ><v-icon>mdi-party-popper</v-icon>
+                </v-btn>
+                <v-btn @click="deleteTrack(track.id)" icon>
+                  <v-icon color="danger">mdi-delete</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+            <v-divider></v-divider>
+          </div>
+        </transition-group>
+      </draggable>
+      <v-row v-if="playlist.author && currentUser.id === playlist.author.id">
+        <v-col class="text-center">
+          <v-btn @click="openSpotifyBrowser()" color="secondary">
+            <v-icon>mdi-plus</v-icon>Add track
+          </v-btn>
+        </v-col>
+      </v-row>
+
       <v-card-actions class="justify-center">
         <v-btn
           v-if="playlist.author && currentUser.id === playlist.author.id"
