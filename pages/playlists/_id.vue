@@ -69,7 +69,7 @@
           </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="justify-center">
         <v-btn
           v-if="playlist.author && currentUser.id === playlist.author.id"
           @click="savePlaylist()"

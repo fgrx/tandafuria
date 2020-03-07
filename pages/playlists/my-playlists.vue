@@ -62,7 +62,7 @@
             ></v-divider>
           </div>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="justify-center">
           <v-btn @click="openDialogAction()" color="primary"
             >+ New playlist</v-btn
           >

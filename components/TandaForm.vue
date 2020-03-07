@@ -133,7 +133,7 @@
       <v-btn ref="monBouton" @click="browserClose" color="primary">Close</v-btn>
     </v-dialog>
     <v-spacer></v-spacer>
-    <v-card-actions>
+    <v-card-actions class="justify-center">
       <v-btn @click="saveAction()" :disabled="!valid" color="primary"
         >Save</v-btn
       >
