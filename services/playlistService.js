@@ -16,6 +16,7 @@ export const playlistService = {
 
   async update(playlist, token) {
     const header = { headers: { Authorization: 'Bearer ' + token } }
+
     const result = await axios.put(
       urlApi + '/' + playlist._id,
       playlist,

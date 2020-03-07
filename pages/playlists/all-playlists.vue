@@ -103,24 +103,28 @@
               :key="playlistItem._id"
             >
               <v-list-item>
-                <v-list-item-icon
+                <v-list-item-action
                   v-if="
-                    currentUser.id && currentUser.id !== playlistItem.author.id
+                    currentUser.id && currentUser.id === playlistItem.author.id
                   "
-                  ><v-btn
-                    @click="setAsFavAction(playlistItem)"
-                    color="primary"
-                    small
-                    dark
-                    ><v-icon>mdi-star</v-icon> Set as Favorite</v-btn
-                  >
-                </v-list-item-icon>
-                <v-list-item-content
-                  :to="{
-                    name: 'playlists-id',
-                    params: { id: playlistItem._id }
-                  }"
                 >
+                  <v-icon>mdi-playlist-music</v-icon>
+                  <v-list-item-icon
+                    v-if="
+                      currentUser.id &&
+                        currentUser.id !== playlistItem.author.id
+                    "
+                    ><v-btn
+                      @click="setAsFavAction(playlistItem)"
+                      color="primary"
+                      small
+                      dark
+                      ><v-icon>mdi-star</v-icon> Set as Favorite</v-btn
+                    >
+                  </v-list-item-icon>
+                </v-list-item-action>
+
+                <v-list-item-content>
                   <v-list-item-title
                     :to="{
                       name: 'playlists-id',

@@ -133,18 +133,18 @@
 
           <v-list>
             <div
-              v-for="playlist in usersPlaylistsFromSpotify"
-              :key="playlist.id"
+              v-for="playlistFromSpotify in usersPlaylistsFromSpotify"
+              :key="playlistFromSpotify.id"
             >
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ playlist.name }}
+                    {{ playlistFromSpotify.name }}
                   </v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-btn
-                    @click="importPlaylistAction(playlist)"
+                    @click="importPlaylistAction(playlistFromSpotify)"
                     color="primary"
                     small
                     ><v-icon>mdi-application-import</v-icon> Import</v-btn
@@ -254,6 +254,7 @@ export default {
       this.playlist.name = this.name
       this.playlist.description = this.description
       this.playlist.isPublic = this.isPublic
+      delete this.playlist.tracks
 
       playlistService.update(this.playlist, this.currentUser.token)
       this.$bus.$emit('flashMessage', {

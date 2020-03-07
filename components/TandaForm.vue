@@ -80,11 +80,11 @@
       <v-card-text>
         <draggable
           v-model="tracks"
-          class="list-group"
-          tag="ul"
           v-bind="dragOptions"
           @start="isDragging = true"
           @end="isDragging = false"
+          class="list-group"
+          tag="ul"
           handle=".handle"
         >
           <transition-group type="transition" name="flip-list">
@@ -194,6 +194,7 @@ export default {
       isInstrumentalField: false,
       singerField: '',
       searchDefault: '',
+      dragOptions: '',
 
       maxPeriod: new Date().getFullYear(),
       minPeriod: 1920,

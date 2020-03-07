@@ -11,8 +11,9 @@
         <span v-if="!playlist.isPublic">Private</span> playlist by
         {{ playlist.author.name }}</v-card-subtitle
       >
-
-      {{ playlist.description }}
+      <v-card-text v-if="playlist.description">
+        {{ playlist.description }}
+      </v-card-text>
       <v-card-text>
         <v-btn v-if="tracks.length > 0" @click="play()" block
           ><v-icon>mdi-play</v-icon>Start playlist</v-btn
@@ -26,11 +27,10 @@
 
       <draggable
         v-model="tracks"
-        class="list-group"
-        tag="ul"
-        v-bind="dragOptions"
         @start="isDragging = true"
         @end="isDragging = false"
+        class="list-group"
+        tag="ul"
         handle=".handle"
       >
         <transition-group type="transition" name="flip-list">

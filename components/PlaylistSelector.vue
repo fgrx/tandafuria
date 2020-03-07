@@ -14,7 +14,7 @@
 
         <v-list
           v-if="playlists.length > 0"
-          two-line
+          three-line
           subheader
           style="max-height: 500px"
           class="overflow-y-auto"
@@ -25,6 +25,9 @@
               :key="playlist._id"
               @click="addToPlaylist(playlist._id)"
             >
+              <v-list-item-action>
+                <v-icon>mdi-playlist-music</v-icon>
+              </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title>{{ playlist.name }}</v-list-item-title>
                 <v-list-item-subtitle v-if="playlist.countTracks"
@@ -69,7 +72,7 @@ export default {
       this.currentUser.token
     )
 
-    this.playlists = reqPlaylists.data
+    this.playlists = reqPlaylists.data.playlists
     this.loading = false
   },
   methods: {
