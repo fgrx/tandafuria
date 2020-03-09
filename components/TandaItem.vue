@@ -53,34 +53,65 @@
       </template>
 
       <v-card-actions>
-        <v-btn
-          v-if="tanda.author.id !== currentUser.id && currentUser.id"
-          @click="importTandaToLibrary(tanda)"
-          color="primary"
-          small
-          text
-          ><v-icon>mdi-import</v-icon> Add to my tandas</v-btn
-        >
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-list-item v-on="on">
+              <v-btn color="primary" outlined>
+                <v-icon>mdi-dots-horizontal-circle-outline</v-icon>
+                Actions
+              </v-btn>
+            </v-list-item>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                <v-btn @click="shareTanda(tanda)" color="primary" small text
+                  ><v-icon>mdi-share</v-icon>Share</v-btn
+                >
+              </v-list-item-title>
+            </v-list-item>
 
-        <v-btn
-          :to="{ name: 'tanda-editor-id', params: { id: tanda._id } }"
-          v-if="tanda.author.id === currentUser.id"
-          color="primary"
-          small
-          text
-          ><v-icon>mdi-pencil</v-icon>
-          Edit
-        </v-btn>
+            <v-list-item
+              v-if="tanda.author.id !== currentUser.id && currentUser.id"
+            >
+              <v-list-item-title>
+                <v-btn
+                  @click="importTandaToLibrary(tanda)"
+                  color="primary"
+                  small
+                  text
+                  ><v-icon>mdi-import</v-icon> Add to my tandas</v-btn
+                >
+              </v-list-item-title>
+            </v-list-item>
 
-        <v-btn
-          v-if="currentUser.id"
-          @click="addToPlaylist(tanda.tracks)"
-          color="primary"
-          text
-          small
-          ><v-icon>mdi-playlist-music</v-icon>
-          Add to playlist
-        </v-btn>
+            <v-list-item v-if="tanda.author.id === currentUser.id">
+              <v-list-item-title>
+                <v-btn
+                  :to="{ name: 'tanda-editor-id', params: { id: tanda._id } }"
+                  color="primary"
+                  small
+                  text
+                  ><v-icon>mdi-pencil</v-icon>
+                  Edit Tanda
+                </v-btn>
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item>
+              <v-list-item-title v-if="currentUser.id">
+                <v-btn
+                  @click="addToPlaylist(tanda.tracks)"
+                  color="primary"
+                  text
+                  small
+                  ><v-icon>mdi-playlist-music</v-icon>
+                  Add to playlist
+                </v-btn>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
 
         <v-spacer></v-spacer>
 
@@ -189,7 +220,18 @@ export default {
         status: 'success'
       })
     },
+    async shareTanda(tanda) {
+      const baseUrl =
+        process.env.NODE_ENV === 'development'
+          ? process.env.DEV_clientUrl
+          : process.env.PROD_clientUrl
 
+      try {
+        await this.$copyText(`${baseUrl}/tandas/${tanda._id}`)
+      } catch (e) {
+        console.error(e)
+      }
+    },
     addToPlaylist(tracks) {
       this.$bus.$emit('openDialogPlaylistPicker', tracks)
     },

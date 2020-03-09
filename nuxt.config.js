@@ -8,6 +8,8 @@ export default {
   env: {
     DEV_serverUrl: 'http://localhost:4000',
     PROD_serverUrl: 'https://tandafuria.herokuapp.com',
+    DEV_clientUrl: 'http://localhost:3000',
+    PROD_clientUrl: 'https://tandafuria.netlify.com',
     numberOfItemsToDisplay: 12
   },
   head: {
@@ -73,6 +75,7 @@ export default {
     '@bazzite/nuxt-netlify',
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    'nuxt-clipboard2',
     [
       '@nuxtjs/google-analytics',
       {

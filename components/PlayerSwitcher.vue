@@ -12,15 +12,6 @@
         </v-list-item>
       </template>
       <v-list>
-        <!-- <v-list-item v-for="player in players" :key="player.id">
-          <v-list-item-title
-            ><v-btn @click="changeDevice(player.id)" text>
-              <v-icon>mdi-speaker</v-icon>
-              {{ player.name }}</v-btn
-            >
-          </v-list-item-title>
-        </v-list-item> -->
-
         <v-list-item>
           <v-list-item-title
             ><v-btn @click="changePlayer('spotify')" text>
