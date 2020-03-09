@@ -92,6 +92,7 @@
         <v-btn @click="back"> back </v-btn>
       </v-card-actions>
     </v-card>
+    <div class="spaceBottom"></div>
 
     <v-dialog ref="dialog" v-model="dialogBrowserSpotify" max-width="800px">
       <SpotifyBrowser @clicked="addTrack" />
