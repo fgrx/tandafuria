@@ -58,8 +58,11 @@
         </draggable>
         <v-row>
           <v-col class="text-center">
-            <v-btn @click="openSpotifyBrowser()" color="secondary">
+            <v-btn @click="openSpotifyBrowser()" color="secondary" class="mr-4">
               <v-icon>mdi-plus</v-icon>Add track
+            </v-btn>
+            <v-btn @click="createTanda()" color="secondary">
+              <v-icon>mdi-library-music</v-icon>Create tanda
             </v-btn>
           </v-col>
         </v-row>
@@ -214,7 +217,8 @@ export default {
       )
 
       this.savePlaylist()
-    }
+    },
+    createTanda() {}
   }
 }
 </script>
