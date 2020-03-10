@@ -80,7 +80,7 @@
 
           <v-list-item v-if="user.id" to="/my-tandas">
             <v-list-item-action>
-              <v-icon>mdi-library-music</v-icon>
+              <v-icon>mdi-music</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>My Tandas</v-list-item-title>
@@ -104,7 +104,7 @@
 
           <v-list-item to="/all-tandas">
             <v-list-item-action>
-              <v-icon>mdi-earth</v-icon>
+              <v-icon>mdi-music</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>All Tandas</v-list-item-title>
