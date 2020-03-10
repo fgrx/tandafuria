@@ -227,7 +227,7 @@ export default {
           : process.env.PROD_clientUrl
 
       try {
-        await this.$copyText(`${baseUrl}/tandas/${tanda._id}`)
+        await this.$copyText(`${baseUrl}/tanda?id=${tanda._id}`)
       } catch (e) {
         //console.error(e)
       }
