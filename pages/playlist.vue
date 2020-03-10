@@ -119,6 +119,11 @@
         >
           <v-icon>mdi-spotify</v-icon>Sync Spotify
         </v-btn>
+
+        <v-btn @click="sharePLaylist()" color="secondary">
+          <v-icon>mdi-share</v-icon>Share
+        </v-btn>
+
         <v-btn @click="back"> back </v-btn>
       </v-card-actions>
     </v-card>
@@ -147,6 +152,23 @@ export default {
     TrackItem
   },
   middleware: ['spotifyConnexion'],
+  head() {
+    return {
+      title: `Listen to great playlists on Tandafuria`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Get inspiration and discover great playlists on tandafuria.'
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: `./static/tandafuriabanner.jpg`
+        }
+      ]
+    }
+  },
   data() {
     return {
       playlist: {},
@@ -170,7 +192,7 @@ export default {
   },
   async mounted() {
     this.loading = true
-    const idPlaylist = this.$route.params.id
+    const idPlaylist = this.$route.query.id
 
     const resultFindPlaylist = await playlistService.findOne(idPlaylist)
     this.playlist = resultFindPlaylist.data
@@ -278,6 +300,23 @@ export default {
     createTanda() {
       const url = '../tanda-editor?playlist=' + this.playlist._id
       this.$router.push(url)
+    },
+    async sharePLaylist() {
+      const baseUrl =
+        process.env.NODE_ENV === 'development'
+          ? process.env.DEV_clientUrl
+          : process.env.PROD_clientUrl
+
+      try {
+        await this.$copyText(`${baseUrl}/playlist?id=${this.playlist._id}`)
+      } catch (e) {
+        //console.error(e)
+      }
+
+      this.$bus.$emit('flashMessage', {
+        message: 'The link has been copied to your clipboard',
+        status: 'success'
+      })
     }
   }
 }

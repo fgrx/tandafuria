@@ -242,6 +242,21 @@ export default {
           name: 'description',
           content:
             'Welcome to Tanda Furia, the only tanda online tool. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: `@/static/tandafuriabanner.jpg`
+        },
+        {
+          hid: 'og:image:width',
+          name: 'og:image:width',
+          content: `1280`
+        },
+        {
+          hid: 'og:image:height',
+          name: 'og:image:height',
+          content: `486`
         }
       ]
     }

@@ -15,6 +15,18 @@ export default {
   components: {
     TandaItem
   },
+  head() {
+    return {
+      title: `Listen to great tandas on Tandafuria`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Create and discover great tandas on tandafuria.'
+        }
+      ]
+    }
+  },
   data() {
     return {
       id: this.$route.query.id,

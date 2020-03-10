@@ -34,27 +34,14 @@
                     ><v-icon>mdi-star-off</v-icon> Remove from Favorites</v-btn
                   >
                 </v-list-item-icon>
-                <v-list-item-content
-                  :to="{
-                    name: 'playlists-id',
-                    params: { id: playlistItem._id }
-                  }"
-                >
-                  <v-list-item-title
-                    :to="{
-                      name: 'playlists-id',
-                      params: { id: playlistItem._id }
-                    }"
-                    two-line
-                    class="headline mb-1"
-                  >
+                <v-list-item-content>
+                  <v-list-item-title two-line class="headline mb-1">
                     <v-btn
                       :to="{
-                        name: 'playlists-id',
-                        params: { id: playlistItem._id }
+                        name: 'playlist',
+                        query: { id: playlistItem._id }
                       }"
-                      text
-                      >{{ playlistItem.name }}</v-btn
+                      >{{ playlistItem.name }} !!!</v-btn
                     >
                   </v-list-item-title>
 
@@ -125,18 +112,11 @@
                 </v-list-item-action>
 
                 <v-list-item-content>
-                  <v-list-item-title
-                    :to="{
-                      name: 'playlists-id',
-                      params: { id: playlistItem._id }
-                    }"
-                    two-line
-                    class="headline mb-1"
-                  >
+                  <v-list-item-title two-line class="headline mb-1">
                     <v-btn
                       :to="{
-                        name: 'playlists-id',
-                        params: { id: playlistItem._id }
+                        name: 'playlist',
+                        query: { id: playlistItem._id }
                       }"
                       text
                       >{{ playlistItem.name }}</v-btn
