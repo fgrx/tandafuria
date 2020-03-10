@@ -315,4 +315,8 @@ h3 {
 a {
   color: rgb(115, 40, 158);
 }
+
+.spaceBottom {
+  height: 8em;
+}
 </style>

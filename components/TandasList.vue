@@ -83,6 +83,8 @@
       <v-btn @click="showMore()" color="primary">+ More tandas</v-btn>
     </v-row>
 
+    <div class="spaceBottom"></div>
+
     <NoTandaMessage
       v-if="tandas.length === 0 && !loading"
       title="No tanda for now"
