@@ -63,7 +63,7 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@bazzite/nuxt-netlify',
+    ['@bazzite/nuxt-netlify', {}],
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     'nuxt-clipboard2',

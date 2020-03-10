@@ -94,7 +94,7 @@
 
                 <v-list-item-action>
                   <v-btn class="handle" icon>
-                    <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
+                    <v-icon color="primary">mdi-drag-variant</v-icon>
                   </v-btn>
                   <v-btn @click="deleteTrack(track.id)" icon>
                     <v-icon color="danger">mdi-delete</v-icon>
