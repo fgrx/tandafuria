@@ -11,9 +11,13 @@
       style="top:auto;height:auto;bottom:0px;z-index:202;"
       tabindex="0"
     >
-      <div
+      <!-- <div
         class="v-dialog v-dialog--active v-dialog--persistent v-bottom-sheet v-bottom-sheet--inset"
         style="max-width:70%;margin-bottom:0"
+      > -->
+      <div
+        class="v-dialog v-dialog--active v-dialog--persistent v-bottom-sheet"
+        style="margin-bottom:0"
       >
         <v-list dark>
           <v-list-item>
@@ -29,6 +33,9 @@
                 min="0"
                 track-color="primary"
               ></v-slider>
+              <p v-if="!currentTrack.preview_url" class="error">
+                No preview available
+              </p>
 
               <v-list-item-title>{{ currentTrack.name }}</v-list-item-title>
 
@@ -165,6 +172,7 @@ export default {
           this.duration = state.duration
           this.playingPosition = state.position
         })
+      } else {
       }
       if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
     },

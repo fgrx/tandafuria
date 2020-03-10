@@ -2,83 +2,124 @@
   <v-flex>
     <loader v-if="loading" />
     <v-card v-if="playlist" class="mx-auto mb-4 mt-4" max-width="850">
-      <v-btn @click="openSpotifyBrowser()" absolute top right color="secondary">
-        <v-icon>mdi-plus</v-icon>Add track
-      </v-btn>
-
       <v-card-title>
         <h1 class="display-1 text--primary">{{ playlist.name }}</h1>
       </v-card-title>
-      <v-card-text>
-        <v-card-subtitle v-if="playlist.author"
-          >Playlist by {{ playlist.author.name }}</v-card-subtitle
-        >
 
+      <v-card-subtitle v-if="playlist.author">
+        <span v-if="playlist.isPublic">Public</span>
+        <span v-if="!playlist.isPublic">Private</span> playlist by
+        {{ playlist.author.name }}</v-card-subtitle
+      >
+      <v-card-text v-if="playlist.description">
         {{ playlist.description }}
-        <v-card-text>
-          <v-btn v-if="tracks.length > 0" @click="play()" block
-            ><v-icon>mdi-play</v-icon>Start playlist</v-btn
-          >
-        </v-card-text>
-
-        <v-card-text v-if="tracks.length === 0">
-          Your playlist doesn't have any track to play. Click on the button
-          bellow to add your first one !
-        </v-card-text>
-
-        <draggable v-model="tracks">
-          <transition-group>
-            <div v-for="track in tracks" :key="track.id">
-              <v-list-item
-                :class="[
-                  { playing: track.id === trackPlaying },
-                  { isCortina: track.isCortina === true }
-                ]"
-                draggable
-                two-line
-              >
-                <TrackItem :track="track" />
-                <v-btn @click="setAsCortina(track)" text small
-                  ><span v-if="!track.isCortina">Set as a cortina</span
-                  ><span v-if="track.isCortina">unset cortina</span></v-btn
-                >
-
-                <v-list-item-action>
-                  <v-btn icon>
-                    <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
-                  </v-btn>
-                  <v-btn @click="deleteTrack(track.id)" icon>
-                    <v-icon color="danger">mdi-delete</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-              <v-divider></v-divider>
-            </div>
-          </transition-group>
-        </draggable>
-        <v-row>
-          <v-col class="text-center">
-            <v-btn @click="openSpotifyBrowser()" color="secondary" class="mr-4">
-              <v-icon>mdi-plus</v-icon>Add track
-            </v-btn>
-            <v-btn @click="createTanda()" color="secondary">
-              <v-icon>mdi-library-music</v-icon>Create tanda
-            </v-btn>
-          </v-col>
-        </v-row>
       </v-card-text>
-      <v-card-actions>
-        <v-btn @click="savePlaylist()" color="primary">
-          <v-icon>mdi-content-save</v-icon>Save the playlist
+      <v-card-text>
+        <v-btn v-if="tracks.length > 0" @click="play()" block
+          ><v-icon>mdi-play</v-icon>Start playlist</v-btn
+        >
+      </v-card-text>
+
+      <v-card-text v-if="tracks.length === 0">
+        Your playlist doesn't have any track to play. Click on the button bellow
+        to add your first one !
+      </v-card-text>
+
+      <draggable
+        v-model="tracks"
+        class="list-group"
+        tag="ul"
+        v-bind="dragOptions"
+        @start="isDragging = true"
+        @end="isDragging = false"
+        handle=".handle"
+      >
+        <transition-group type="transition" name="flip-list">
+          <div v-for="track in tracks" :key="track.id">
+            <v-list-item
+              :class="[
+                { playing: track.id === trackPlaying },
+                { isCortina: track.isCortina === true }
+              ]"
+              draggable
+              two-line
+              class="ml-n6"
+            >
+              <TrackItem :track="track" />
+
+              <v-list-item-action>
+                <v-btn class="handle">
+                  <v-icon color="primary">mdi-drag-variant</v-icon>
+                </v-btn>
+
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on }">
+                    <v-list-item v-on="on">
+                      <v-btn color="primary" icon>
+                        <v-icon>mdi-dots-horizontal-circle-outline</v-icon>
+                      </v-btn>
+                    </v-list-item>
+                  </template>
+                  <v-list>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <v-btn @click="setAsCortina(track)" text small>
+                          <v-icon>mdi-party-popper</v-icon>
+                          <span v-if="!track.isCortina">Set as a cortina</span
+                          ><span v-if="track.isCortina"
+                            >unset cortina</span
+                          ></v-btn
+                        >
+                      </v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item>
+                      <v-list-item-title>
+                        <v-btn @click="deleteTrack(track.id)">
+                          <v-icon color="danger">mdi-delete</v-icon>
+                          Delete track
+                        </v-btn>
+                      </v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-list-item-action>
+            </v-list-item>
+            <v-divider></v-divider>
+          </div>
+        </transition-group>
+      </draggable>
+      <v-row>
+        <v-col class="text-center">
+          <v-btn @click="openSpotifyBrowser()" color="secondary" class="mr-4">
+            <v-icon>mdi-plus</v-icon>Add track
+          </v-btn>
+          <v-btn @click="createTanda" color="secondary">
+            <v-icon>mdi-library-music</v-icon>Create tanda
+          </v-btn>
+        </v-col>
+      </v-row>
+
+      <v-card-actions class="justify-center">
+        <v-btn
+          v-if="playlist.author && currentUser.id === playlist.author.id"
+          @click="savePlaylist()"
+          color="primary"
+        >
+          <v-icon>mdi-content-save</v-icon>Save
         </v-btn>
         <v-btn
-          v-if="currentUser.spotify"
+          v-if="
+            currentUser.spotify &&
+              playlist.author &&
+              currentUser.id === playlist.author.id
+          "
           @click="savePlaylistSpotify()"
           color="secondary"
         >
-          <v-icon>mdi-spotify</v-icon>Sync with Spotify
+          <v-icon>mdi-spotify</v-icon>Sync Spotify
         </v-btn>
-        <v-btn to="/playlists"> back </v-btn>
+        <v-btn @click="back"> back </v-btn>
       </v-card-actions>
     </v-card>
 
@@ -116,11 +157,23 @@ export default {
       modified: false
     }
   },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 0,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost'
+      }
+    }
+  },
   async mounted() {
     this.loading = true
     const idPlaylist = this.$route.params.id
+
     const resultFindPlaylist = await playlistService.findOne(idPlaylist)
     this.playlist = resultFindPlaylist.data
+
     if (this.playlist.tracks) this.tracks = this.playlist.tracks
     this.loading = false
 
@@ -151,12 +204,15 @@ export default {
       this.browserClose()
       this.modified = true
     },
-
+    back() {
+      this.$router.back()
+    },
     deleteTrack(trackId) {
       if (window.confirm('Do you really want to delete this track ?')) {
         const indexToDelete = this.tracks.findIndex(
           (track) => track.id === trackId
         )
+
         this.tracks.splice(indexToDelete, 1)
       }
     },
@@ -218,7 +274,10 @@ export default {
 
       this.savePlaylist()
     },
-    createTanda() {}
+    createTanda() {
+      const url = '../tanda-editor?playlist=' + this.playlist._id
+      this.$router.push(url)
+    }
   }
 }
 </script>
@@ -230,5 +289,25 @@ export default {
 
 .isCortina {
   background: #79f8e1;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 20px;
+}
+.list-group-item {
+  cursor: move;
+}
+.list-group-item i {
+  cursor: pointer;
 }
 </style>

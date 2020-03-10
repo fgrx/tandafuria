@@ -78,14 +78,22 @@
         add one!
       </v-card-text>
       <v-card-text>
-        <draggable v-model="tracks">
-          <transition-group>
+        <draggable
+          v-model="tracks"
+          v-bind="dragOptions"
+          @start="isDragging = true"
+          @end="isDragging = false"
+          class="list-group"
+          tag="ul"
+          handle=".handle"
+        >
+          <transition-group type="transition" name="flip-list">
             <div v-for="track in tracks" :key="track.id">
               <v-list-item draggable two-line>
                 <TrackItem :track="track" />
 
                 <v-list-item-action>
-                  <v-btn icon>
+                  <v-btn class="handle" icon>
                     <v-icon color="grey lighten-1">mdi-drag-variant</v-icon>
                   </v-btn>
                   <v-btn @click="deleteTrack(track.id)" icon>
@@ -125,7 +133,7 @@
       <v-btn ref="monBouton" @click="browserClose" color="primary">Close</v-btn>
     </v-dialog>
     <v-spacer></v-spacer>
-    <v-card-actions>
+    <v-card-actions class="justify-center">
       <v-btn @click="saveAction()" :disabled="!valid" color="primary"
         >Save</v-btn
       >
@@ -152,6 +160,7 @@ import SpotifyBrowser from '@/components/SpotifyBrowser'
 import TrackItem from '~/components/TrackItem'
 
 import { tandaService } from '@/services/tandas.service.js'
+import { playlistService } from '@/services/playlistService.js'
 import { userService } from '@/services/users.service'
 
 export default {
@@ -186,6 +195,8 @@ export default {
       isInstrumentalField: false,
       singerField: '',
       searchDefault: '',
+      dragOptions: '',
+      playlistId: null,
 
       maxPeriod: new Date().getFullYear(),
       minPeriod: 1920,
@@ -210,6 +221,8 @@ export default {
       this.tracks = this.tandaToModify.tracks
     }
     this.changeDefaultSearchValue()
+
+    if (this.$route.query.playlist) this.playlistId = this.$route.query.playlist
   },
   methods: {
     openSpotifyBrowser() {
@@ -251,14 +264,27 @@ export default {
         this.searchDefault = orchestraSelected[0].title
       }
     },
-    saveAction() {
+    async saveAction() {
+      let tanda = null
       if (!this.tandaToModify) {
-        this.saveNewTanda()
+        tanda = await this.saveNewTanda()
       } else {
-        this.updateTanda()
+        await this.updateTanda()
       }
 
-      this.$router.replace({ path: '/my-tandas' })
+      if (this.playlistId) {
+        await playlistService.addTracks(
+          this.playlistId,
+          tanda.tracks,
+          this.currentUser.token
+        )
+
+        this.$router.replace({
+          path: `/playlists/${this.playlistId}`
+        })
+      } else {
+        this.$router.replace({ path: '/my-tandas' })
+      }
     },
     async saveNewTanda() {
       const tanda = this.buildTandaFromForm()
@@ -289,6 +315,8 @@ export default {
         message: 'Your tanda has been saved',
         status: 'success'
       })
+
+      return tanda
     },
     async updateTandaCountForUser() {
       this.userInStore = this.$store.getters['authApp/getUser']
@@ -350,4 +378,24 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 20px;
+}
+.list-group-item {
+  cursor: move;
+}
+.list-group-item i {
+  cursor: pointer;
+}
+</style>

@@ -117,7 +117,7 @@
         </v-card>
       </v-col>
 
-      <v-col v-for="(genre, index) in genres" :key="index" cols="1" md="4">
+      <v-col v-for="(genre, index) in genres" :key="index" cols="12" md="4">
         <v-card
           :to="`/all-tandas?genre=${genre.id}`"
           raised

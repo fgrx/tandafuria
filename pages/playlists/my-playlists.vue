@@ -3,22 +3,16 @@
     <v-flex>
       <v-card class="mx-auto mb-4 mt-4" max-width="850">
         <v-card-title>
-          <h1>Playlists</h1>
-          <v-spacer></v-spacer>
-          <v-btn @click="openDialogAction()" color="primary" large
-            >+ New playlist</v-btn
-          >
-          <v-btn
-            v-if="user.spotify"
-            @click="openDialogImportAction()"
-            color="secondary"
-            class="ml-4"
-            large
-            ><v-icon>mdi-application-import</v-icon> Import Playlist</v-btn
-          >
+          <h1>My playlists</h1>
         </v-card-title>
 
         <v-card-text>
+          <LoaderCircular v-if="loading" />
+
+          <v-card-title v-if="!loading"
+            ><h2>{{ countPlaylists }} tandas</h2></v-card-title
+          >
+
           <div
             v-for="(playlistItem, index) in playlists"
             :key="playlistItem._id"
@@ -57,15 +51,29 @@
 
                 <v-list-item-subtitle v-if="playlistItem.countTracks">
                   {{ playlistItem.countTracks }} tracks
+                  <span v-if="playlistItem.isPublic"> - public playlist</span>
+                  <span v-if="!playlistItem.isPublic"> - private playlist</span>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-divider
-              v-if="index + 1 < playlistItem.length"
+              v-if="index + 1 < playlists.length"
               :key="index"
             ></v-divider>
           </div>
         </v-card-text>
+        <v-card-actions class="justify-center">
+          <v-btn @click="openDialogAction()" color="primary"
+            >+ New playlist</v-btn
+          >
+          <v-btn
+            v-if="user.spotify"
+            @click="openDialogImportAction()"
+            color="secondary"
+            class="ml-4"
+            ><v-icon>mdi-spotify</v-icon> Import Spotify</v-btn
+          >
+        </v-card-actions>
       </v-card>
 
       <v-dialog ref="dialog" v-model="dialogPlaylist" max-width="800px">
@@ -86,6 +94,11 @@
                 placeholder="Give a few words about your playlist"
                 rows="4"
               ></v-textarea>
+              <v-switch
+                v-model="isPublic"
+                class="ma-2"
+                label="My playlist is public (other users will be able to see your playlist)"
+              ></v-switch>
               <v-card-actions>
                 <v-btn
                   v-if="mode === 'create'"
@@ -120,18 +133,18 @@
 
           <v-list>
             <div
-              v-for="playlist in usersPlaylistsFromSpotify"
-              :key="playlist.id"
+              v-for="playlistFromSpotify in usersPlaylistsFromSpotify"
+              :key="playlistFromSpotify.id"
             >
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ playlist.name }}
+                    {{ playlistFromSpotify.name }}
                   </v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-btn
-                    @click="importPlaylistAction(playlist)"
+                    @click="importPlaylistAction(playlistFromSpotify)"
                     color="primary"
                     small
                     ><v-icon>mdi-application-import</v-icon> Import</v-btn
@@ -155,13 +168,19 @@
 
 <script>
 import { playlistService } from '@/services/playlistService'
+import LoaderCircular from '@/components/LoaderCircular'
+
 export default {
   middleware: ['spotifyConnexion'],
+  components: {
+    LoaderCircular
+  },
   data() {
     return {
       dialogPlaylist: false,
       name: '',
       description: '',
+      isPublic: true,
       playlist: {},
       valid: true,
       currentUser: this.$store.getters['authApp/getUser'],
@@ -169,12 +188,14 @@ export default {
       mode: 'create',
       user: this.$store.getters['authApp/getUser'],
       dialogPlaylistImport: false,
-      usersPlaylistsFromSpotify: []
+      loading: false,
+      usersPlaylistsFromSpotify: [],
+      countPlaylists: 0
     }
   },
   head() {
     return {
-      title: 'Browse playlist',
+      title: 'Browse your playlists',
       meta: [
         {
           hid: 'description',
@@ -186,24 +207,31 @@ export default {
     }
   },
   async mounted() {
+    this.loading = true
     const reqPlaylists = await playlistService.getPlaylists(
       this.currentUser.id,
       this.currentUser.token
     )
 
-    this.playlists = reqPlaylists.data
+    const result = reqPlaylists.data
 
-    const playlistsFromSpotify = await playlistService.getUserPlaylistsFromSpotify(
-      this.user
-    )
-    this.usersPlaylistsFromSpotify = playlistsFromSpotify.data.items
+    this.playlists = result.playlists
+    this.countPlaylists = result.countTotalResults
+
+    this.loading = false
   },
   methods: {
     openDialogAction() {
       this.mode = 'create'
       this.dialogPlaylist = true
     },
-    openDialogImportAction() {
+    async openDialogImportAction() {
+      const playlistsFromSpotify = await playlistService.getUserPlaylistsFromSpotify(
+        this.user
+      )
+
+      this.usersPlaylistsFromSpotify = playlistsFromSpotify.data.items
+
       this.dialogPlaylistImport = true
     },
 
@@ -219,11 +247,14 @@ export default {
       this.dialogPlaylist = true
       this.name = playlist.name
       this.description = playlist.description
+      this.isPublic = playlist.isPublic
       this.playlist = playlist
     },
     saveEditAction() {
       this.playlist.name = this.name
       this.playlist.description = this.description
+      this.playlist.isPublic = this.isPublic
+      delete this.playlist.tracks
 
       playlistService.update(this.playlist, this.currentUser.token)
       this.$bus.$emit('flashMessage', {
@@ -250,7 +281,8 @@ export default {
     async createPlaylistAction() {
       const playlist = {
         name: this.name,
-        description: this.description
+        description: this.description,
+        isPublic: this.isPublic
       }
       const newPlaylist = await playlistService.save(
         playlist,

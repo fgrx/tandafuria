@@ -63,6 +63,7 @@ export default {
           link: infos.link,
           contactByMail: infos.contactByMail,
           countTanda: infos.countTanda,
+          favorites: infos.favorites,
           refreshToken: infos.refreshToken,
           token
         }

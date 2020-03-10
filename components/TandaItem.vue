@@ -229,8 +229,13 @@ export default {
       try {
         await this.$copyText(`${baseUrl}/tandas/${tanda._id}`)
       } catch (e) {
-        console.error(e)
+        //console.error(e)
       }
+
+      this.$bus.$emit('flashMessage', {
+        message: 'The link has been copied to your clipboard',
+        status: 'success'
+      })
     },
     addToPlaylist(tracks) {
       this.$bus.$emit('openDialogPlaylistPicker', tracks)

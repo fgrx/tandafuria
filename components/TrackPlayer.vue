@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <v-btn @click="play()" color="primary" fab depressed dark>
-      <v-icon>{{ icon }}</v-icon>
-    </v-btn>
-  </div>
+  <v-btn @click="play()" color="primary" small fab depressed dark>
+    <v-icon>{{ icon }}</v-icon>
+  </v-btn>
 </template>
 
 <script>
