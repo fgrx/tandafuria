@@ -6,6 +6,7 @@
       </v-card-title>
       <v-card-text><TandaForm /></v-card-text>
     </v-card>
+    <div class="spaceBottom"></div>
   </v-container>
 </template>
 

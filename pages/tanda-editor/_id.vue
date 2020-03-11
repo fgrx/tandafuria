@@ -10,6 +10,7 @@
         ><TandaForm :tandaToModify="tanda"
       /></v-card-text>
     </v-card>
+    <div class="spaceBottom"></div>
   </v-container>
 </template>
 

@@ -1,152 +1,156 @@
 <template>
-  <v-form ref="form" v-model="valid" class="tandaForm">
-    <v-select
-      v-model="genreField"
-      :rules="[(v) => !!v || 'Musical genre is required']"
-      :items="genreList"
-      label="musical genre"
-      class="inputGenre"
-      item-text="name"
-      item-value="id"
-      required
-    ></v-select>
+  <div>
+    <v-form ref="form" v-model="valid" class="tandaForm">
+      <v-select
+        v-model="genreField"
+        :rules="[(v) => !!v || 'Musical genre is required']"
+        :items="genreList"
+        label="musical genre"
+        class="inputGenre"
+        item-text="name"
+        item-value="id"
+        required
+      ></v-select>
 
-    <v-select
-      v-model="orchestraField"
-      :items="orchestraList"
-      :rules="[(v) => !!v || 'Orchestra is required']"
-      @change="changeDefaultSearchValue()"
-      label="Orchestra"
-      item-text="title"
-      item-value="id"
-      required
-    ></v-select>
+      <v-select
+        v-model="orchestraField"
+        :items="orchestraList"
+        :rules="[(v) => !!v || 'Orchestra is required']"
+        @change="changeDefaultSearchValue()"
+        label="Orchestra"
+        item-text="title"
+        item-value="id"
+        required
+      ></v-select>
 
-    <v-switch
-      v-model="isInstrumentalField"
-      label="This is an instrumental tanda ?"
-    ></v-switch>
+      <v-switch
+        v-model="isInstrumentalField"
+        label="This is an instrumental tanda ?"
+      ></v-switch>
 
-    <v-text-field
-      v-model="singerField"
-      v-if="!isInstrumentalField"
-      label="Singer"
-      placeholder="example : Alberto Moran"
-    ></v-text-field>
+      <v-text-field
+        v-model="singerField"
+        v-if="!isInstrumentalField"
+        label="Singer"
+        placeholder="example : Alberto Moran"
+      ></v-text-field>
 
-    <v-row>
-      <v-col cols="12" md="6">
-        <v-text-field
-          v-model="periodStartField"
-          outlined
-          label="Start period (year only, 4 digits)"
-          placeholder="example : 1942"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" md="6">
-        <v-text-field
-          v-model="periodEndField"
-          outlined
-          label="End period (year only, 4 digits)"
-          placeholder="example : 1946"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="periodStartField"
+            outlined
+            label="Start period (year only, 4 digits)"
+            placeholder="example : 1942"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="periodEndField"
+            outlined
+            label="End period (year only, 4 digits)"
+            placeholder="example : 1946"
+          ></v-text-field>
+        </v-col>
+      </v-row>
 
-    <v-select
-      v-model="speedField"
-      :items="speedList"
-      :rules="[(v) => !!v || 'Music speed is required']"
-      label="Speed"
-      required
-    ></v-select>
+      <v-select
+        v-model="speedField"
+        :items="speedList"
+        :rules="[(v) => !!v || 'Music speed is required']"
+        label="Speed"
+        required
+      ></v-select>
 
-    <v-textarea
-      v-model="descriptionField"
-      label="description"
-      rows="4"
-      placeholder="Write a small description of your tanda"
-    ></v-textarea>
+      <v-textarea
+        v-model="descriptionField"
+        label="description"
+        rows="4"
+        placeholder="Write a small description of your tanda"
+      ></v-textarea>
 
-    <v-card class="mx-auto" tile>
-      <v-card-title>
-        Tracks in my tanda
-      </v-card-title>
+      <v-card class="mx-auto" tile>
+        <v-card-title>
+          Tracks in my tanda
+        </v-card-title>
 
-      <v-card-text v-if="!tracks.length">
-        Your tanda doesn't have any track to play. Click on the button below to
-        add one!
-      </v-card-text>
-      <v-card-text>
-        <draggable
-          v-model="tracks"
-          v-bind="dragOptions"
-          @start="isDragging = true"
-          @end="isDragging = false"
-          class="list-group"
-          tag="ul"
-          handle=".handle"
-        >
-          <transition-group type="transition" name="flip-list">
-            <div v-for="track in tracks" :key="track.id">
-              <v-list-item draggable two-line>
-                <TrackItem :track="track" />
-
-                <v-list-item-action>
-                  <v-btn class="handle" icon>
-                    <v-icon color="primary">mdi-drag-variant</v-icon>
-                  </v-btn>
-                  <v-btn @click="deleteTrack(track.id)" icon>
-                    <v-icon color="danger">mdi-delete</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-              <v-divider></v-divider>
-            </div>
-          </transition-group>
-        </draggable>
-      </v-card-text>
-
-      <v-card-actions class="justify-center">
-        <div class="text-xs-center">
-          <v-btn @click="openSpotifyBrowser()" color="secondary"
-            >+ Add a track</v-btn
+        <v-card-text v-if="!tracks.length">
+          Your tanda doesn't have any track to play. Click on the button below
+          to add one!
+        </v-card-text>
+        <v-card-text>
+          <draggable
+            v-model="tracks"
+            v-bind="dragOptions"
+            @start="isDragging = true"
+            @end="isDragging = false"
+            class="list-group"
+            tag="ul"
+            handle=".handle"
           >
-        </div>
-      </v-card-actions>
-    </v-card>
+            <transition-group type="transition" name="flip-list">
+              <div v-for="track in tracks" :key="track.id">
+                <v-list-item draggable two-line>
+                  <TrackItem :track="track" />
 
-    <v-switch
-      v-model="isPublicField"
-      class="ma-2"
-      label="My tanda is public (other users will be able to see your tanda)"
-    ></v-switch>
+                  <v-list-item-action>
+                    <v-btn class="handle" icon>
+                      <v-icon color="primary">mdi-drag-variant</v-icon>
+                    </v-btn>
+                    <v-btn @click="deleteTrack(track.id)" icon>
+                      <v-icon color="danger">mdi-delete</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+                <v-divider></v-divider>
+              </div>
+            </transition-group>
+          </draggable>
+        </v-card-text>
 
-    <v-dialog
-      ref="dialog"
-      v-model="dialogBrowserSpotify"
-      @input="initSpotifyBrowser()"
-      max-width="800px"
-    >
-      <SpotifyBrowser @clicked="addTrack" :searchDefault="searchDefault" />
+        <v-card-actions class="justify-center">
+          <div class="text-xs-center">
+            <v-btn @click="openSpotifyBrowser()" color="secondary"
+              >+ Add a track</v-btn
+            >
+          </div>
+        </v-card-actions>
+      </v-card>
 
-      <v-btn ref="monBouton" @click="browserClose" color="primary">Close</v-btn>
-    </v-dialog>
-    <v-spacer></v-spacer>
-    <v-card-actions class="justify-center">
-      <v-btn @click="saveAction()" :disabled="!valid" color="primary"
-        >Save</v-btn
+      <v-switch
+        v-model="isPublicField"
+        class="ma-2"
+        label="My tanda is public (other users will be able to see your tanda)"
+      ></v-switch>
+
+      <v-dialog
+        ref="dialog"
+        v-model="dialogBrowserSpotify"
+        @input="initSpotifyBrowser()"
+        max-width="800px"
       >
-      <v-btn to="/my-tandas">Back</v-btn>
+        <SpotifyBrowser @clicked="addTrack" :searchDefault="searchDefault" />
 
-      <v-btn
-        v-if="tandaToModify && tandaToModify.author.id === currentUser.id"
-        @click="deleteTanda(tandaToModify._id)"
-        color="warning"
-        ><v-icon>mdi-delete</v-icon> Delete
-      </v-btn>
-    </v-card-actions>
-  </v-form>
+        <v-btn ref="monBouton" @click="browserClose" color="primary"
+          >Close</v-btn
+        >
+      </v-dialog>
+      <v-spacer></v-spacer>
+      <v-card-actions class="justify-center">
+        <v-btn @click="saveAction()" :disabled="!valid" color="primary"
+          >Save</v-btn
+        >
+        <v-btn to="/my-tandas">Back</v-btn>
+
+        <v-btn
+          v-if="tandaToModify && tandaToModify.author.id === currentUser.id"
+          @click="deleteTanda(tandaToModify._id)"
+          color="warning"
+          ><v-icon>mdi-delete</v-icon> Delete
+        </v-btn>
+      </v-card-actions>
+    </v-form>
+  </div>
 </template>
 
 <script>
@@ -280,7 +284,7 @@ export default {
         )
 
         this.$router.replace({
-          path: `/playlist?id=${this.playlistId}`
+          path: `/playlist?id=${this.playlistId}#end`
         })
       } else {
         this.$router.replace({ path: '/my-tandas' })
