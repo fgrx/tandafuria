@@ -280,7 +280,7 @@ export default {
         )
 
         this.$router.replace({
-          path: `/playlists/${this.playlistId}`
+          path: `/playlist?id=${this.playlistId}`
         })
       } else {
         this.$router.replace({ path: '/my-tandas' })
