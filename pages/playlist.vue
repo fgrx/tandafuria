@@ -27,11 +27,11 @@
 
       <draggable
         v-model="tracks"
-        class="list-group"
-        tag="ul"
-        v-bind="dragOptions"
         @start="isDragging = true"
         @end="isDragging = false"
+        v-bind="dragOptions"
+        class="list-group"
+        tag="ul"
         handle=".handle"
       >
         <transition-group type="transition" name="flip-list">

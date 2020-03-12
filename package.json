@@ -20,6 +20,7 @@
     "core-js": "^2.6.11",
     "nuxt": "^2.0.0",
     "nuxt-clipboard2": "^0.2.1",
+    "nuxt-webfontloader": "^1.1.0",
     "plyr": "^3.5.10",
     "vue-plyr": "^6.0.4",
     "vuedraggable": "^2.23.2"
@@ -29,7 +30,7 @@
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/moment": "^1.6.0",
     "@nuxtjs/vuetify": "^1.11.0",
-    "@vue/test-utils": "^1.0.0-beta.27",
+    "@vue/test-utils": "^1.0.0-beta.32",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^24.1.0",
     "eslint": "^6.1.0",

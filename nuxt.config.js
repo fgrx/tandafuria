@@ -25,17 +25,7 @@ export default {
       }
     ],
     script: [],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Fjalla+One&display=swap'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Overpass&display=swap'
-      }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
    ** Customize the progress-bar color
@@ -67,6 +57,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     'nuxt-clipboard2',
+    'nuxt-webfontloader',
     [
       '@nuxtjs/google-analytics',
       {
@@ -79,6 +70,11 @@ export default {
       }
     ]
   ],
+  webfontloader: {
+    google: {
+      families: ['Fjalla One', 'Overpass']
+    }
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
