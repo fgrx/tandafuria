@@ -1,6 +1,5 @@
 <template>
   <v-flex>
-    <LoaderCircular v-if="loading" />
     <v-card v-if="playlist" class="mx-auto mb-4 mt-4" max-width="850">
       <v-card-title>
         <h1 class="display-1 text--primary">{{ playlist.name }}</h1>
@@ -20,7 +19,9 @@
         >
       </v-card-text>
 
-      <v-card-text v-if="tracks.length === 0">
+      <LoaderCircular v-if="loading" />
+
+      <v-card-text v-if="tracks.length === 0 && !loading">
         Your playlist doesn't have any track to play. Click on the button bellow
         to add your first one !
       </v-card-text>
