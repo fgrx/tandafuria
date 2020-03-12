@@ -4,7 +4,7 @@
       <v-card-title><h1 class="display-2">Choose a playlist</h1></v-card-title>
 
       <v-card-text>
-        <loader v-if="loading" />
+        <LoaderCircular v-if="loading" />
 
         <p v-if="playlists.length === 0">
           You have not created any playlist. Please create a new one before
@@ -45,11 +45,11 @@
 
 <script>
 import { playlistService } from '@/services/playlistService'
-import Loader from '@/components/Loader'
+import LoaderCircular from '@/components/LoaderCircular'
 
 export default {
   components: {
-    Loader
+    LoaderCircular
   },
   data() {
     return {

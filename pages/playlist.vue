@@ -1,6 +1,6 @@
 <template>
   <v-flex>
-    <loader v-if="loading" />
+    <LoaderCircular v-if="loading" />
     <v-card v-if="playlist" class="mx-auto mb-4 mt-4" max-width="850">
       <v-card-title>
         <h1 class="display-1 text--primary">{{ playlist.name }}</h1>
@@ -141,13 +141,13 @@
 <script>
 import draggable from 'vuedraggable'
 import { playlistService } from '@/services/playlistService'
-import Loader from '@/components/Loader'
+import LoaderCircular from '@/components/LoaderCircular'
 import SpotifyBrowser from '@/components/SpotifyBrowser'
 import TrackItem from '~/components/TrackItem'
 
 export default {
   components: {
-    Loader,
+    LoaderCircular,
     SpotifyBrowser,
     draggable,
     TrackItem

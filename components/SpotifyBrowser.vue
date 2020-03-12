@@ -45,19 +45,19 @@
         </div>
       </v-list>
 
-      <Loader v-if="loading" />
+      <LoaderCircular v-if="loading" />
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import TrackItem from '~/components/TrackItem'
-import Loader from '@/components/Loader'
+import LoaderCircular from '@/components/LoaderCircular'
 
 export default {
   components: {
     TrackItem,
-    Loader
+    LoaderCircular
   },
   middleware: ['spotifyConnexion'],
   props: {
@@ -128,8 +128,8 @@ export default {
       }
     },
     addTrackAction(track) {
-      track.available_markets = null
-      track.album.available_markets = null
+      if (track.available_markets) track.available_markets = null
+      if (track.album.available_markets) track.album.available_markets = null
       this.$emit('clicked', track)
     },
     async requestAlbumAction(album) {
@@ -143,7 +143,9 @@ export default {
       })
 
       this.textResults = 'album ' + results.data.name
-      this.tracks = results.data.tracks.items
+      this.tracksWithoutAlbum = results.data.tracks.items
+
+      this.tracks.forEach((track) => (track.album = album))
 
       this.loading = false
     }
