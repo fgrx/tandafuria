@@ -68,8 +68,12 @@ export default {
         //   trace: true
         // }
       }
-    ]
+    ],
+    '@nuxtjs/sitemap'
   ],
+  sitemap: {
+    // custom configuration
+  },
   webfontloader: {
     google: {
       families: ['Fjalla One', 'Overpass']
