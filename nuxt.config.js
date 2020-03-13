@@ -72,7 +72,8 @@ export default {
     '@nuxtjs/sitemap'
   ],
   sitemap: {
-    hostname: 'https://tandafuria.com'
+    hostname: 'https://tandafuria.com',
+    exclude: ['/playlist', '/tanda']
   },
   webfontloader: {
     google: {
