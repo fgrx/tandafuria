@@ -24,7 +24,7 @@
 
         <v-img
           id="imageHome"
-          :src="require('@/static/background.jpg')"
+          :src="require('@/static/background.webp')"
           class="white--text align-end"
         ></v-img>
       </div>

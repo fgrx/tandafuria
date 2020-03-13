@@ -90,7 +90,7 @@
           </div>
         </transition-group>
       </draggable>
-      <v-row>
+      <v-row v-if="playlist.author && currentUser.id === playlist.author.id">
         <v-col class="text-center">
           <v-btn @click="openSpotifyBrowser()" color="secondary" class="mr-4">
             <v-icon>mdi-plus</v-icon>Add track
@@ -207,7 +207,13 @@ export default {
     })
   },
   beforeDestroy() {
-    // if (this.modified) this.savePlaylist()
+    if (
+      this.playlist.author &&
+      this.currentUser.id === this.playlist.author.id &&
+      this.modified
+    ) {
+      this.savePlaylist()
+    }
   },
   methods: {
     play() {
