@@ -72,7 +72,7 @@ export default {
     '@nuxtjs/sitemap'
   ],
   sitemap: {
-    // custom configuration
+    hostname: 'https://tandafuria.com'
   },
   webfontloader: {
     google: {

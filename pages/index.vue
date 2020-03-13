@@ -17,7 +17,7 @@
 
           <div>
             <h2 class="title2 display-1 ma-5">
-              The tanda temple for tango djs
+              A DJ online tool to create great tandas and playlists
             </h2>
           </div>
         </div>
