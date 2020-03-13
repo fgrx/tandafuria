@@ -9,7 +9,7 @@ export default {
     DEV_serverUrl: 'http://localhost:4000',
     PROD_serverUrl: 'https://tandafuria.herokuapp.com',
     DEV_clientUrl: 'http://localhost:3000',
-    PROD_clientUrl: 'https://tandafuria.netlify.com',
+    PROD_clientUrl: 'https://tandafuria.com',
     numberOfItemsToDisplay: 12
   },
   head: {
