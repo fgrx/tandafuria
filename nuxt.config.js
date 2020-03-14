@@ -1,5 +1,27 @@
 import colors from 'vuetify/es5/util/colors'
 
+import axios from 'axios'
+
+const generateRoutes = async () => {
+  const routes = []
+
+  const urlApiTandas = `https://tandafuria.herokuapp.com/tandas/allId`
+  const tandaIds = await axios.get(urlApiTandas)
+  tandaIds.data.forEach((id) => {
+    const route = { url: '/tanda/' + id }
+    routes.push(route)
+  })
+
+  const urlApiPlaylists = `https://tandafuria.herokuapp.com/playlists/allId`
+  const playlistsIds = await axios.get(urlApiPlaylists)
+  playlistsIds.data.forEach((playlist) => {
+    const route = { url: '/playlists/' + playlist._id }
+    routes.push(route)
+  })
+
+  return routes
+}
+
 export default {
   mode: 'universal',
   /*
@@ -77,7 +99,8 @@ export default {
   ],
   sitemap: {
     hostname: 'https://tandafuria.com',
-    exclude: ['/playlist', '/tanda']
+    gzip: true,
+    routes: generateRoutes
   },
   webfontloader: {
     google: {

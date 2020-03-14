@@ -7,6 +7,12 @@ const baseUrl =
 const urlApi = baseUrl + '/tandas'
 
 export const tandaService = {
+  async getAllTandasId() {
+    const url = `${urlApi}/allId`
+    const result = await axios.get(url)
+    return result.data
+  },
+
   async getTandas(offset, params) {
     if (!offset) offset = 0
     const urlGetTandas = `${urlApi}/${offset}${params}`

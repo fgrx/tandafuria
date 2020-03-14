@@ -17,7 +17,7 @@
 
           <div>
             <h2 class="title2 display-1 ma-5">
-              The Tango DJ online tool to Create great tandas and playlists
+              A Tango DJ tool to create great tandas and playlists
             </h2>
           </div>
         </div>

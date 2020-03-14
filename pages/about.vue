@@ -105,9 +105,30 @@ export default {
             'Tanda Furia is created by Fabien Grignoux, a french web developper in Lyon (France). In this page you will find technical details about this tool and other frequently asked questions.'
         },
         {
+          hid: 'og:title',
+          name: 'og:title',
+          content: `About Tanda Furia`
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content:
+            'Tanda Furia is created by Fabien Grignoux, a french web developper in Lyon (France). In this page you will find technical details about this tool and other frequently asked questions.'
+        },
+        {
           hid: 'og:image',
           name: 'og:image',
           content: require('@/static/tandafuriabanner.jpg')
+        },
+        {
+          hid: 'og:image:width',
+          name: 'og:image:width',
+          content: `1280`
+        },
+        {
+          hid: 'og:image:height',
+          name: 'og:image:height',
+          content: `486`
         }
       ]
     }

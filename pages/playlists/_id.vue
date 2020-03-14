@@ -156,27 +156,47 @@ export default {
   middleware: ['spotifyConnexion'],
   head() {
     return {
-      title: `Listen to great playlists on Tandafuria`,
+      title: `Playlist by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tracks`,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: 'Get inspiration and discover great playlists on tandafuria.'
+          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tango tracks`
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: `Playlist by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tracks`
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tango tracks`
         },
         {
           hid: 'og:image',
           name: 'og:image',
           content: require('@/static/tandafuriabanner.jpg')
+        },
+        {
+          hid: 'og:image:width',
+          name: 'og:image:width',
+          content: `1280`
+        },
+        {
+          hid: 'og:image:height',
+          name: 'og:image:height',
+          content: `486`
         }
       ]
     }
   },
   data() {
     return {
-      playlist: {},
+      playlist: this.playlist,
       loading: false,
       dialogBrowserSpotify: false,
-      tracks: [],
+      tracks: this.tracks,
       trackPlaying: '',
       currentUser: this.$store.getters['authApp/getUser'],
       modified: false
@@ -192,14 +212,23 @@ export default {
       }
     }
   },
-  async mounted() {
+  async asyncData({ params }) {
+    const playlist = await playlistService.findOne(params.id)
+
+    return {
+      playlist,
+      tracks: playlist.tracks
+    }
+  },
+  mounted() {
     this.loading = true
-    const idPlaylist = this.$route.params.id
+    //const idPlaylist = this.$route.params.id
 
-    const resultFindPlaylist = await playlistService.findOne(idPlaylist)
-    this.playlist = resultFindPlaylist.data
+    //const resultFindPlaylist = await playlistService.findOne(idPlaylist)
+    //this.playlist = resultFindPlaylist.data
 
-    if (this.playlist.tracks) this.tracks = this.playlist.tracks
+    //if (this.playlist.tracks) this.tracks = this.playlist.tracks
+
     this.loading = false
 
     this.$bus.$on('playingTrack', (idTrackPlaying) => {

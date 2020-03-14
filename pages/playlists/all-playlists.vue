@@ -194,6 +194,31 @@ export default {
           hid: 'description',
           name: 'description',
           content: 'Browse all playlists from our contributors.'
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: `Browse all playlists from our contributors.`
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: `Browse all public tandas that users shared with us. `
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: require('@/static/tandafuriabanner.jpg')
+        },
+        {
+          hid: 'og:image:width',
+          name: 'og:image:width',
+          content: `1280`
+        },
+        {
+          hid: 'og:image:height',
+          name: 'og:image:height',
+          content: `486`
         }
       ]
     }

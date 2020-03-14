@@ -9,6 +9,8 @@
 
 <script>
 import { tandaService } from '@/services/tandas.service.js'
+import { orchestras } from '@/data/orchestras'
+
 import TandaItem from '~/components/TandaItem'
 
 export default {
@@ -16,18 +18,39 @@ export default {
     TandaItem
   },
   head() {
+    const tandaDate = this.$moment(this.tanda.date).format('MM-DD-YYYY')
     return {
-      title: `Listen to great tandas on Tandafuria`,
+      title: `${this.orchestra.title} ${this.tanda.genre} tanda by ${this.tanda.author.name} the ${tandaDate}`,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: 'Create and discover great tandas on tandafuria.'
+          content: `${this.orchestra.title} ${this.tanda.genre} tanda created by ${this.tanda.author.name} containing ${this.tanda.tracks.length} tracks`
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: `${this.orchestra.title} ${this.tanda.genre} tanda by ${this.tanda.author.name} the ${tandaDate}`
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: `${this.orchestra.title} ${this.tanda.genre} tanda created by ${this.tanda.author.name} containing ${this.tanda.tracks.length} tracks`
         },
         {
           hid: 'og:image',
           name: 'og:image',
           content: require('@/static/tandafuriabanner.jpg')
+        },
+        {
+          hid: 'og:image:width',
+          name: 'og:image:width',
+          content: `1280`
+        },
+        {
+          hid: 'og:image:height',
+          name: 'og:image:height',
+          content: `486`
         }
       ]
     }
@@ -35,12 +58,23 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      tanda: {}
+      tanda: this.tanda,
+      orchestra: this.orchestra
     }
   },
-  async created() {
-    this.tanda = await tandaService.getOneTanda(this.id)
+
+  async asyncData({ params }) {
+    const tanda = await tandaService.getOneTanda(params.id)
+    const orchestra = orchestras.find(
+      (orchestra) => orchestra.id === tanda.orchestra
+    )
+
+    return {
+      tanda,
+      orchestra
+    }
   },
+
   mounted() {}
 }
 </script>
