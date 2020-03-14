@@ -17,7 +17,7 @@
 
           <div>
             <h2 class="title2 display-1 ma-5">
-              A DJ online tool to create great tandas and playlists
+              The Tango DJ online tool to Create great tandas and playlists
             </h2>
           </div>
         </div>
@@ -236,13 +236,24 @@ export default {
   },
   head() {
     return {
-      title: 'The tanda creator tool for tango djs',
+      title: 'The tanda online tool for tango DJs',
       meta: [
         {
           hid: 'description',
           name: 'description',
           content:
-            'Welcome to Tanda Furia, the only tanda online tool. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
+            'Welcome to Tanda Furia, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: 'The tanda online tool for tango DJs'
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content:
+            'Welcome to Tanda Furia, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
         },
         {
           hid: 'og:image',

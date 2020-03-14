@@ -1,7 +1,7 @@
 {
   "name": "tandafuria",
   "version": "1.0.0",
-  "description": "A tanda manager based on Spotify",
+  "description": "The Tango DJ online tool to Create great tandas and playlists",
   "author": "Fabien Grignoux",
   "private": true,
   "scripts": {
