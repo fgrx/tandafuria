@@ -24,12 +24,14 @@ export const orchestras = [
   { id: 'opugliese', title: 'Osvaldo Pugliese' },
   { id: 'plaurenz', title: 'Pedro Laurenz' },
   { id: 'rcanaro', title: 'Rafael Canaro' },
-  { id: 'apontier', title: 'Armando Pontier' },
   { id: 'rmalerba', title: 'Ricardo Malerba' },
   { id: 'rfirpo', title: 'Roberto Firpo' },
   { id: 'rbiagi', title: 'Rodolfo Biagi' },
   { id: 'tvictor', title: 'Tipica Victor' },
   { id: 'tbrunswick', title: 'Tipica Brunswick' },
+  { id: 'apontier', title: 'Armando Pontier' },
+  { id: 'francinipontier', title: 'Orchesta Francini Pontier' },
+  { id: 'agobbi', title: 'Alfredo Gobbi' },
   { id: 'mixed', title: 'Mixed orchestras' },
   { id: 'other', title: 'Other orchestra' }
 ]

@@ -122,6 +122,7 @@ export default {
         }
 
         const resultSearch = await this.$axios.get(url)
+
         return resultSearch
       } catch (e) {
         alert('Search error, please contact me to help me fix this problem', e)
@@ -143,9 +144,11 @@ export default {
       })
 
       this.textResults = 'album ' + results.data.name
-      this.tracksWithoutAlbum = results.data.tracks.items
+      const tracksWithoutAlbum = results.data.tracks.items
 
-      this.tracks.forEach((track) => (track.album = album))
+      tracksWithoutAlbum.forEach((track) => (track.album = album))
+
+      this.tracks = tracksWithoutAlbum
 
       this.loading = false
     }
