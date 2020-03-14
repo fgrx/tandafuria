@@ -159,7 +159,9 @@ export default {
         this.snackbar = true
 
         this.$store.dispatch('authApp/setUser', user)
-        localStorage.setItem('user', JSON.stringify(user))
+        if (process.browser) {
+          localStorage.setItem('user', JSON.stringify(user))
+        }
 
         //  need to signin again if password has changed
         if (this.password) {

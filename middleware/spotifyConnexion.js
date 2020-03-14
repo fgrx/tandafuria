@@ -12,25 +12,28 @@ export default function({ store, route, redirect }) {
 }
 
 const initSpotifyTokens = (store) => (redirect) => async (route) => {
-  const token =
-    store.getters['authSpotify/getToken'] ||
-    localStorage.getItem('access_token')
-  const refreshToken =
-    store.getters['authSpotify/getRefreshToken'] ||
-    localStorage.getItem('refresh_token')
+  if (process.browser) {
+    const token =
+      store.getters['authSpotify/getToken'] ||
+      localStorage.getItem('access_token')
+    const refreshToken =
+      store.getters['authSpotify/getRefreshToken'] ||
+      localStorage.getItem('refresh_token')
 
-  if (token) store.dispatch('authSpotify/setToken', token)
-  if (refreshToken) store.dispatch('authSpotify/setRefreshToken', refreshToken)
+    if (token) store.dispatch('authSpotify/setToken', token)
+    if (refreshToken)
+      store.dispatch('authSpotify/setRefreshToken', refreshToken)
 
-  if (refreshToken == null) {
-    askCodeFromSpotify(redirect)
-  } else {
-    const newToken = await spotifyConnexionService.refreshTokenFromSpotify(
-      refreshToken
-    )
+    if (refreshToken == null) {
+      askCodeFromSpotify(redirect)
+    } else {
+      const newToken = await spotifyConnexionService.refreshTokenFromSpotify(
+        refreshToken
+      )
 
-    await store.dispatch('authSpotify/setToken', newToken)
-    localStorage.setItem('access_token', newToken)
+      await store.dispatch('authSpotify/setToken', newToken)
+      localStorage.setItem('access_token', newToken)
+    }
   }
 }
 

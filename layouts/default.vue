@@ -276,16 +276,25 @@ export default {
         'authSpotify/setToken',
         resultTokensFromSpotify.accessToken
       )
-      localStorage.setItem('access_token', resultTokensFromSpotify.accessToken)
+
+      if (process.browser) {
+        localStorage.setItem(
+          'access_token',
+          resultTokensFromSpotify.accessToken
+        )
+      }
 
       await this.$store.dispatch(
         'authSpotify/setRefreshToken',
         resultTokensFromSpotify.refreshToken
       )
-      localStorage.setItem(
-        'refresh_token',
-        resultTokensFromSpotify.refreshToken
-      )
+
+      if (process.browser) {
+        localStorage.setItem(
+          'refresh_token',
+          resultTokensFromSpotify.refreshToken
+        )
+      }
 
       const userUpdated = JSON.parse(JSON.stringify(this.user))
       userUpdated.refreshToken = resultTokensFromSpotify.refreshToken

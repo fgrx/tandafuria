@@ -42,6 +42,6 @@ export const userService = {
   },
 
   logout() {
-    localStorage.clear()
+    if (process.browser) localStorage.clear()
   }
 }

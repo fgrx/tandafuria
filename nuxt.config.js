@@ -1,10 +1,17 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
+  router: {
+    mode: 'hash',
+    base: '/dist/'
+  },
+  generate: {
+    fallback: true
+  },
   env: {
     DEV_serverUrl: 'http://localhost:4000',
     PROD_serverUrl: 'https://tandafuria.herokuapp.com',

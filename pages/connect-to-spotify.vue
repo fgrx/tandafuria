@@ -50,7 +50,9 @@ export default {
       this.$store.dispatch('authApp/setUser', modifiedUser)
 
       await userService.updateUser(modifiedUser, this.userInStore.token)
-      localStorage.setItem('user', JSON.stringify(modifiedUser))
+      if (process.browser) {
+        localStorage.setItem('user', JSON.stringify(modifiedUser))
+      }
 
       this.$router.replace({ path: '/' })
     }
