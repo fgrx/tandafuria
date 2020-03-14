@@ -146,11 +146,11 @@
 
 <script>
 import { orchestras } from '@/data/orchestras'
-import TrackItem from '~/components/TrackItem'
 
 import { tandaService } from '@/services/tandas.service.js'
 
 import RatingInfos from '@/components/RatingInfos'
+import TrackItem from '~/components/TrackItem'
 
 export default {
   components: {

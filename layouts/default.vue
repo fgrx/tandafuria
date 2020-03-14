@@ -190,8 +190,8 @@
 
 <script>
 import { userService } from '@/services/users.service'
-import PlaylistPlayer from '~/components/PlaylistPlayer'
 import PlayerSwitcher from '@/components/PlayerSwitcher'
+import PlaylistPlayer from '~/components/PlaylistPlayer'
 
 export default {
   components: {

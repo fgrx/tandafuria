@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import TrackItem from '~/components/TrackItem'
 import LoaderCircular from '@/components/LoaderCircular'
+import TrackItem from '~/components/TrackItem'
 
 export default {
   components: {
