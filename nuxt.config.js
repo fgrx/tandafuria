@@ -5,10 +5,6 @@ export default {
   /*
    ** Headers of the page
    */
-  router: {
-    mode: 'hash',
-    base: '/dist/'
-  },
   generate: {
     fallback: true
   },
