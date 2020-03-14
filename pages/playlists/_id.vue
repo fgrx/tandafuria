@@ -166,7 +166,7 @@ export default {
         {
           hid: 'og:image',
           name: 'og:image',
-          content: `./static/tandafuriabanner.jpg`
+          content: require('@/static/tandafuriabanner.jpg')
         }
       ]
     }
@@ -194,7 +194,7 @@ export default {
   },
   async mounted() {
     this.loading = true
-    const idPlaylist = this.$route.query.id
+    const idPlaylist = this.$route.params.id
 
     const resultFindPlaylist = await playlistService.findOne(idPlaylist)
     this.playlist = resultFindPlaylist.data
@@ -316,7 +316,7 @@ export default {
           : process.env.PROD_clientUrl
 
       try {
-        await this.$copyText(`${baseUrl}/playlist?id=${this.playlist._id}`)
+        await this.$copyText(`${baseUrl}/playlist/${this.playlist._id}`)
       } catch (e) {
         //console.error(e)
       }

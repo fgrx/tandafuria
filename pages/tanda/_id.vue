@@ -23,13 +23,18 @@ export default {
           hid: 'description',
           name: 'description',
           content: 'Create and discover great tandas on tandafuria.'
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: require('@/static/tandafuriabanner.jpg')
         }
       ]
     }
   },
   data() {
     return {
-      id: this.$route.query.id,
+      id: this.$route.params.id,
       tanda: {}
     }
   },

@@ -159,16 +159,16 @@ export default {
         this.snackbar = true
 
         this.$store.dispatch('authApp/setUser', user)
-        if (process.browser) {
-          localStorage.setItem('user', JSON.stringify(user))
-        }
+
+        //localStorage.setItem('user', JSON.stringify(user))
+        this.$cookies.set('user', JSON.stringify(user))
 
         //  need to signin again if password has changed
         if (this.password) {
           alert(
             'Your modifications have been saved. You will have to sign in again, thank you !'
           )
-          userService.logout()
+          this.$cookies.removeAll()
           document.location.href = '/signin'
         }
       } else {

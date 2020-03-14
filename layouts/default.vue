@@ -242,7 +242,7 @@ export default {
   },
   methods: {
     logout() {
-      userService.logout()
+      this.$cookies.removeAll()
       this.$store.dispatch('authApp/clearUser')
       document.location.href = '/'
     },
@@ -277,24 +277,24 @@ export default {
         resultTokensFromSpotify.accessToken
       )
 
-      if (process.browser) {
-        localStorage.setItem(
-          'access_token',
-          resultTokensFromSpotify.accessToken
-        )
-      }
+      // localStorage.setItem(
+      //   'access_token',
+      //   resultTokensFromSpotify.accessToken
+      // )
+
+      this.$cookies.set('access_token', resultTokensFromSpotify.accessToken)
 
       await this.$store.dispatch(
         'authSpotify/setRefreshToken',
         resultTokensFromSpotify.refreshToken
       )
 
-      if (process.browser) {
-        localStorage.setItem(
-          'refresh_token',
-          resultTokensFromSpotify.refreshToken
-        )
-      }
+      // localStorage.setItem(
+      //   'refresh_token',
+      //   resultTokensFromSpotify.refreshToken
+      // )
+
+      this.$cookies.set('refresh_token', resultTokensFromSpotify.refreshToken)
 
       const userUpdated = JSON.parse(JSON.stringify(this.user))
       userUpdated.refreshToken = resultTokensFromSpotify.refreshToken

@@ -25,6 +25,11 @@ export default {
           hid: 'description',
           name: 'description',
           content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: require('@/static/tandafuriabanner.jpg')
         }
       ]
     }

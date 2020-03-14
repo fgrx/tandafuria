@@ -164,6 +164,7 @@
 
 <script>
 import { userService } from '@/services/users.service'
+
 export default {
   data() {
     return {
@@ -246,7 +247,7 @@ export default {
         {
           hid: 'og:image',
           name: 'og:image',
-          content: `@/static/tandafuriabanner.jpg`
+          content: require('@/static/tandafuriabanner.jpg')
         },
         {
           hid: 'og:image:width',

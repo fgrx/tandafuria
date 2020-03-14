@@ -39,7 +39,7 @@
                     <v-btn
                       :to="{
                         name: 'playlist',
-                        query: { id: playlistItem._id }
+                        params: { id: playlistItem._id }
                       }"
                       >{{ playlistItem.name }} !!!</v-btn
                     >
@@ -115,8 +115,8 @@
                   <v-list-item-title two-line class="headline mb-1">
                     <v-btn
                       :to="{
-                        name: 'playlist',
-                        query: { id: playlistItem._id }
+                        name: 'playlists-id',
+                        params: { id: playlistItem._id }
                       }"
                       text
                       >{{ playlistItem.name }}</v-btn

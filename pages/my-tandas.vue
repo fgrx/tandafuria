@@ -22,6 +22,11 @@ export default {
           hid: 'description',
           name: 'description',
           content: "Browse all the tanda you've created or imported."
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: require('@/static/tandafuriabanner.jpg')
         }
       ]
     }

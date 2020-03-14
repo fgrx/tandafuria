@@ -1,9 +1,7 @@
-export default function({ store }) {
+export default function({ store, app }) {
   // Load User
-  if (process.browser) {
-    if (localStorage.getItem('user')) {
-      const user = JSON.parse(localStorage.getItem('user'))
-      store.dispatch('authApp/setUser', user)
-    }
+  if (app.$cookies.get('user')) {
+    const user = app.$cookies.get('user')
+    store.dispatch('authApp/setUser', user)
   }
 }

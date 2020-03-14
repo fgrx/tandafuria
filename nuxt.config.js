@@ -60,6 +60,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     'nuxt-clipboard2',
+    'cookie-universal-nuxt',
     'nuxt-webfontloader',
     [
       '@nuxtjs/google-analytics',

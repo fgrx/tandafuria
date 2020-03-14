@@ -39,9 +39,5 @@ export const userService = {
   async getTopUsers() {
     const result = await axios.get(urlApi + '/users')
     return result.data
-  },
-
-  logout() {
-    if (process.browser) localStorage.clear()
   }
 }

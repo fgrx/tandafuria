@@ -70,9 +70,8 @@ export default {
 
         this.$store.dispatch('authApp/setUser', user)
 
-        if (process.browser) {
-          localStorage.setItem('user', JSON.stringify(user))
-        }
+        //localStorage.setItem('user', JSON.stringify(user))
+        this.$cookies.set('user', JSON.stringify(user))
 
         // this.$router.replace({ path: '/my-tandas' })
         document.location.href = '/'

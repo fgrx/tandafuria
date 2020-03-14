@@ -226,7 +226,8 @@ export default {
     }
     this.changeDefaultSearchValue()
 
-    if (this.$route.query.playlist) this.playlistId = this.$route.query.playlist
+    if (this.$route.params.playlist)
+      this.playlistId = this.$route.params.playlist
   },
   methods: {
     openSpotifyBrowser() {
@@ -284,7 +285,7 @@ export default {
         )
 
         this.$router.replace({
-          path: `/playlist?id=${this.playlistId}#end`
+          path: `/playlist/${this.playlistId}#end`
         })
       } else {
         this.$router.replace({ path: '/my-tandas' })
@@ -336,9 +337,9 @@ export default {
       this.$store.dispatch('authApp/setUser', modifiedUser)
 
       userService.updateUser(modifiedUser, this.userInStore.token)
-      if (process.browser) {
-        localStorage.setItem('user', JSON.stringify(modifiedUser))
-      }
+
+      //localStorage.setItem('user', JSON.stringify(modifiedUser))
+      this.$cookies.set('user', JSON.stringify(modifiedUser))
     },
     updateTanda() {
       const tanda = this.buildTandaFromForm()
