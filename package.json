@@ -10,7 +10,8 @@
     "start": "NODE_ENV=production nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@bazzite/nuxt-netlify": "^0.1.1",
