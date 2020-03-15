@@ -49,7 +49,7 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    script: [{ src: ' https://sdk.scdn.co/spotify-player.js' }],
+    //script: [{ src: ' https://sdk.scdn.co/spotify-player.js' }],
     link: [{ rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
