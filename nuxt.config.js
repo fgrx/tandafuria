@@ -34,7 +34,7 @@ export default {
     DEV_serverUrl: 'http://localhost:4000',
     PROD_serverUrl: 'https://tandafuria.herokuapp.com',
     DEV_clientUrl: 'http://localhost:3000',
-    PROD_clientUrl: 'https://www.tandafury.com',
+    PROD_clientUrl: 'https://tandafury.com',
     numberOfItemsToDisplay: 12
   },
   head: {
@@ -102,7 +102,7 @@ export default {
     '@nuxtjs/sitemap'
   ],
   sitemap: {
-    hostname: 'https://www.tandafury.com',
+    hostname: 'https://tandafury.com',
     gzip: true,
     routes: generateRoutes
   },
