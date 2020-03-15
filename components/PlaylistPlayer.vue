@@ -1,5 +1,6 @@
 <template>
-  <div class="playerFromSpotify">
+  <div class="playerGeneral">
+    <div class="importCdn" v-if="user.spotify"></div>
     <script
       v-if="user.spotify"
       src="https://sdk.scdn.co/spotify-player.js"
