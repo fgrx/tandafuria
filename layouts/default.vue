@@ -191,7 +191,7 @@
 <script>
 import { userService } from '@/services/users.service'
 import PlayerSwitcher from '@/components/PlayerSwitcher'
-import PlaylistPlayer from '~/components/PlaylistPlayer'
+import PlaylistPlayer from '@/components/PlaylistPlayer'
 
 export default {
   components: {

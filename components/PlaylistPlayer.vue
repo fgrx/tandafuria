@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="playerFromSpotify">
     <script
       v-if="user.spotify"
       src="https://sdk.scdn.co/spotify-player.js"
