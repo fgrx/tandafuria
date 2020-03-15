@@ -47,6 +47,10 @@ export default {
         hid: 'description',
         name: 'description',
         content: process.env.npm_package_description || ''
+      },
+      {
+        name: 'google-site-verification',
+        content: 'j0TfbxpdSM5_oV_dazaWsNkhoMZA4h6kER3KPBUCIvA'
       }
     ],
     script: [{ src: ' https://sdk.scdn.co/spotify-player.js' }],
