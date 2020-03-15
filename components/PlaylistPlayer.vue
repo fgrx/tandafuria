@@ -323,7 +323,7 @@ export default {
       const token = this.accessToken
 
       const sdk = new Player({
-        name: 'TandaFuria',
+        name: 'Tandafury',
         volume: 1.0,
         getOAuthToken: (callback) => {
           callback(token)

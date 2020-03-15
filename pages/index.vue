@@ -5,21 +5,21 @@
         <div class="centerVertically">
           <div>
             <h1 class="title1 display-4">
-              <span class="invisible">Tanda Furia</span>
+              <span class="invisible">Tanda fury</span>
               <v-img
                 :src="require('~/static/logo-white.png')"
-                alt="Tanda Furia"
+                alt="Tanda fury"
                 max-width="680px"
                 class="logoTandaFuria"
               />
             </h1>
           </div>
 
-          <div>
+          <!-- <div>
             <h2 class="title2 display-1 ma-5">
               A Tango DJ tool to create great tandas and playlists
             </h2>
-          </div>
+          </div> -->
         </div>
 
         <v-img
@@ -32,7 +32,7 @@
       <!-- <v-img
           :src="require('@/static/icon.png')"
           max-height="50px"
-          alt="tanda furia logo"
+          alt="tanda fury logo"
         /> -->
     </v-card>
 
@@ -253,12 +253,12 @@ export default {
           hid: 'og:description',
           name: 'og:description',
           content:
-            'Welcome to Tanda Furia, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
+            'Welcome to Tanda fury, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
         },
         {
           hid: 'og:image',
           name: 'og:image',
-          content: require('@/static/tandafuriabanner.jpg')
+          content: require('@/static/tandafurybanner.jpg')
         },
         {
           hid: 'og:image:width',

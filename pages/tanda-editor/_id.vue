@@ -55,7 +55,7 @@ export default {
         {
           hid: 'og:image',
           name: 'og:image',
-          content: require('@/static/tandafuriabanner.jpg')
+          content: require('@/static/tandafurybanner.jpg')
         },
         {
           hid: 'og:image:width',

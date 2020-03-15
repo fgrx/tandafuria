@@ -3,11 +3,11 @@
     <v-flex>
       <v-card raised class="mx-auto mb-4" max-width="850">
         <v-card-title>
-          <h1>About Tanda Furia</h1>
+          <h1>About Tanda fury</h1>
         </v-card-title>
         <v-card-text class="body-1">
           <p>
-            TandaFuria is made by Fabien Grignoux. I'm a tango dancer / Dj / Web
+            Tandafury is made by Fabien Grignoux. I'm a tango dancer / Dj / Web
             developer from Lyon in France.<br />
             If you like this application or if you have any suggestions or ideas
             to improve this app, please contact me on Facebook or LinkedIn :
@@ -40,9 +40,8 @@
             Why do i need a Spotify premium account to listen to full tracks ?
           </h3>
           <p>
-            TandaFuria use a Spotify player to send sound to your speaker. Due
-            to Spotify's policies, only premium users can use this
-            functionnality.
+            Tandafury use a Spotify player to send sound to your speaker. Due to
+            Spotify's policies, only premium users can use this functionnality.
           </p>
           <v-divider class="mb-4"></v-divider>
           <h3>
@@ -58,7 +57,7 @@
           </h3>
           <p>
             No, Spotify does not allow users to save music on their computer.
-            However you can still edit your playlists on Tanda Furia, and save
+            However you can still edit your playlists on Tanda fury, and save
             and sync them with the official spotify app (mobile or desktop).
           </p>
 
@@ -96,29 +95,29 @@
 export default {
   head() {
     return {
-      title: 'About Tanda Furia',
+      title: 'About Tanda fury',
       meta: [
         {
           hid: 'description',
           name: 'description',
           content:
-            'Tanda Furia is created by Fabien Grignoux, a french web developper in Lyon (France). In this page you will find technical details about this tool and other frequently asked questions.'
+            'Tanda fury is created by Fabien Grignoux, a french web developper in Lyon (France). In this page you will find technical details about this tool and other frequently asked questions.'
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: `About Tanda Furia`
+          content: `About Tanda fury`
         },
         {
           hid: 'og:description',
           name: 'og:description',
           content:
-            'Tanda Furia is created by Fabien Grignoux, a french web developper in Lyon (France). In this page you will find technical details about this tool and other frequently asked questions.'
+            'Tanda fury is created by Fabien Grignoux, a french web developper in Lyon (France). In this page you will find technical details about this tool and other frequently asked questions.'
         },
         {
           hid: 'og:image',
           name: 'og:image',
-          content: require('@/static/tandafuriabanner.jpg')
+          content: require('@/static/tandafurybanner.jpg')
         },
         {
           hid: 'og:image:width',

@@ -1,10 +1,10 @@
-# tandafuria
+# tandfury
 
 > A tanda manager based on Spotify
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 

@@ -16,7 +16,7 @@
 
         <img
           src="~/static/logo.png"
-          alt="Tanda Furia"
+          alt="Tanda fury"
           class="mt-8 mx-auto"
           height="40em"
           centered
@@ -211,7 +211,7 @@ export default {
       flashMessage: false,
       textFlashMessage: '',
       miniVariant: false,
-      title: 'TandaFuria',
+      title: 'Tandafury',
       subtitle: 'The tanda creation tool'
     }
   },
