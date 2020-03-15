@@ -49,8 +49,8 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    script: [],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    script: [{ src: ' https://sdk.scdn.co/spotify-player.js' }],
+    link: [{ rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
    ** Customize the progress-bar color

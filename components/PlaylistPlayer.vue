@@ -1,10 +1,10 @@
 <template>
   <div class="playerGeneral">
-    <div class="importCdn" v-if="user.spotify"></div>
-    <script
+    <div v-if="user.spotify" class="importCdn"></div>
+    <!-- <script
       v-if="user.spotify"
       src="https://sdk.scdn.co/spotify-player.js"
-    ></script>
+    ></script> -->
     <div
       v-if="display"
       role="document"
