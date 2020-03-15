@@ -1,7 +1,12 @@
 <template>
   <div class="playerGeneral">
     <div v-if="user.spotify" class="importCdn"></div>
-
+    <!-- <client-only>
+      <script
+        v-if="user.spotify"
+        src="https://sdk.scdn.co/spotify-player.js"
+      ></script>
+    </client-only> -->
     <div
       v-if="display"
       role="document"
@@ -106,11 +111,11 @@ export default {
     }
   },
   computed: {
-    player() {
-      const playerRef = 'bottomPlayer'
-      const domRefPlayer = this.$refs[playerRef].player
-      return domRefPlayer
-    }
+    // player() {
+    //   const playerRef = 'bottomPlayer'
+    //   const domRefPlayer = this.$refs[playerRef].player
+    //   return domRefPlayer
+    // }
   },
   created() {
     this.$store.subscribe((mutation, state) => {
@@ -121,6 +126,10 @@ export default {
   },
 
   mounted() {
+    const playerRef = 'bottomPlayer'
+    const domRefPlayer = this.$refs[playerRef].player
+    console.log('>>', domRefPlayer)
+
     if (this.user.spotify) this.initiatePlayerSpotifyPlayer()
 
     this.$bus.$on('playlistPlayer', (params) => {
