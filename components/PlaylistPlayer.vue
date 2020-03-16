@@ -190,7 +190,8 @@ export default {
         this.spotifyPlayer.seek(this.playingPosition)
       } else {
         const playerComponentRef = this.player
-        playerComponentRef.forward(this.playlingPosition)
+        const position = Math.round(this.playingPosition / 1000)
+        playerComponentRef.currentTime = position
       }
     },
     close() {
