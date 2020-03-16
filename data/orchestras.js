@@ -28,10 +28,13 @@ export const orchestras = [
   { id: 'rfirpo', title: 'Roberto Firpo' },
   { id: 'rbiagi', title: 'Rodolfo Biagi' },
   { id: 'tvictor', title: 'Tipica Victor' },
+  { id: 'ldemare', title: 'Lucio Demare' },
+  { id: 'omaderna', title: 'Osmar Maderna' },
   { id: 'tbrunswick', title: 'Tipica Brunswick' },
   { id: 'apontier', title: 'Armando Pontier' },
-  { id: 'francinipontier', title: 'Orchesta Francini Pontier' },
+  { id: 'francinipontier', title: 'Orchestra Francini Pontier' },
   { id: 'agobbi', title: 'Alfredo Gobbi' },
-  { id: 'mixed', title: 'Mixed orchestras' },
+  { id: 'mixed', title: 'Mixed orchestras < 1970' },
+  { id: 'mixednew', title: 'Mixed orchestras > 1970' },
   { id: 'other', title: 'Other orchestra' }
 ]

@@ -98,8 +98,8 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item>
-              <v-list-item-title v-if="currentUser.id">
+            <v-list-item v-if="currentUser.id">
+              <v-list-item-title>
                 <v-btn
                   @click="addToPlaylist(tanda.tracks)"
                   color="primary"

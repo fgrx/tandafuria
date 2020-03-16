@@ -1,6 +1,11 @@
 <template>
   <v-row class="mx-auto mb-4 mt-4">
     <v-col offset-md="3" md="6">
+      <h1>
+        <span v-if:="tanda.instrumental">Instrumental</span>
+        {{ orchestra.title }} {{ tanda.genre }} tanda
+        <span v-if:="!tanda.instrumental">{{ tanda.singer }} </span>
+      </h1>
       <TandaItem v-if="tanda.tracks" :tanda="tanda" />
       <div class="spaceBottom"></div>
     </v-col>

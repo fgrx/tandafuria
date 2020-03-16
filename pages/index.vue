@@ -15,11 +15,11 @@
             </h1>
           </div>
 
-          <!-- <div>
+          <div>
             <h2 class="title2 display-1 ma-5">
-              A Tango DJ tool to create great tandas and playlists
+              A tango DJ tool to create great tandas and playlists
             </h2>
-          </div> -->
+          </div>
         </div>
 
         <v-img
