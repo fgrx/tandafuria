@@ -14,14 +14,14 @@
         {{ playlist.description }}
       </v-card-text>
       <v-card-text>
-        <v-btn v-if="tracks.length > 0" @click="play()" block
+        <v-btn v-if="tracks" @click="play()" block
           ><v-icon>mdi-play</v-icon>Start playlist</v-btn
         >
       </v-card-text>
 
       <LoaderCircular v-if="loading" />
 
-      <v-card-text v-if="tracks.length === 0 && !loading">
+      <v-card-text v-if="!tracks && !loading">
         Your playlist doesn't have any track to play. Click on the button bellow
         to add your first one !
       </v-card-text>
@@ -156,22 +156,22 @@ export default {
   middleware: ['spotifyConnexion'],
   head() {
     return {
-      title: `Playlist by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tracks`,
+      title: `Playlist by ${this.playlist.author.name} containing ${this.nbTracks} tracks`,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tango tracks`
+          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: `Playlist by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tracks`
+          content: `Playlist by ${this.playlist.author.name} containing ${this.nbTracks} tracks`
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.playlist.tracks.length} tango tracks`
+          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
         },
         {
           hid: 'og:image',
@@ -199,7 +199,8 @@ export default {
       tracks: this.tracks,
       trackPlaying: '',
       currentUser: this.$store.getters['authApp/getUser'],
-      modified: false
+      modified: false,
+      nbTracks: 0
     }
   },
   computed: {
@@ -214,10 +215,13 @@ export default {
   },
   async asyncData({ params }) {
     const playlist = await playlistService.findOne(params.id)
+    let nbTracks = 0
+    if (playlist.tracks) nbTracks = playlist.length
 
     return {
       playlist,
-      tracks: playlist.tracks
+      tracks: playlist.tracks,
+      nbTracks
     }
   },
   mounted() {
@@ -294,7 +298,7 @@ export default {
     },
     async savePlaylist() {
       this.playlist.tracks = this.tracks
-      this.playlist.countTracks = this.tracks ? this.tracks.length : 0
+      this.playlist.countTracks = this.tracks ? this.nbTracks : 0
 
       try {
         await playlistService.update(this.playlist, this.currentUser.token)
