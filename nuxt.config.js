@@ -80,6 +80,11 @@ export default {
   /*
    ** Nuxt.js modules
    */
+
+  serverMiddleware: [
+    // To redirect with heroku http -> https
+    'redirect-ssl'
+  ],
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     ['@bazzite/nuxt-netlify', {}],

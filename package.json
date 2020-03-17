@@ -25,6 +25,7 @@
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-webfontloader": "^1.1.0",
     "plyr": "^3.5.10",
+    "redirect-ssl": "^1.4.1",
     "vue-plyr": "^6.0.4",
     "vuedraggable": "^2.23.2"
   },
