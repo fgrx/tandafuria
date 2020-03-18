@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div class="text-center ">
     <v-card raised align="center">
       <div id="topSite">
         <div class="centerVertically">
@@ -35,6 +35,24 @@
           alt="tanda fury logo"
         /> -->
     </v-card>
+
+    <v-container v-if="!signed">
+      <h2 class="display-3 mt-12 mb-3">What is TandaFury ?</h2>
+      <h3 class="display-1 mb-3">
+        TandaFury explained in less than 2 mins
+      </h3>
+      <v-card>
+        <div class="youtubeContainer">
+          <iframe
+            src="https://www.youtube.com/embed/NUiQS7lWw8Q"
+            class="youtubeVideo"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </v-card>
+    </v-container>
 
     <v-container v-if="!signed">
       <h2 class="display-3 mt-12 mb-3">Register to get full access</h2>
@@ -399,5 +417,20 @@ h1 {
 
 li.noTick {
   list-style-type: none;
+}
+
+.youtubeContainer {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.youtubeVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

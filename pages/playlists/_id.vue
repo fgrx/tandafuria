@@ -48,7 +48,7 @@
             >
               <TrackItem :track="track" />
 
-              <v-list-item-action>
+              <v-list-item-action v-if="playlist.author.id === currentUser.id">
                 <v-btn class="handle">
                   <v-icon color="primary">mdi-drag-variant</v-icon>
                 </v-btn>
