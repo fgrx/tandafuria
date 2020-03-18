@@ -349,7 +349,7 @@ export default {
           : process.env.PROD_clientUrl
 
       try {
-        await this.$copyText(`${baseUrl}/playlist/${this.playlist._id}`)
+        await this.$copyText(`${baseUrl}/playlists/${this.playlist._id}`)
       } catch (e) {
         //console.error(e)
       }

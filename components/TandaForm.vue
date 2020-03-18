@@ -226,8 +226,7 @@ export default {
     }
     this.changeDefaultSearchValue()
 
-    if (this.$route.params.playlist)
-      this.playlistId = this.$route.params.playlist
+    if (this.$route.query.playlist) this.playlistId = this.$route.query.playlist
   },
   methods: {
     openSpotifyBrowser() {
@@ -285,7 +284,7 @@ export default {
         )
 
         this.$router.replace({
-          path: `/playlist/${this.playlistId}#end`
+          path: `/playlists/${this.playlistId}#end`
         })
       } else {
         this.$router.replace({ path: '/my-tandas' })
