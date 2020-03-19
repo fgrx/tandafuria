@@ -4,12 +4,12 @@
     <v-card-text class="body-1">
       <div v-if="!emailSent">
         <p>
-          You lost your password ? no problem, we will send you an email to
+          Did you lost your password ? no problem, we will send you an email to
           reset it.
         </p>
         <p>
           If you don't receive an email in few seconds, please check spams in
-          you inbox.
+          you mailbox.
         </p>
 
         <v-form ref="form" v-model="valid">
