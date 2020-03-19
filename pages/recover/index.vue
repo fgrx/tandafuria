@@ -12,13 +12,15 @@
           you inbox.
         </p>
 
-        <form ref="form">
+        <v-form ref="form" v-model="valid">
           <v-text-field
             v-model="username"
+            @keydown.enter="sendMail()"
+            :rules="emailRules"
             label="Email address"
             placeholder="myemail@gmail.com"
           ></v-text-field>
-        </form>
+        </v-form>
       </div>
 
       <div v-if="emailSent">
@@ -37,7 +39,11 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn v-if="!emailSent" @click="sendMail()" color="primary"
+      <v-btn
+        v-if="!emailSent"
+        :disabled="!valid"
+        @click="sendMail()"
+        color="primary"
         >Recover password</v-btn
       >
       <v-btn to="../signin">Back</v-btn>
@@ -51,7 +57,12 @@ export default {
   data() {
     return {
       username: '',
-      emailSent: false
+      emailSent: false,
+      valid: false,
+      emailRules: [
+        (v) => !!v || 'E-mail is required',
+        (v) => /.+@.+/.test(v) || 'E-mail must be valid'
+      ]
     }
   },
   methods: {
