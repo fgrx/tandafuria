@@ -29,7 +29,13 @@
           type="password"
         ></v-text-field>
       </form>
+      <p class="text-right">
+        <v-btn to="/recover" text color="primary"
+          >Did you lost your password ?</v-btn
+        >
+      </p>
     </v-card-text>
+
     <v-card-actions>
       <v-btn @click="signin()" color="primary">Sign in</v-btn>
       <v-btn to="/">Back</v-btn>

@@ -39,5 +39,21 @@ export const userService = {
   async getTopUsers() {
     const result = await axios.get(urlApi + '/users')
     return result.data
+  },
+
+  async sendRecoveryMail(email) {
+    const result = await axios.post(urlApi + '/auth/requestNewPassword', {
+      email
+    })
+    return result
+  },
+
+  async resetPassword(email, code, password) {
+    const result = await axios.post(urlApi + '/auth/resetPassword', {
+      email,
+      code,
+      password
+    })
+    return result
   }
 }
