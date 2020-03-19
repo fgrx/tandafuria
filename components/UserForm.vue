@@ -178,8 +178,9 @@ export default {
       }
     },
     userBuilder() {
+      const usernameClean = this.username.replace(/\s/g, '').toLowerCase()
       const user = {
-        username: this.username,
+        username: usernameClean,
         nickname: this.nickname,
         spotify: this.spotify,
         contactByMail: this.contactByMail,
