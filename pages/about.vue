@@ -10,8 +10,12 @@
             Tandafury is made by Fabien Grignoux. I'm a tango dancer / Dj / Web
             developer from Lyon in France.<br />
             If you like this application or if you have any suggestions or ideas
-            to improve this app, please contact me on Facebook or LinkedIn :
+            to improve this app, please contact me by mail, Facebook or LinkedIn
+            :
           </p>
+          <v-btn text outlined color="primary" href="/contact"
+            ><v-icon>mdi-email</v-icon> Email</v-btn
+          >
           <v-btn
             text
             outlined

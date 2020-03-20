@@ -37,7 +37,7 @@ export const playlistService = {
     return result
   },
 
-  async getPlublicPlaylists(userId) {
+  async getPublicPlaylists(userId) {
     const result = await axios.get(urlApi + '/user/public/' + userId)
     return result
   },

@@ -161,7 +161,7 @@
         <li v-for="(user, userId) in topUsers" :key="userId" class="noTick">
           <v-btn
             v-if="user.countTanda > 0"
-            :to="{ name: 'djs-id', params: { id: user.id } }"
+            :to="{ name: 'djs-id', params: { id: user._id } }"
             text
           >
             <v-badge

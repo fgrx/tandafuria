@@ -95,6 +95,7 @@ import TandasList from '@/components/TandasList'
 
 export default {
   components: { TandasList },
+
   data() {
     return {
       user: {},
@@ -104,25 +105,50 @@ export default {
       countPlaylists: 0
     }
   },
-  async mounted() {
-    this.user = await this.getUser()
-    this.loadPlaylists()
-  },
-  methods: {
-    async getUser() {
-      const user = await userService.getUserInfos(this.userId)
-      return user.data
-    },
-    async loadPlaylists() {
-      const reqPlaylists = await playlistService.getPlublicPlaylists(
-        this.userId
-      )
-
-      const result = reqPlaylists.data
-
-      this.playlists = result.playlists
-      this.countPlaylists = result.countTotalResults
+  head() {
+    return {
+      title: `Informations about ${this.user.nickname}`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: `Listen to ${this.user.nickname}'s tandas and playlists`
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: `Informations about ${this.user.nickname}`
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: `Listen to ${this.user.nickname}'s tandas and playlists`
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: require('@/static/tandafurybanner.jpg')
+        },
+        {
+          hid: 'og:image:width',
+          name: 'og:image:width',
+          content: `1280`
+        },
+        {
+          hid: 'og:image:height',
+          name: 'og:image:height',
+          content: `486`
+        }
+      ]
     }
+  },
+  async asyncData({ params }) {
+    const user = await userService.getUserInfos(params.id)
+    const reqPlaylists = await playlistService.getPublicPlaylists(params.id)
+    const result = reqPlaylists.data
+    const playlists = result.playlists
+    const countPlaylists = result.countTotalResults
+    return { user: user.data, playlists, countPlaylists }
   }
 }
 </script>
