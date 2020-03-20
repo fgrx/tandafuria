@@ -4,7 +4,7 @@
       Dj {{ user.nickname }}
       <p>
         <v-btn v-if="user.link" :href="user.link" target="_blank" outlined
-          ><v-icon>mdi-link</v-icon> visite page
+          ><v-icon>mdi-link</v-icon> visit page
         </v-btn>
       </p>
     </h2>
@@ -146,8 +146,10 @@ export default {
     const user = await userService.getUserInfos(params.id)
     const reqPlaylists = await playlistService.getPublicPlaylists(params.id)
     const result = reqPlaylists.data
-    const playlists = result.playlists
-    const countPlaylists = result.countTotalResults
+    const playlists = result.playlists.filter(
+      (playlist) => playlist.countTracks > 0
+    )
+    const countPlaylists = playlists.length
     return { user: user.data, playlists, countPlaylists }
   }
 }
