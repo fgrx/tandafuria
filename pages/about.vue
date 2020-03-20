@@ -89,6 +89,22 @@
             If you use an add blocker, it may block these requests and as a
             result Spotify will stop the playing.
           </p>
+
+          <v-divider class="mb-4"></v-divider>
+          <h3>
+            Is there a connexion between TangoFury.com and TandaFury.com ?
+          </h3>
+          <p>
+            Yes ! I'm the creator of this two websites. If you want to watch
+            great tango videos give a try to Tangofury :
+            <v-btn
+              href="https://tangofury.com"
+              target="_blank"
+              color="primary"
+              outlined
+              >TangoFury.com</v-btn
+            >
+          </p>
         </v-card-text>
       </v-card>
     </v-flex>

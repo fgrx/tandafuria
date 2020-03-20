@@ -170,6 +170,21 @@
             </v-menu>
           </div>
         </v-list>
+
+        <div class="to-bottom ">
+          <p>
+            Follow us on
+            <v-btn
+              href="https://www.facebook.com/TandaFury-106496657656216"
+              target="_blank"
+              text
+              x-large
+              block
+              color="white"
+              ><v-icon>mdi-facebook</v-icon> Facebook
+            </v-btn>
+          </p>
+        </div>
       </v-navigation-drawer>
 
       <v-snackbar v-model="flash.display" :color="flash.color">
@@ -327,5 +342,13 @@ a {
 
 .spaceBottom {
   height: 8em;
+}
+
+.to-bottom {
+  bottom: 0%;
+  position: fixed;
+  text-align: center;
+  color: white;
+  font-size: 1.2em;
 }
 </style>
