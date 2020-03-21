@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card ref="browser">
     <v-card-title><h1>Browser</h1></v-card-title>
 
     <v-card-text>
@@ -14,6 +14,7 @@
         prepend-inner-icon="mdi-file-find-outline"
         clearable
       ></v-text-field>
+
       <v-list
         v-if="tracks.length > 0"
         two-line
@@ -21,27 +22,33 @@
         style="max-height: 500px"
         class="overflow-y-auto"
       >
-        <h2>Results for {{ textResults }}</h2>
-        <v-btn v-if="back" @click="searchSpotify()" text
-          ><v-icon>mdi-arrow-left-circle</v-icon>
-          Back to results
-        </v-btn>
-        <template v-for="(track, index) in tracks">
-          <TrackItem
-            @clicked="addTrackAction"
-            @requestAlbum="requestAlbumAction"
-            :track="track"
-            :key="index"
-            mode="browser"
-          />
+        <div id="resultsBrowser" ref="resultsBrowser">
+          <h2>Results for "{{ textResults }}"</h2>
+          <v-btn v-if="back" @click="searchSpotify()" text
+            ><v-icon>mdi-arrow-left-circle</v-icon>
+            Back to results
+          </v-btn>
+          <template v-for="(track, index) in tracks">
+            <TrackItem
+              @clicked="addTrackAction"
+              @requestAlbum="requestAlbumAction"
+              :track="track"
+              :key="index"
+              mode="browser"
+            />
 
-          <v-divider
-            v-if="index + 1 < tracks.length"
-            :key="track._id"
-          ></v-divider>
-        </template>
-        <div class="text-center">
-          <v-btn @click="showMore()" color="primary">Show more</v-btn>
+            <v-divider
+              v-if="index + 1 < tracks.length"
+              :key="track._id"
+            ></v-divider>
+          </template>
+          <div v-if="mode !== 'album'" class="text-center">
+            <v-btn @click="showMore()" color="primary">Show more</v-btn>
+          </div>
+          <v-btn v-if="back" @click="searchSpotify()" text
+            ><v-icon>mdi-arrow-left-circle</v-icon>
+            Back to results
+          </v-btn>
         </div>
       </v-list>
 
@@ -73,7 +80,8 @@ export default {
       loading: false,
       offset: 0,
       back: false,
-      textResults: ''
+      textResults: '',
+      mode: 'all'
     }
   },
   mounted() {
@@ -100,6 +108,7 @@ export default {
     },
     async launchRequest() {
       this.loading = true
+      this.mode = 'all'
       const results = await this.sendRequestToSpotify({
         search: this.searchString,
         offset: this.offset
@@ -136,6 +145,7 @@ export default {
     async requestAlbumAction(album) {
       this.back = true
       this.loading = true
+      this.mode = 'album'
 
       const results = await this.sendRequestToSpotify({
         search: album.id,
@@ -151,6 +161,11 @@ export default {
       this.tracks = tracksWithoutAlbum
 
       this.loading = false
+
+      const container = this.$el.querySelector('#resultsBrowser')
+      //this.$refs.resultsBrowser.scrollTop = 0
+      console.log(container.scrollHeight)
+      container.scrollY = 0
     }
   }
 }

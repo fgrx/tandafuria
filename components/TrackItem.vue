@@ -15,14 +15,6 @@
           {{ track.album.name.substr(0, 30) }} </span
         ><br />
         <v-btn
-          :href="youtubeLink"
-          target="_blank"
-          color="secondary"
-          small
-          outlined
-          ><v-icon>mdi-youtube</v-icon>Find on Youtube
-        </v-btn>
-        <v-btn
           v-if="track.album && mode === 'browser'"
           @click="requestAlbum(track.album)"
           color="primary"
@@ -31,6 +23,14 @@
         >
           <v-icon>mdi-album</v-icon>Album</v-btn
         >
+
+        <v-btn :href="youtubeLink" target="_blank" color="red" small outlined
+          ><v-icon>mdi-youtube</v-icon>Youtube
+        </v-btn>
+
+        <v-btn :href="elRecodoLink" target="_blank" color="blue" small outlined
+          ><v-icon>mdi-database-search</v-icon>El Recodo
+        </v-btn>
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action v-if="mode === 'browser'">
@@ -65,7 +65,8 @@ export default {
   data() {
     return {
       fullSong: false,
-      youtubeLink: ''
+      youtubeLink: '',
+      elRecodoLink: ''
     }
   },
   mounted() {
@@ -77,6 +78,7 @@ export default {
     const artistsSearch = this.track.artists.reduce(reducer, '')
 
     this.youtubeLink = `https://www.youtube.com/results?search_query=${this.track.name}+${artistsSearch}`
+    this.elRecodoLink = `https://www.el-recodo.com/music?lang=en&S=${this.track.name}`
   },
 
   methods: {

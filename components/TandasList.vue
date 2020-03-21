@@ -69,7 +69,7 @@
       </v-expansion-panels>
     </v-row>
 
-    <v-layout row wrap>
+    <v-layout ref="results" row wrap>
       <v-flex v-for="tanda in tandas" :key="tanda._id" xl3 lg4 md6 xs12>
         <TandaItem :tanda="tanda" />
       </v-flex>
@@ -77,7 +77,7 @@
 
     <PlaylistSelector />
 
-    <loader v-if="loading" />
+    <Loader v-if="loading" />
 
     <v-row v-if="!loading && !endOfResults" justify="center">
       <v-btn @click="showMore()" color="primary">+ More tandas</v-btn>
@@ -169,6 +169,10 @@ export default {
       this.tandas = []
     },
     async showMore() {
+      //get position
+      this.loading = true
+      const pos = window.scrollY
+
       this.offset += process.env.numberOfItemsToDisplay
 
       const resTandas = await this.searchTandas()
@@ -182,11 +186,16 @@ export default {
           })
         })
       }
+      this.loading = false
+      window.scroll(0, pos)
+
       this.countTotalResults = resTandas.countTotalResults
       this.endOfResults = this.isEndOfResult(resTandas.countTotalResults)
     },
     async initTandas() {
+      this.loading = true
       const resTandas = await this.searchTandas()
+      this.loading = false
 
       if (this.context === 'allTandas' || this.context === 'myTandas') {
         this.$store.dispatch('tandas/clearTandas', this.context)
@@ -209,7 +218,6 @@ export default {
       }
     },
     async searchTandas() {
-      this.loading = true
       const params = this.buildParams()
 
       let result = []
@@ -230,8 +238,6 @@ export default {
           params
         )
       }
-
-      this.loading = false
 
       return result
     },

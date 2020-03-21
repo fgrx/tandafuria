@@ -18,7 +18,7 @@ export const orchestras = [
   { id: 'hvarela', title: 'Hector Varela' },
   { id: 'jgarcia', title: 'Jose Garcia' },
   { id: 'jmaglio', title: 'Juan Maglio' },
-  { id: 'ldemares', title: 'Lucio Demares' },
+  { id: 'ldemares', title: 'Lucio Demare' },
   { id: 'mvillasboas', title: 'Miguel Villasboas' },
   { id: 'ofresedo', title: 'Osvaldo Fresedo' },
   { id: 'opugliese', title: 'Osvaldo Pugliese' },
