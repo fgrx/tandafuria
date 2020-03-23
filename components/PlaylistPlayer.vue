@@ -49,7 +49,18 @@
                 </span>
               </v-list-item-title>
             </v-col>
-            <v-col cols="5" sm="3">
+            <v-col>
+              <v-slider
+                v-model="volume"
+                @click="changeVolume()"
+                max="100"
+                min="0"
+                track-color="primary"
+                class="volumeSlider"
+                prepend-icon="mdi-volume-source"
+              ></v-slider>
+            </v-col>
+            <v-col cols="6" sm="3">
               <div v-if="currentTrack" class="controls">
                 <v-btn @click="previous()" icon>
                   <v-icon>mdi-skip-previous</v-icon>
@@ -71,93 +82,7 @@
                 </v-btn>
               </div></v-col
             >
-            <v-col cols="6" sm="2">
-              <v-slider
-                v-model="volume"
-                @click="changeVolume()"
-                max="100"
-                min="0"
-                width="100"
-                track-color="primary"
-                class="volumeSlider"
-                prepend-icon="mdi-volume-source"
-              ></v-slider>
-            </v-col>
           </v-row>
-          <!--
-          <v-list-item>
-            <v-list-item-icon>
-              <v-btn @click="close()" color="primary">Close</v-btn>
-            </v-list-item-icon>
-            <v-list-item-content v-if="currentTrack">
-              <v-slider
-                v-model="playingPosition"
-                @click="changeTiming()"
-                :max="duration"
-                min="0"
-                track-color="primary"
-              ></v-slider>
-              <p v-if="!currentTrack.preview_url" class="error">
-                No preview available
-              </p>
-
-              <v-list-item-title>{{ currentTrack.name }}</v-list-item-title>
-
-              <v-list-item-subtitle
-                ><span
-                  v-for="(artist, index) in currentTrack.artists"
-                  :key="index"
-                  >{{ artist.name }}
-                </span></v-list-item-subtitle
-              >
-            </v-list-item-content>
-
-            <v-spacer></v-spacer>
-            <div style="display: flex; justify-content: flex-end">
-              <v-list-item-content v-if="currentTrack" class="controls">
-                <v-list-item-icon>
-                  <v-btn @click="previous()" icon>
-                    <v-icon>mdi-skip-previous</v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    v-if="!isPlaying"
-                    @click="undoPause()"
-                    value="favorites"
-                  >
-                    <v-icon>mdi-play-circle-outline</v-icon>
-                  </v-btn>
-                  <v-btn v-if="isPlaying" @click="pause()" value="favorites">
-                    <v-icon>mdi-pause-circle-outline</v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    v-if="
-                      playlist && currentTrackPosition + 1 < playlist.length
-                    "
-                    @click="next()"
-                    icon
-                  >
-                    <v-icon>mdi-skip-next</v-icon>
-                  </v-btn>
-                </v-list-item-icon>
-
-                <v-list-item>
-                  <v-slider
-                    v-model="volume"
-                    @click="changeVolume()"
-                    max="100"
-                    min="0"
-                    width="100"
-                    track-color="primary"
-                    class="volumeSlider"
-                    prepend-icon="mdi-volume-source"
-                  ></v-slider>
-                </v-list-item>
-              </v-list-item-content>
-            </div>
-          </v-list-item>
-          -->
         </v-list>
       </div>
     </div>
@@ -514,6 +439,10 @@ export default {
 }
 
 .volumeSlider {
+  text-align: left;
+}
+
+.controls {
   text-align: right;
 }
 </style>
