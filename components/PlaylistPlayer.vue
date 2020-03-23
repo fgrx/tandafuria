@@ -51,31 +51,49 @@
             </v-list-item-content>
 
             <v-spacer></v-spacer>
+            <div style="display: flex; justify-content: flex-end">
+              <v-list-item-content v-if="currentTrack" class="controls">
+                <v-list-item-icon>
+                  <v-btn @click="previous()" icon>
+                    <v-icon>mdi-skip-previous</v-icon>
+                  </v-btn>
 
-            <v-list-item-icon>
-              <v-btn @click="previous()" icon>
-                <v-icon>mdi-skip-previous</v-icon>
-              </v-btn>
-            </v-list-item-icon>
+                  <v-btn
+                    v-if="!isPlaying"
+                    @click="undoPause()"
+                    value="favorites"
+                  >
+                    <v-icon>mdi-play-circle-outline</v-icon>
+                  </v-btn>
+                  <v-btn v-if="isPlaying" @click="pause()" value="favorites">
+                    <v-icon>mdi-pause-circle-outline</v-icon>
+                  </v-btn>
 
-            <v-list-item-icon>
-              <v-btn v-if="!isPlaying" @click="undoPause()" value="favorites">
-                <v-icon>mdi-play-circle-outline</v-icon>
-              </v-btn>
-              <v-btn v-if="isPlaying" @click="pause()" value="favorites">
-                <v-icon>mdi-pause-circle-outline</v-icon>
-              </v-btn>
-            </v-list-item-icon>
+                  <v-btn
+                    v-if="
+                      playlist && currentTrackPosition + 1 < playlist.length
+                    "
+                    @click="next()"
+                    icon
+                  >
+                    <v-icon>mdi-skip-next</v-icon>
+                  </v-btn>
+                </v-list-item-icon>
 
-            <v-list-item-icon class="ml-0">
-              <v-btn
-                v-if="playlist && currentTrackPosition + 1 < playlist.length"
-                @click="next()"
-                icon
-              >
-                <v-icon>mdi-skip-next</v-icon>
-              </v-btn>
-            </v-list-item-icon>
+                <v-list-item>
+                  <v-slider
+                    v-model="volume"
+                    @click="changeVolume()"
+                    max="100"
+                    min="0"
+                    width="100"
+                    track-color="primary"
+                    class="volumeSlider"
+                    prepend-icon="mdi-volume-source"
+                  ></v-slider>
+                </v-list-item>
+              </v-list-item-content>
+            </div>
           </v-list-item>
         </v-list>
       </div>
@@ -98,6 +116,7 @@ export default {
       playTrack: null,
       playerComponentRef: null,
       currentTrackPosition: 0,
+      volume: 100,
       currentTrack: null,
       isPlaying: false,
       user: this.$store.getters['authApp/getUser'],
@@ -229,6 +248,25 @@ export default {
       }
       this.isPlaying = true
     },
+    async changeVolume() {
+      if (this.mode === 'spotify') {
+        const urlSpotify = `https://api.spotify.com/v1/me/player/volume?volume_percent=${this.volume}&device_id=${this.deviceId}`
+
+        const headersApi = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
+        }
+
+        const body = { device_id: this.deviceId, volume_percent: this.volum }
+
+        await this.$axios.put(urlSpotify, body, {
+          headers: headersApi
+        })
+      } else {
+        const playerComponentRef = this.player
+        playerComponentRef.volume = this.volume / 100
+      }
+    },
     next() {
       this.position = 0
 
@@ -307,8 +345,6 @@ export default {
         responseFromSpotify.status === 403 ||
         responseFromSpotify.status === 404
       ) {
-        console.log('token failure. Renewing token...')
-
         await this.renewSpotifyToken()
         const headersApi = {
           'Content-Type': 'application/json',
@@ -406,8 +442,15 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .hide {
   display: none;
+}
+.volumeSlider {
+  max-width: 150px;
+}
+
+.controls {
+  text-align: right;
 }
 </style>
