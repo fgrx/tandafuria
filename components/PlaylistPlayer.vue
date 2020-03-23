@@ -23,6 +23,68 @@
         style="margin-bottom:0"
       >
         <v-list dark>
+          <v-row class="pa-2" dark>
+            <v-col cols="3" sm="1">
+              <v-btn @click="close()" color="primary">Close</v-btn>
+            </v-col>
+            <v-col cols="9" sm="6">
+              <v-slider
+                v-model="playingPosition"
+                @click="changeTiming()"
+                :max="duration"
+                min="0"
+                track-color="primary"
+              ></v-slider>
+              <p v-if="!currentTrack.preview_url" class="error">
+                No preview available
+              </p>
+
+              <v-list-item-title
+                >{{ currentTrack.name }}
+                <span
+                  v-for="(artist, index) in currentTrack.artists"
+                  :key="index"
+                >
+                  - {{ artist.name }}
+                </span>
+              </v-list-item-title>
+            </v-col>
+            <v-col cols="5" sm="3">
+              <div v-if="currentTrack" class="controls">
+                <v-btn @click="previous()" icon>
+                  <v-icon>mdi-skip-previous</v-icon>
+                </v-btn>
+
+                <v-btn v-if="!isPlaying" @click="undoPause()" value="favorites">
+                  <v-icon>mdi-play-circle-outline</v-icon>
+                </v-btn>
+                <v-btn v-if="isPlaying" @click="pause()" value="favorites">
+                  <v-icon>mdi-pause-circle-outline</v-icon>
+                </v-btn>
+
+                <v-btn
+                  v-if="playlist && currentTrackPosition + 1 < playlist.length"
+                  @click="next()"
+                  icon
+                >
+                  <v-icon>mdi-skip-next</v-icon>
+                </v-btn>
+              </div></v-col
+            >
+            <v-col cols="6" sm="2">
+              <v-slider
+                v-model="volume"
+                @click="changeVolume()"
+                max="100"
+                min="0"
+                width="100"
+                track-color="primary"
+                class="volumeSlider"
+                prepend-icon="mdi-volume-source"
+              ></v-slider>
+            </v-col>
+          </v-row>
+          <!--
           <v-list-item>
             <v-list-item-icon>
               <v-btn @click="close()" color="primary">Close</v-btn>
@@ -95,6 +157,7 @@
               </v-list-item-content>
             </div>
           </v-list-item>
+          -->
         </v-list>
       </div>
     </div>
@@ -450,7 +513,7 @@ export default {
   max-width: 150px;
 }
 
-.controls {
+.volumeSlider {
   text-align: right;
 }
 </style>
