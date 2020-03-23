@@ -106,7 +106,8 @@ export default {
       mode: 'classic',
       timing: 0,
       playingPosition: 0,
-      duration: 30000
+      duration: 30000,
+      sdk: null
     }
   },
   computed: {
@@ -272,6 +273,16 @@ export default {
     },
     async playSpotifyPlayer(track) {
       this.isPlaying = true
+
+      //If device_id bug appened, renew the device_id
+      if (!this.deviceId) {
+        const delay = (milliseconds) => {
+          return new Promise((resolve) => setTimeout(resolve, milliseconds))
+        }
+        await this.initiatePlayerSpotifyPlayer()
+        await delay(500)
+      }
+
       const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${this.deviceId}`
 
       const body = JSON.stringify({
@@ -287,11 +298,37 @@ export default {
       this.eventIsPlaying(track.id)
       this.isPlaying = true
 
-      const responseFromSpotify = await this.$axios.put(urlSpotify, body, {
+      let responseFromSpotify = await this.$axios.put(urlSpotify, body, {
         headers: headersApi
       })
 
+      if (
+        responseFromSpotify.status === 401 ||
+        responseFromSpotify.status === 403 ||
+        responseFromSpotify.status === 404
+      ) {
+        console.log('token failure. Renewing token...')
+
+        await this.renewSpotifyToken()
+        const headersApi = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
+        }
+
+        responseFromSpotify = await this.$axios.put(urlSpotify, body, {
+          headers: headersApi
+        })
+      }
+
       return responseFromSpotify
+    },
+    async renewSpotifyToken() {
+      const newToken = await spotifyConnexionService.refreshTokenFromSpotify(
+        this.user.refreshToken
+      )
+
+      await this.$store.dispatch('authSpotify/setToken', newToken)
+      this.$app.$cookies.get('access_token', newToken)
     },
     setSource(track) {
       return {
@@ -325,7 +362,7 @@ export default {
       }
       const token = this.accessToken
 
-      const sdk = new Player({
+      this.sdk = new Player({
         name: 'Tandafury',
         volume: 1.0,
         getOAuthToken: (callback) => {
@@ -333,37 +370,37 @@ export default {
         }
       })
 
-      this.spotifyPlayer = sdk
+      this.spotifyPlayer = this.sdk
       // console.log('player', this.spotifyPlayer)
       // Error handling
-      sdk.addListener('initialization_error', ({ message }) => {
+      this.sdk.addListener('initialization_error', ({ message }) => {
         // console.log('Initialization_error: ' + message)
       })
-      sdk.addListener('authentication_error', ({ message }) => {
+      this.sdk.addListener('authentication_error', ({ message }) => {
         // console.log('Authentication_error: ' + message)
       })
-      sdk.addListener('account_error', ({ message }) => {
+      this.sdk.addListener('account_error', ({ message }) => {
         // console.log('Account_error: ' + message)
       })
-      sdk.addListener('playback_error', ({ message }) => {
+      this.sdk.addListener('playback_error', ({ message }) => {
         // console.log('Playback_error: ' + message)
       })
       // Playback status updates
-      sdk.addListener('player_state_changed', (state) => {
+      this.sdk.addListener('player_state_changed', (state) => {
         // Update UI information on player state changed
         //console.log('state changed')
       })
       // Ready
-      sdk.addListener('ready', ({ device_id }) => {
+      this.sdk.addListener('ready', ({ device_id }) => {
         this.deviceId = device_id
 
         //console.log('Ready with Device Id: ', device_id)
       })
       // Not Ready
-      sdk.addListener('not_ready', ({ device_id }) => {
+      this.sdk.addListener('not_ready', ({ device_id }) => {
         // console.log('Not ready with device Id: ', device_id)
       })
-      sdk.connect()
+      this.sdk.connect()
     }
   }
 }

@@ -77,8 +77,13 @@ export default {
 
     const artistsSearch = this.track.artists.reduce(reducer, '')
 
-    this.youtubeLink = `https://www.youtube.com/results?search_query=${this.track.name}+${artistsSearch}`
-    this.elRecodoLink = `https://www.el-recodo.com/music?lang=en&S=${this.track.name}`
+    const trackNameForSearch = this.track.name
+      .replace(' - Remastered', '')
+      .replace(' - Remasterizado', '')
+      .replace(' - Instrumental', '')
+
+    this.youtubeLink = `https://www.youtube.com/results?search_query=${trackNameForSearch}+${artistsSearch}`
+    this.elRecodoLink = `https://www.el-recodo.com/music?lang=en&T=${trackNameForSearch}`
   },
 
   methods: {
