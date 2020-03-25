@@ -141,6 +141,8 @@ export default {
       this.playTrack = this.playlist[0].preview_url
       this.isPlaying = true
       this.currentTrackPosition = 0
+      this.playingPosition = 0
+      this.position = 0
 
       let modeInStore = 'classic'
 
