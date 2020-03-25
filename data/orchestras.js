@@ -8,7 +8,7 @@ export const orchestras = [
   { id: 'adagostino', title: "Angel D'Agostino" },
   { id: 'atroilo', title: 'Anibal Troilo' },
   { id: 'cdisarli', title: 'Carlos Di Sarli' },
-  { id: 'dfederico', title: 'Domino Federico' },
+  { id: 'dfederico', title: 'Domingo Federico' },
   { id: 'dracciatti', title: 'Donato Racciatti' },
   { id: 'edonato', title: 'Edgardo Donato' },
   { id: 'erodriguez', title: 'Enrique Rodriguez' },
