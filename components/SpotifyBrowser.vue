@@ -42,7 +42,7 @@
               :key="track._id"
             ></v-divider>
           </template>
-          <div v-if="mode !== 'album'" class="text-center">
+          <div v-if="mode !== 'album' && more === true" class="text-center">
             <v-btn @click="showMore()" color="primary">Show more</v-btn>
           </div>
           <v-btn v-if="back" @click="searchSpotify()" text
@@ -81,7 +81,8 @@ export default {
       offset: 0,
       back: false,
       textResults: '',
-      mode: 'all'
+      mode: 'all',
+      more: false
     }
   },
   mounted() {
@@ -92,6 +93,7 @@ export default {
   methods: {
     initBrowser(orchestra) {
       this.tracks = []
+      this.offset = 0
     },
     browserClose() {
       this.dialogBrowserSpotify = false
@@ -109,12 +111,17 @@ export default {
     async launchRequest() {
       this.loading = true
       this.mode = 'all'
+      this.more = false
+
       const results = await this.sendRequestToSpotify({
         search: this.searchString,
         offset: this.offset
       })
 
       this.loading = false
+
+      if (results.data.tracks.total > this.offset + 20) this.more = true
+
       return results.data.tracks.items
     },
 

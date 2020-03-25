@@ -132,8 +132,8 @@ export default {
     })
   },
 
-  mounted() {
-    if (this.user.spotify) this.initiatePlayerSpotifyPlayer()
+  async mounted() {
+    if (this.user.spotify) await this.initiatePlayerSpotifyPlayer()
 
     this.$bus.$on('playlistPlayer', (params) => {
       this.display = true
@@ -142,7 +142,13 @@ export default {
       this.isPlaying = true
       this.currentTrackPosition = 0
 
-      const modeInStore = this.$store.getters['authSpotify/getMode']
+      let modeInStore = 'classic'
+
+      const device = this.$store.getters['authSpotify/getDeviceId']
+
+      device === 'classic'
+        ? (modeInStore = 'classic')
+        : (modeInStore = 'spotify')
 
       if (this.user.spotify && this.accessToken && modeInStore !== 'classic') {
         this.mode = 'spotify'
@@ -177,14 +183,11 @@ export default {
       })
     },
     refreshTiming(conext) {
-      if (this.spotifyPlayer) {
-        this.spotifyPlayer.addListener('player_state_changed', (state) => {
-          this.duration = state.duration
-          this.playingPosition = state.position
-        })
-      } else {
+      if (this.isPlaying) {
+        if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
+        if (this.playingPosition >= this.duration + 1000) this.next()
+        //console.log({ duration: this.duration, position: this.playingPosition })
       }
-      if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
     },
     initClassicPlaylist() {
       const playerComponentRef = this.player
@@ -193,24 +196,34 @@ export default {
         this.next()
       })
     },
-    changeTiming() {
+    async changeTiming() {
       if (this.mode === 'spotify') {
-        this.spotifyPlayer.seek(this.playingPosition)
+        //this.spotifyPlayer.seek(this.playingPosition)
+        const urlSpotify = `https://api.spotify.com/v1/me/player/seek?position_ms=${this.playingPosition}`
+
+        const headersApi = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
+        }
+
+        const body = { position_ms: this.playingPosition }
+
+        await this.$axios.put(urlSpotify, body, {
+          headers: headersApi
+        })
       } else {
         const playerComponentRef = this.player
         const position = Math.round(this.playingPosition / 1000)
         playerComponentRef.currentTime = position
       }
     },
-    close() {
+    async close() {
       this.display = false
+      this.position = 0
+      this.playingPosition = 0
+      this.isPlaying = false
 
-      if (this.mode === 'spotify') {
-        this.spotifyPlayer.pause()
-      } else {
-        const playerComponentRef = this.player
-        playerComponentRef.pause()
-      }
+      await this.pause()
 
       this.$bus.$emit('playingTrack', {
         trackId: ''
@@ -218,18 +231,38 @@ export default {
 
       this.isPlaying = false
     },
-    pause() {
+    async pause() {
       if (this.mode === 'spotify') {
-        this.spotifyPlayer.pause()
+        //this.spotifyPlayer.pause()
+        const urlSpotify = `https://api.spotify.com/v1/me/player/pause`
+
+        const headersApi = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
+        }
+        const body = { device_id: this.deviceId }
+        await this.$axios.put(urlSpotify, body, {
+          headers: headersApi
+        })
       } else {
         const playerComponentRef = this.player
         playerComponentRef.pause()
       }
       this.isPlaying = false
     },
-    undoPause() {
+    async undoPause() {
       if (this.mode === 'spotify') {
-        this.spotifyPlayer.resume()
+        //this.spotifyPlayer.resume()
+        const urlSpotify = `https://api.spotify.com/v1/me/player/play`
+
+        const headersApi = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
+        }
+        const body = { device_id: this.deviceId }
+        await this.$axios.put(urlSpotify, body, {
+          headers: headersApi
+        })
       } else {
         const playerComponentRef = this.player
         playerComponentRef.play()
@@ -238,14 +271,14 @@ export default {
     },
     async changeVolume() {
       if (this.mode === 'spotify') {
-        const urlSpotify = `https://api.spotify.com/v1/me/player/volume?volume_percent=${this.volume}&device_id=${this.deviceId}`
+        const urlSpotify = `https://api.spotify.com/v1/me/player/volume?volume_percent=${this.volume}`
 
         const headersApi = {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.accessToken}`
         }
 
-        const body = { device_id: this.deviceId, volume_percent: this.volum }
+        const body = { device_id: this.deviceId, volume_percent: this.volume }
 
         await this.$axios.put(urlSpotify, body, {
           headers: headersApi
@@ -257,7 +290,7 @@ export default {
     },
     next() {
       this.position = 0
-
+      this.playingPosition = 0
       if (
         this.playlist &&
         this.currentTrackPosition + 1 < this.playlist.length
@@ -273,11 +306,17 @@ export default {
     },
     previous() {
       this.position = 0
+      this.playingPosition = 0
       if (this.currentTrackPosition - 1 >= 0) {
         this.currentTrackPosition--
         this.mode === 'classic'
           ? this.playClassicPlayer(this.playlist[this.currentTrackPosition])
           : this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
+        this.isPlaying = true
+      } else {
+        this.mode === 'classic'
+          ? this.playClassicPlayer(this.playlist[0])
+          : this.playSpotifyPlayer(this.playlist[0])
         this.isPlaying = true
       }
     },
@@ -300,6 +339,8 @@ export default {
     async playSpotifyPlayer(track) {
       this.isPlaying = true
 
+      this.duration = track.duration_ms
+
       //If device_id bug appened, renew the device_id
       if (!this.deviceId) {
         const delay = (milliseconds) => {
@@ -309,7 +350,12 @@ export default {
         await delay(500)
       }
 
-      const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${this.deviceId}`
+      const deviceChoosen = this.$store.getters['authSpotify/getDeviceId']
+
+      let deviceToLaunch = this.deviceId
+      if (deviceChoosen) deviceToLaunch = deviceChoosen
+
+      const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${deviceToLaunch}`
 
       const body = JSON.stringify({
         uris: [track.uri]

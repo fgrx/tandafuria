@@ -2,7 +2,7 @@
   <div>
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
-        <v-list-item v-on="on">
+        <v-list-item v-on="on" @click="getPlayers()">
           <v-list-item-action>
             <v-icon>mdi-speaker</v-icon>
           </v-list-item-action>
@@ -14,17 +14,18 @@
       <v-list>
         <v-list-item>
           <v-list-item-title
-            ><v-btn @click="changePlayer('spotify')" text>
-              <v-icon>mdi-spotify</v-icon>
-              Spotify mode</v-btn
+            ><v-btn @click="changeDevice('classic')" text>
+              <v-icon>mdi-speaker</v-icon>
+              Sample mode (No Spotify)</v-btn
             >
           </v-list-item-title>
         </v-list-item>
-        <v-list-item>
+
+        <v-list-item v-for="player in players">
           <v-list-item-title
-            ><v-btn @click="changePlayer('classic')" text>
-              <v-icon>mdi-speaker</v-icon>
-              Classic mode (No Spotify)</v-btn
+            ><v-btn @click="changeDevice(player.id)" text>
+              <v-icon>mdi-spotify</v-icon>
+              {{ player.name }}</v-btn
             >
           </v-list-item-title>
         </v-list-item>
@@ -34,7 +35,7 @@
 </template>
 
 <script>
-//import { spotifyConnexionService } from '@/services/spotifyConnexion'
+import { spotifyConnexionService } from '@/services/spotifyConnexion'
 
 export default {
   data() {
@@ -43,9 +44,7 @@ export default {
       user: this.$store.getters['authApp/getUser']
     }
   },
-  async mounted() {
-    //this.players = await this.getPlayers()
-  },
+  async mounted() {},
   methods: {
     async getPlayers() {
       const header = await this.getHeaderSpotify(this.user)
@@ -56,42 +55,44 @@ export default {
 
       try {
         const result = await this.$axios.get(url, header)
+        this.players = result.data.devices
         return result.data.devices
       } catch (e) {
-        alert('error, please contact me to help me fix this problem', e)
+        alert('error, please try reloading the page', e)
       }
     },
-    changePlayer(player) {
-      this.$store.dispatch('authSpotify/setMode', player)
-    }
-
-    // async changeDevice(idPlayer) {
-    //   const header = await this.getHeaderSpotify(this.user)
-
-    //   const serverUrl = 'https://api.spotify.com/v1'
-
-    //   const url = `${serverUrl}/me/player`
-
-    //   try {
-    //     const result = await this.$axios.put(
-    //       url,
-    //       { device_ids: [idPlayer], play: true },
-    //       header
-    //     )
-    //     return result
-    //   } catch (e) {
-    //     alert('error, please contact me to help me fix this problem', e)
-    //   }
-    //   this.$store.dispatch('authSpotify/setDeviceId', idPlayer)
-    //   //this.$axios.dispatch()
+    // changePlayer(player) {
+    //   this.$store.dispatch('authSpotify/setMode', player)
     // },
-    // async getHeaderSpotify(user) {
-    //   const token = await spotifyConnexionService.refreshTokenFromSpotify(
-    //     user.refreshToken
-    //   )
-    //   const header = { headers: { Authorization: 'Bearer ' + token } }
-    //   return header
-    // }
+
+    async changeDevice(idPlayer) {
+      this.$store.dispatch('authSpotify/setDeviceId', idPlayer)
+      if (idPlayer === 'classic') return true
+
+      const header = await this.getHeaderSpotify(this.user)
+
+      const serverUrl = 'https://api.spotify.com/v1'
+
+      const url = `${serverUrl}/me/player`
+
+      try {
+        const result = await this.$axios.put(
+          url,
+          { device_ids: [idPlayer], play: true },
+          header
+        )
+        return result
+      } catch (e) {
+        alert('error, please try reloading the page', e)
+      }
+    },
+    async getHeaderSpotify(user) {
+      const token = await spotifyConnexionService.refreshTokenFromSpotify(
+        user.refreshToken
+      )
+      const header = { headers: { Authorization: 'Bearer ' + token } }
+      return header
+    }
   }
 }
 </script>
