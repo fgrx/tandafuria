@@ -118,7 +118,7 @@ export default {
       orchestraList: [{ id: null, title: '' }, ...orchestras],
       genreList: [{ id: null, name: '' }, ...genres],
       orchestraField: '',
-      speedField: 'fast',
+      speedField: '',
       genreField: '',
       singerField: '',
       countTotalResults: 0,
