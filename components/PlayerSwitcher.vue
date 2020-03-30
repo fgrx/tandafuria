@@ -21,7 +21,7 @@
           </v-list-item-title>
         </v-list-item>
 
-        <v-list-item v-for="player in players">
+        <v-list-item v-for="player in players" :key="player.id">
           <v-list-item-title
             ><v-btn @click="changeDevice(player.id)" text>
               <v-icon>mdi-spotify</v-icon>

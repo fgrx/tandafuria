@@ -225,7 +225,7 @@ export default {
   },
   mounted() {
     this.loadPlaylists()
-    this.getFavorites()
+    if (this.currentUser) this.getFavorites()
   },
   methods: {
     async loadPlaylists() {

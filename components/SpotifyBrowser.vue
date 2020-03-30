@@ -171,7 +171,6 @@ export default {
 
       const container = this.$el.querySelector('#resultsBrowser')
       //this.$refs.resultsBrowser.scrollTop = 0
-      console.log(container.scrollHeight)
       container.scrollY = 0
     }
   }

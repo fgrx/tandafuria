@@ -118,7 +118,7 @@ export default {
       orchestraList: [{ id: null, title: '' }, ...orchestras],
       genreList: [{ id: null, name: '' }, ...genres],
       orchestraField: '',
-      speedField: '',
+      speedField: 'fast',
       genreField: '',
       singerField: '',
       countTotalResults: 0,
@@ -145,7 +145,7 @@ export default {
     this.getParamsInUrlAndSearch()
     const storeToWatch = this.selectStoreForTanda()
     this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
-
+    console.log(this.orchestraField)
     if (this.tandas.length <= 1) this.initTandas()
   },
   methods: {
@@ -300,19 +300,31 @@ export default {
       return this.context === 'allTandas' ? 'getAllTandas' : 'getMyTandas'
     },
     getParamsInUrlAndSearch() {
-      if (this.$route.query.orchestra) {
+      if (
+        this.$route.query.orchestra ||
+        this.$route.query.genre ||
+        this.$route.query.speed ||
+        this.$route.query.singer
+      ) {
         this.searchEngine = 0
         this.tandas = []
         this.$store.dispatch('tandas/clearTandas', this.context)
       }
-      this.orchestraField = this.$route.query.orchestra
+
+      if (this.$route.query.orchestra) {
+        this.orchestraField = this.$route.query.orchestra
+      }
 
       if (this.$route.query.genre) {
-        this.searchEngine = 0
-        this.tandas = []
-        this.$store.dispatch('tandas/clearTandas', this.context)
-
         this.genreField = this.$route.query.genre
+      }
+
+      if (this.$route.query.speed) {
+        this.speedField = this.$route.query.speed
+      }
+
+      if (this.$route.query.singer) {
+        this.singerField = this.$route.query.singer
       }
     }
   }
