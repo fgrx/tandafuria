@@ -386,12 +386,13 @@ export default {
         headers: headersApi
       })
 
+      this.renewSpotifyToken()
+
       if (
         responseFromSpotify.status === 401 ||
         responseFromSpotify.status === 403 ||
         responseFromSpotify.status === 404
       ) {
-        await this.renewSpotifyToken()
         const headersApi = {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.accessToken}`
@@ -409,8 +410,8 @@ export default {
         this.user.refreshToken
       )
 
-      await this.$store.dispatch('authSpotify/setToken', newToken)
-      this.$app.$cookies.get('access_token', newToken)
+      this.$store.dispatch('authSpotify/setToken', newToken)
+      this.$cookies.get('access_token', newToken)
     },
     setSource(track) {
       return {
