@@ -44,7 +44,7 @@ export default {
       user: this.$store.getters['authApp/getUser']
     }
   },
-  async mounted() {},
+  mounted() {},
   methods: {
     async getPlayers() {
       const header = await this.getHeaderSpotify(this.user)

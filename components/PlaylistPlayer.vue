@@ -134,11 +134,13 @@ export default {
   },
 
   async mounted() {
-    const spotifyPlayersLoaded = await this.detectActualPlayers()
+    if (this.user.refreshToken) {
+      const spotifyPlayersLoaded = await this.detectActualPlayers()
 
-    this.tandaFuryPlayer = spotifyPlayersLoaded.find(
-      (player) => player.name === 'TandaFury'
-    )
+      this.tandaFuryPlayer = spotifyPlayersLoaded.find(
+        (player) => player.name === 'TandaFury'
+      )
+    }
 
     if (this.user.spotify && !this.tandaFuryPlayer)
       await this.initiatePlayerSpotifyPlayer()
