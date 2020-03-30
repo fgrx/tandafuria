@@ -145,7 +145,6 @@ export default {
     this.getParamsInUrlAndSearch()
     const storeToWatch = this.selectStoreForTanda()
     this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
-    console.log(this.orchestraField)
     if (this.tandas.length <= 1) this.initTandas()
   },
   methods: {

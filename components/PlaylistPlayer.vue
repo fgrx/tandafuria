@@ -1,12 +1,12 @@
 <template>
   <div class="playerGeneral">
     <div v-if="user.spotify" class="importCdn"></div>
-    <!-- <client-only>
+    <client-only>
       <script
-        v-if="user.spotify"
+        v-if="user.spotify && !tandaFuryPlayer"
         src="https://sdk.scdn.co/spotify-player.js"
       ></script>
-    </client-only> -->
+    </client-only>
     <div
       v-if="display"
       role="document"
@@ -114,7 +114,8 @@ export default {
       timing: 0,
       playingPosition: 0,
       duration: 30000,
-      sdk: null
+      sdk: null,
+      tandaFuryPlayer: false
     }
   },
   computed: {
@@ -133,7 +134,14 @@ export default {
   },
 
   async mounted() {
-    if (this.user.spotify) await this.initiatePlayerSpotifyPlayer()
+    const spotifyPlayersLoaded = await this.detectActualPlayers()
+
+    this.tandaFuryPlayer = spotifyPlayersLoaded.find(
+      (player) => player.name === 'TandaFury'
+    )
+
+    if (this.user.spotify && !this.tandaFuryPlayer)
+      await this.initiatePlayerSpotifyPlayer()
 
     this.$bus.$on('playlistPlayer', (params) => {
       this.display = true
@@ -424,6 +432,24 @@ export default {
         }
       })
     },
+    async detectActualPlayers() {
+      const token = await spotifyConnexionService.refreshTokenFromSpotify(
+        this.user.refreshToken
+      )
+      const header = { headers: { Authorization: 'Bearer ' + token } }
+
+      const serverUrl = 'https://api.spotify.com/v1'
+
+      const url = `${serverUrl}/me/player/devices`
+
+      try {
+        const result = await this.$axios.get(url, header)
+
+        return result.data.devices
+      } catch (e) {
+        alert('error, please try reloading the page', e)
+      }
+    },
     async initiatePlayerSpotifyPlayer() {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
 
@@ -435,7 +461,7 @@ export default {
       const token = this.accessToken
 
       this.sdk = new Player({
-        name: 'Tandafury',
+        name: 'TandaFury',
         volume: 1.0,
         getOAuthToken: (callback) => {
           callback(token)
