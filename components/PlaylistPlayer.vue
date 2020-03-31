@@ -125,6 +125,13 @@ export default {
       return domRefPlayer
     }
   },
+  head() {
+    if (this.user.spotify) {
+      return {
+        script: [{ src: 'https://sdk.scdn.co/spotify-player.js' }]
+      }
+    }
+  },
   created() {
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'authSpotify/SET_TOKEN') {
@@ -142,8 +149,9 @@ export default {
       )
     }
 
-    if (this.user.spotify && !this.tandaFuryPlayer)
+    if (this.user.spotify && !this.tandaFuryPlayer) {
       await this.initiatePlayerSpotifyPlayer()
+    }
 
     this.$bus.$on('playlistPlayer', (params) => {
       this.display = true

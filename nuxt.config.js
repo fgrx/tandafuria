@@ -53,7 +53,7 @@ export default {
         content: 'j0TfbxpdSM5_oV_dazaWsNkhoMZA4h6kER3KPBUCIvA'
       }
     ],
-    script: [{ src: ' https://sdk.scdn.co/spotify-player.js' }],
+    //script: [{ src: ' https://sdk.scdn.co/spotify-player.js' }],
     link: [{ rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
