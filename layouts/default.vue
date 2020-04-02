@@ -13,14 +13,16 @@
 
       <v-toolbar-title centered
         ><v-spacer></v-spacer>
-
-        <img
-          src="~/static/logo.png"
-          alt="Tanda fury"
-          class="mt-8 mx-auto"
-          height="40em"
-          centered
-      /></v-toolbar-title>
+        <a href="#" @click="toHomeAction">
+          <img
+            src="~/static/logo.png"
+            alt="Tanda fury"
+            class="mt-8 mx-auto"
+            height="40em"
+            centered
+          />
+        </a>
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -200,6 +202,7 @@
       </v-container>
     </v-content>
     <PlaylistPlayer />
+    <BarBottom :user="user" />
   </v-app>
 </template>
 
@@ -207,11 +210,13 @@
 import { userService } from '@/services/users.service'
 import PlayerSwitcher from '@/components/PlayerSwitcher'
 import PlaylistPlayer from '@/components/PlaylistPlayer'
+import BarBottom from '@/components/BarBottom'
 
 export default {
   components: {
     PlaylistPlayer,
-    PlayerSwitcher
+    PlayerSwitcher,
+    BarBottom
   },
   middleware: ['initializeAppData'],
   data() {
@@ -324,6 +329,9 @@ export default {
         display: true,
         icon: 'mdi-check-circle-outline'
       }
+    },
+    toHomeAction() {
+      this.$router.replace({ path: '/' })
     }
   }
 }

@@ -418,6 +418,7 @@ export default {
         this.user.refreshToken
       )
 
+      this.accessToken = newToken
       this.$store.dispatch('authSpotify/setToken', newToken)
       this.$cookies.get('access_token', newToken)
     },
