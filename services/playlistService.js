@@ -159,5 +159,41 @@ export const playlistService = {
     )
     const header = { headers: { Authorization: 'Bearer ' + token } }
     return header
+  },
+  testNoDuplicateTracks(playlist) {
+    const tracks = playlist.tracks
+
+    tracks.forEach((track) => {
+      track.duplicate = false
+      const titleToCompare = track.name
+      const match = tracks.filter(
+        (track) => this.slugify(track.name) === this.slugify(titleToCompare)
+      ).length
+      if (match >= 2) track.duplicate = true
+    })
+
+    return tracks
+  },
+
+  slugify(str) {
+    str = str.replace(/^\s+|\s+$/g, '') // trim
+    str = str.toLowerCase()
+
+    // remove accents, swap ñ for n, etc
+    const from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;'
+    const to = 'aaaaeeeeiiiioooouuuunc------'
+    for (let i = 0, l = from.length; i < l; i++) {
+      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
+    }
+
+    str = str
+      .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+      .replace(/\s+/g, '-') // collapse whitespace and replace by -
+      .replace(/-+/g, '-') // collapse dashes
+
+    str.replace('remastered', '')
+    str.replace('remasterizado', '')
+
+    return str
   }
 }

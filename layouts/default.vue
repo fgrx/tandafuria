@@ -13,7 +13,7 @@
 
       <v-toolbar-title centered
         ><v-spacer></v-spacer>
-        <a href="#" @click="toHomeAction">
+        <a @click="toHomeAction" href="#">
           <img
             src="~/static/logo.png"
             alt="Tanda fury"

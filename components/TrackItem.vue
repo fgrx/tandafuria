@@ -4,6 +4,11 @@
       <TrackPlayer :track="track" />
     </v-list-item-icon>
     <v-list-item-content>
+      <p v-if="track.duplicate" class="duplicate">
+        <v-icon class="duplicate">mdi-alert-decagram</v-icon>
+        Similar song detected !
+      </p>
+
       <v-list-item-title v-text="track.name"></v-list-item-title>
 
       <v-list-item-subtitle class="text--primary">
@@ -97,4 +102,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.duplicate {
+  color: rgb(219, 106, 0) !important;
+}
+</style>

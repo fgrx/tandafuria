@@ -218,23 +218,15 @@ export default {
     let nbTracks = 0
     if (playlist.tracks) nbTracks = playlist.length
 
+    const testedTracks = playlistService.testNoDuplicateTracks(playlist)
+
     return {
       playlist,
-      tracks: playlist.tracks,
+      tracks: testedTracks,
       nbTracks
     }
   },
   mounted() {
-    this.loading = true
-    //const idPlaylist = this.$route.params.id
-
-    //const resultFindPlaylist = await playlistService.findOne(idPlaylist)
-    //this.playlist = resultFindPlaylist.data
-
-    //if (this.playlist.tracks) this.tracks = this.playlist.tracks
-
-    this.loading = false
-
     this.$bus.$on('playingTrack', (idTrackPlaying) => {
       this.trackPlaying = idTrackPlaying.trackId
     })
@@ -358,6 +350,11 @@ export default {
         message: 'The link has been copied to your clipboard',
         status: 'success'
       })
+    },
+    checkNoDuplicateTrack(playlist) {
+      console.log('OK Duplicate')
+      const tracks = playlist.tracks
+      return tracks
     }
   }
 }
