@@ -29,6 +29,7 @@
             </v-col>
             <v-col cols="3" sm="1" class="d-none d-sm-flex">
               <v-img
+                v-if="currentTrack.album"
                 :src="currentTrack.album.images[1].url"
                 class="img-player"
               ></v-img>
@@ -157,6 +158,10 @@ export default {
 
     if (this.user.spotify && !this.tandaFuryPlayer) {
       await this.initiatePlayerSpotifyPlayer()
+      const that = this
+      setInterval(function() {
+        that.initiatePlayerSpotifyPlayer()
+      }, 3400000)
     }
 
     this.$bus.$on('playlistPlayer', (params) => {
@@ -267,9 +272,11 @@ export default {
           Authorization: `Bearer ${this.accessToken}`
         }
         const body = { device_id: this.deviceId }
-        await this.$axios.put(urlSpotify, body, {
-          headers: headersApi
-        })
+        if (this.deviceId) {
+          await this.$axios.put(urlSpotify, body, {
+            headers: headersApi
+          })
+        }
       } else {
         const playerComponentRef = this.player
         playerComponentRef.pause()
@@ -477,7 +484,7 @@ export default {
         )
       }
       const token = this.accessToken
-
+      console.log('init', token)
       this.sdk = new Player({
         name: 'TandaFury',
         volume: 1.0,
