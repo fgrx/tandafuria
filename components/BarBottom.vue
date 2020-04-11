@@ -11,11 +11,6 @@
         <v-icon>mdi-music</v-icon>
       </v-btn>
 
-      <v-btn to="/signin" v-if="!user.id" color="" value="signin">
-        <span>Account</span>
-        <v-icon>mdi-account-arrow-right</v-icon>
-      </v-btn>
-
       <v-btn to="/playlists/all-playlists" value="playlists/all-playlists">
         <span>All playlists</span>
         <v-icon>mdi-playlist-music</v-icon>
@@ -29,6 +24,11 @@
       >
         <span>My Playlists</span>
         <v-icon>mdi-playlist-music</v-icon>
+      </v-btn>
+
+      <v-btn to="/signin" v-if="!user.id" color="" value="signin">
+        <span>Account</span>
+        <v-icon>mdi-account-arrow-right</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </div>

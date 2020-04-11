@@ -27,7 +27,13 @@
             <v-col cols="3" sm="1">
               <v-btn @click="close()" color="primary">Close</v-btn>
             </v-col>
-            <v-col cols="9" sm="6">
+            <v-col cols="3" sm="1" class="d-none d-sm-flex">
+              <v-img
+                :src="currentTrack.album.images[1].url"
+                class="img-player"
+              ></v-img>
+            </v-col>
+            <v-col cols="6" sm="6">
               <v-slider
                 v-model="playingPosition"
                 @click="changeTiming()"
@@ -530,5 +536,12 @@ export default {
 
 .controls {
   text-align: right;
+}
+
+.img-player {
+  max-height: 80px;
+  max-width: 80px;
+  margin: none;
+  padding: none;
 }
 </style>
