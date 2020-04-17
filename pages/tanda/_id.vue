@@ -45,8 +45,10 @@ export default {
         {
           hid: 'og:image',
           name: 'og:image',
-          content: require('@/static/tandafurybanner.jpg')
-        },
+          content: this.tanda.tracks[0].album.images[0].url
+          //content: require('@/static/tandafurybanner.jpg')
+        }
+        /*
         {
           hid: 'og:image:width',
           name: 'og:image:width',
@@ -56,7 +58,7 @@ export default {
           hid: 'og:image:height',
           name: 'og:image:height',
           content: `486`
-        }
+        }*/
       ]
     }
   },
