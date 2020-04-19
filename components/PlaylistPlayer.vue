@@ -394,6 +394,8 @@ export default {
         uris: [track.uri]
       })
 
+      await this.renewSpotifyToken()
+
       const headersApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.accessToken}`
@@ -406,8 +408,6 @@ export default {
       let responseFromSpotify = await this.$axios.put(urlSpotify, body, {
         headers: headersApi
       })
-
-      this.renewSpotifyToken()
 
       if (
         responseFromSpotify.status === 401 ||
