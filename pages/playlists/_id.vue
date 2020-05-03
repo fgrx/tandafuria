@@ -170,22 +170,22 @@ export default {
   middleware: ['spotifyConnexion'],
   head() {
     return {
-      title: `Playlist by ${this.playlist.author.name} containing ${this.nbTracks} tracks`,
+      title: `Playlist ${this.playlist.name}  by ${this.playlist.author.name} containing ${this.nbTracks} tracks`,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
+          content: `Listen to ${this.playlist.name}. A playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: `Playlist by ${this.playlist.author.name} containing ${this.nbTracks} tracks`
+          content: `Playlist ${this.playlist.name} by ${this.playlist.author.name} containing ${this.nbTracks} tracks`
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: `Listen to a playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
+          content: `Listen to ${this.playlist.name}. A playlist created by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tango tracks`
         },
         {
           hid: 'og:image',
