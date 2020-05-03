@@ -7,16 +7,19 @@
 
       <v-card-subtitle v-if="playlist.author">
         <span v-if="playlist.isPublic">Public</span>
-        <span v-if="!playlist.isPublic">Private</span> playlist by
-        {{ playlist.author.name }}</v-card-subtitle
-      >
+        <span v-if="!playlist.isPublic">Private</span>
+        playlist by
+        {{ playlist.author.name }}
+      </v-card-subtitle>
+
       <v-card-text v-if="playlist.description">
         {{ playlist.description }}
       </v-card-text>
+
       <v-card-text>
-        <v-btn v-if="tracks" @click="play()" block
-          ><v-icon>mdi-play</v-icon>Start playlist</v-btn
-        >
+        <v-btn v-if="tracks" @click="play()" block>
+          <v-icon>mdi-play</v-icon>Start playlist
+        </v-btn>
       </v-card-text>
 
       <LoaderCircular v-if="loading" />
@@ -66,19 +69,26 @@
                       <v-list-item-title>
                         <v-btn @click="setAsCortina(track)" text small>
                           <v-icon>mdi-party-popper</v-icon>
-                          <span v-if="!track.isCortina">Set as a cortina</span
-                          ><span v-if="track.isCortina"
-                            >unset cortina</span
-                          ></v-btn
-                        >
+                          <span v-if="!track.isCortina">Set as a cortina</span>
+                          <span v-if="track.isCortina">Unset cortina</span>
+                        </v-btn>
+                      </v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item>
+                      <v-list-item-title>
+                        <v-btn @click="addToPlaylist(track)" text small>
+                          <v-icon>mdi-playlist-music</v-icon>
+                          <span v-if="!track.isCortina">Add to playlist</span>
+                          <span v-if="track.isCortina">Unset cortina</span>
+                        </v-btn>
                       </v-list-item-title>
                     </v-list-item>
 
                     <v-list-item>
                       <v-list-item-title>
                         <v-btn @click="deleteTrack(track.id)">
-                          <v-icon color="danger">mdi-delete</v-icon>
-                          Delete track
+                          <v-icon color="danger">mdi-delete</v-icon>Delete track
                         </v-btn>
                       </v-list-item-title>
                     </v-list-item>
@@ -125,7 +135,7 @@
           <v-icon>mdi-share</v-icon>Share
         </v-btn>
 
-        <v-btn @click="back"> back </v-btn>
+        <v-btn @click="back">back</v-btn>
       </v-card-actions>
     </v-card>
 
@@ -136,14 +146,17 @@
 
       <v-btn ref="monBouton" @click="browserClose" color="primary">Close</v-btn>
     </v-dialog>
+
+    <PlaylistSelector />
   </v-flex>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 import { playlistService } from '@/services/playlistService'
 import LoaderCircular from '@/components/LoaderCircular'
 import SpotifyBrowser from '@/components/SpotifyBrowser'
+import draggable from 'vuedraggable'
+import PlaylistSelector from '../../components/PlaylistSelector.vue'
 import TrackItem from '~/components/TrackItem'
 
 export default {
@@ -151,7 +164,8 @@ export default {
     LoaderCircular,
     SpotifyBrowser,
     draggable,
-    TrackItem
+    TrackItem,
+    PlaylistSelector
   },
   middleware: ['spotifyConnexion'],
   head() {
@@ -352,9 +366,13 @@ export default {
       })
     },
     checkNoDuplicateTrack(playlist) {
-      console.log('OK Duplicate')
+      // console.log('OK Duplicate')
       const tracks = playlist.tracks
       return tracks
+    },
+    addToPlaylist(track) {
+      const tracks = [track]
+      this.$bus.$emit('openDialogPlaylistPicker', tracks)
     }
   }
 }

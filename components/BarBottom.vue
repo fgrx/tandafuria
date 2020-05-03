@@ -26,7 +26,7 @@
         <v-icon>mdi-playlist-music</v-icon>
       </v-btn>
 
-      <v-btn to="/signin" v-if="!user.id" color="" value="signin">
+      <v-btn v-if="!user.id" to="/signin" color="" value="signin">
         <span>Account</span>
         <v-icon>mdi-account-arrow-right</v-icon>
       </v-btn>

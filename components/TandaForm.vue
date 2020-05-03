@@ -154,8 +154,6 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-
 import { genres } from '@/data/genres'
 import { speed } from '@/data/speed'
 import { orchestras } from '@/data/orchestras'
@@ -165,6 +163,7 @@ import { playlistService } from '@/services/playlistService.js'
 import { userService } from '@/services/users.service'
 
 import SpotifyBrowser from '@/components/SpotifyBrowser'
+import draggable from 'vuedraggable'
 import TrackItem from '~/components/TrackItem'
 
 export default {

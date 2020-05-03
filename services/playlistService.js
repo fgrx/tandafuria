@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { spotifyConnexionService } from '@/services/spotifyConnexion'
+import axios from 'axios'
 
 const baseUrl =
   process.env.NODE_ENV === 'development'
@@ -161,7 +161,7 @@ export const playlistService = {
     return header
   },
   testNoDuplicateTracks(playlist) {
-    const tracks = playlist.tracks
+    const tracks = playlist.tracks || []
 
     tracks.forEach((track) => {
       track.duplicate = false

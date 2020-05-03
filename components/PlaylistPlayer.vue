@@ -17,7 +17,7 @@
       <!-- <div
         class="v-dialog v-dialog--active v-dialog--persistent v-bottom-sheet v-bottom-sheet--inset"
         style="max-width:70%;margin-bottom:0"
-      > -->
+      >-->
       <div
         class="v-dialog v-dialog--active v-dialog--persistent v-bottom-sheet"
         style="margin-bottom:0"
@@ -46,14 +46,13 @@
                 No preview available
               </p>
 
-              <v-list-item-title
-                >{{ currentTrack.name }}
+              <v-list-item-title>
+                {{ currentTrack.name }}
                 <span
                   v-for="(artist, index) in currentTrack.artists"
                   :key="index"
+                  >- {{ artist.name }}</span
                 >
-                  - {{ artist.name }}
-                </span>
               </v-list-item-title>
             </v-col>
             <v-col>
@@ -87,8 +86,8 @@
                 >
                   <v-icon>mdi-skip-next</v-icon>
                 </v-btn>
-              </div></v-col
-            >
+              </div>
+            </v-col>
           </v-row>
         </v-list>
       </div>
@@ -484,7 +483,7 @@ export default {
         )
       }
       const token = this.accessToken
-      console.log('init', token)
+      //console.log('init', token)
       this.sdk = new Player({
         name: 'TandaFury',
         volume: 1.0,
