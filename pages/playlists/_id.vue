@@ -170,22 +170,22 @@ export default {
   middleware: ['spotifyConnexion'],
   head() {
     return {
-      title: `Playlist ${this.playlist.name}  by ${this.playlist.author.name} containing ${this.nbTracks} tracks`,
+      title: `Playlist "${this.playlist.name}"  by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tracks`,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: `Listen to ${this.playlist.name}. A playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
+          content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: `Playlist ${this.playlist.name} by ${this.playlist.author.name} containing ${this.nbTracks} tracks`
+          content: `Playlist "${this.playlist.name}" by ${this.playlist.author.name} containing ${this.nbTracks} tracks`
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: `Listen to ${this.playlist.name}. A playlist created by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tango tracks`
+          content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tango tracks`
         },
         {
           hid: 'og:image',
@@ -230,8 +230,8 @@ export default {
   async asyncData({ params }) {
     const playlist = await playlistService.findOne(params.id)
     let nbTracks = 0
-    if (playlist.tracks) nbTracks = playlist.length
-
+    if (playlist.tracks) nbTracks = playlist.tracks.length
+    playlist.nbTracks = nbTracks
     const testedTracks = playlistService.testNoDuplicateTracks(playlist)
 
     return {
