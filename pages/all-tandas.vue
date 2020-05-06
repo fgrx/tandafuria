@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-md>
-    <h1>All tandas</h1>
+    <h1>All {{ titleSpecified }} tandas</h1>
     <TandasList context="allTandas" />
   </v-container>
 </template>
@@ -14,7 +14,7 @@ export default {
   components: { TandasList },
   data() {
     return {
-      titleSpecified: 'Browse all tandas'
+      //titleSpecified: ''
     }
   },
   head() {
@@ -54,20 +54,25 @@ export default {
       ]
     }
   },
-  mounted() {
-    if (this.$route.query.orchestra) {
-      const orchestra = orchestras.filter(
-        (e) => e.id === this.$route.query.orchestra
-      )
+  asyncData({ params, route }) {
+    let titleSpecified = ''
+
+    if (route.query.orchestra) {
+      const orchestra = orchestras.filter((e) => e.id === route.query.orchestra)
       if (orchestra[0].id !== 'mixed' && orchestra[0].id !== 'other') {
-        this.titleSpecified = orchestra[0].title
+        titleSpecified = orchestra[0].title
       }
     }
 
-    if (this.$route.query.genre) {
-      this.titleSpecified = this.$route.query.genre
+    if (route.query.genre) {
+      titleSpecified = route.query.genre
+    }
+
+    return {
+      titleSpecified
     }
   },
+  mounted() {},
   methods: {}
 }
 </script>
