@@ -184,6 +184,7 @@
 import { userService } from '@/services/users.service'
 
 export default {
+  pageTransition: 'page',
   data() {
     return {
       signed: false,

@@ -6,13 +6,13 @@
       flat
       absolute
       fixed
-      class=""
+      class
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-lg-none" />
 
-      <v-toolbar-title centered
-        ><v-spacer></v-spacer>
+      <v-toolbar-title centered>
+        <v-spacer></v-spacer>
         <a @click="toHomeAction" href="#">
           <img
             src="~/static/logo.png"
@@ -36,14 +36,14 @@
           </template>
           <v-list>
             <v-list-item>
-              <v-btn outlined block color="primary" to="/manage-account"
-                ><v-icon>mdi-account</v-icon>Manage your account</v-btn
-              >
+              <v-btn outlined block color="primary" to="/manage-account">
+                <v-icon>mdi-account</v-icon>Manage your account
+              </v-btn>
             </v-list-item>
             <v-list-item>
-              <v-btn @click="logout()" outlined block color="primary"
-                ><v-icon>mdi-logout</v-icon> Logout</v-btn
-              >
+              <v-btn @click="logout()" outlined block color="primary">
+                <v-icon>mdi-logout</v-icon>Logout
+              </v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -54,12 +54,13 @@
           outlined
           large
           color="primary"
-          ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
-        >&nbsp;
-
-        <v-btn v-if="!user.id" to="/signin" color="primary" outlined large
-          ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
         >
+          <v-icon>mdi-account-plus</v-icon>Create your account
+        </v-btn>
+        &nbsp;
+        <v-btn v-if="!user.id" to="/signin" color="primary" outlined large>
+          <v-icon>mdi-account-arrow-right</v-icon>Sign In
+        </v-btn>
       </div>
     </v-app-bar>
     <v-content class="base">
@@ -131,49 +132,51 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item
-            ><v-btn :to="{ name: 'tanda-editor' }" block color="primary"
+          <v-list-item>
+            <v-btn :to="{ name: 'tanda-editor' }" block color="primary"
               >+ Create a tanda</v-btn
-            ></v-list-item
-          >
-
-          <v-list-item v-if="!user.id" class="d-flex d-lg-none">
-            <v-btn block to="signin" color="primary" text large
-              ><v-icon>mdi-account-arrow-right</v-icon>Sign In</v-btn
             >
           </v-list-item>
 
           <v-list-item v-if="!user.id" class="d-flex d-lg-none">
-            <v-btn block to="create-account" text large color="primary"
-              ><v-icon>mdi-account-plus</v-icon>Create your account</v-btn
-            >
+            <v-btn block to="signin" color="primary" text large>
+              <v-icon>mdi-account-arrow-right</v-icon>Sign In
+            </v-btn>
+          </v-list-item>
+
+          <v-list-item v-if="!user.id" class="d-flex d-lg-none">
+            <v-btn block to="create-account" text large color="primary">
+              <v-icon>mdi-account-plus</v-icon>Create your account
+            </v-btn>
           </v-list-item>
 
           <div class="d-flex d-lg-none">
             <v-menu v-if="user.id" transition="slide-y-transition" bottom>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on" text color="primary" block dark>
-                  <v-icon>mdi-account</v-icon> {{ user.nickname }}
+                  <v-icon>mdi-account</v-icon>
+                  {{ user.nickname }}
                 </v-btn>
               </template>
               <v-list>
                 <v-list-item class="d-flex d-lg-none">
-                  <v-btn text block color="primary" to="/manage-account"
-                    ><v-icon>mdi-account</v-icon>Manage your account</v-btn
-                  >
+                  <v-btn text block color="primary" to="/manage-account">
+                    <v-icon>mdi-account</v-icon>Manage your account
+                  </v-btn>
                 </v-list-item>
                 <v-list-item class="d-flex d-lg-none">
-                  <v-btn @click="logout()" text block color="primary"
-                    ><v-icon>mdi-logout</v-icon> Logout
-                    {{ user.nickname }}</v-btn
-                  >
+                  <v-btn @click="logout()" text block color="primary">
+                    <v-icon>mdi-logout</v-icon>
+                    Logout
+                    {{ user.nickname }}
+                  </v-btn>
                 </v-list-item>
               </v-list>
             </v-menu>
           </div>
         </v-list>
 
-        <div class="to-bottom ">
+        <div class="to-bottom">
           <p>
             Follow us on
             <v-btn
@@ -183,18 +186,17 @@
               x-large
               block
               color="white"
-              ><v-icon>mdi-facebook</v-icon> Facebook
+            >
+              <v-icon>mdi-facebook</v-icon>Facebook
             </v-btn>
           </p>
         </div>
       </v-navigation-drawer>
 
       <v-snackbar v-model="flash.display" :color="flash.color">
-        <v-icon>{{ flash.icon }}</v-icon
-        >{{ flash.message }}
-        <v-btn @click="snackbar = false" text>
-          Close
-        </v-btn>
+        <v-icon>{{ flash.icon }}</v-icon>
+        {{ flash.message }}
+        <v-btn @click="snackbar = false" text>Close</v-btn>
       </v-snackbar>
 
       <v-container>
@@ -358,5 +360,30 @@ a {
   text-align: center;
   color: white;
   font-size: 1.2em;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.3s, transform 0.3s ease-in-out;
+}
+
+.page-enter {
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
+.page-enter-to {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.page-leave {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(100px);
 }
 </style>
