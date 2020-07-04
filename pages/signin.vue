@@ -44,12 +44,12 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
+import { userService } from "@/services/users.service"
 export default {
   data() {
     return {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
       fail: false
     }
   },
@@ -74,27 +74,27 @@ export default {
           token
         }
 
-        this.$store.dispatch('authApp/setUser', user)
+        this.$store.dispatch("authApp/setUser", user)
 
-        //localStorage.setItem('user', JSON.stringify(user))
-        this.$cookies.set('user', JSON.stringify(user))
+        // localStorage.setItem('user', JSON.stringify(user))
+        this.$cookies.set("user", JSON.stringify(user))
 
         // this.$router.replace({ path: '/my-tandas' })
-        document.location.href = '/'
+        document.location.href = "/"
       } catch (e) {
         this.fail = true
       }
     },
     parseJwt(token) {
-      const base64Url = token.split('.')[1]
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+      const base64Url = token.split(".")[1]
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/")
       const jsonPayload = decodeURIComponent(
         atob(base64)
-          .split('')
+          .split("")
           .map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)
           })
-          .join('')
+          .join("")
       )
 
       return JSON.parse(jsonPayload)

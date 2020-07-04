@@ -88,10 +88,10 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
-import { playlistService } from '@/services/playlistService'
+import { userService } from "@/services/users.service"
+import { playlistService } from "@/services/playlistService"
 
-import TandasList from '@/components/TandasList'
+import TandasList from "@/components/TandasList"
 
 export default {
   components: { TandasList },
@@ -110,34 +110,34 @@ export default {
       title: `Informations about ${this.user.nickname}`,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content: `Listen to ${this.user.nickname}'s tandas and playlists`
         },
         {
-          hid: 'og:title',
-          name: 'og:title',
+          hid: "og:title",
+          name: "og:title",
           content: `Informations about ${this.user.nickname}`
         },
         {
-          hid: 'og:description',
-          name: 'og:description',
+          hid: "og:description",
+          name: "og:description",
           content: `Listen to ${this.user.nickname}'s tandas and playlists`
         },
         {
-          hid: 'og:image',
-          name: 'og:image',
-          content: require('@/static/tandafurybanner.jpg')
+          hid: "og:image",
+          name: "og:image",
+          content: require("@/static/tandafurybanner.jpg")
         },
         {
-          hid: 'og:image:width',
-          name: 'og:image:width',
-          content: `1280`
+          hid: "og:image:width",
+          name: "og:image:width",
+          content: "1280"
         },
         {
-          hid: 'og:image:height',
-          name: 'og:image:height',
-          content: `486`
+          hid: "og:image:height",
+          name: "og:image:height",
+          content: "486"
         }
       ]
     }

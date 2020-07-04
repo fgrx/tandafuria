@@ -152,12 +152,12 @@
 </template>
 
 <script>
-import { playlistService } from '@/services/playlistService'
-import LoaderCircular from '@/components/LoaderCircular'
-import SpotifyBrowser from '@/components/SpotifyBrowser'
-import draggable from 'vuedraggable'
-import PlaylistSelector from '../../components/PlaylistSelector.vue'
-import TrackItem from '~/components/TrackItem'
+import { playlistService } from "@/services/playlistService"
+import LoaderCircular from "@/components/LoaderCircular"
+import SpotifyBrowser from "@/components/SpotifyBrowser"
+import draggable from "vuedraggable"
+import PlaylistSelector from "../../components/PlaylistSelector.vue"
+import TrackItem from "~/components/TrackItem"
 
 export default {
   components: {
@@ -167,40 +167,40 @@ export default {
     TrackItem,
     PlaylistSelector
   },
-  middleware: ['spotifyConnexion'],
+  middleware: ["spotifyConnexion"],
   head() {
     return {
       title: `Playlist "${this.playlist.name}"  by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tracks`,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
         },
         {
-          hid: 'og:title',
-          name: 'og:title',
+          hid: "og:title",
+          name: "og:title",
           content: `Playlist "${this.playlist.name}" by ${this.playlist.author.name} containing ${this.nbTracks} tracks`
         },
         {
-          hid: 'og:description',
-          name: 'og:description',
+          hid: "og:description",
+          name: "og:description",
           content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tango tracks`
         },
         {
-          hid: 'og:image',
-          name: 'og:image',
-          content: require('@/static/tandafurybanner.jpg')
+          hid: "og:image",
+          name: "og:image",
+          content: require("@/static/tandafurybanner.jpg")
         },
         {
-          hid: 'og:image:width',
-          name: 'og:image:width',
-          content: `1280`
+          hid: "og:image:width",
+          name: "og:image:width",
+          content: "1280"
         },
         {
-          hid: 'og:image:height',
-          name: 'og:image:height',
-          content: `486`
+          hid: "og:image:height",
+          name: "og:image:height",
+          content: "486"
         }
       ]
     }
@@ -211,8 +211,8 @@ export default {
       loading: false,
       dialogBrowserSpotify: false,
       tracks: this.tracks,
-      trackPlaying: '',
-      currentUser: this.$store.getters['authApp/getUser'],
+      trackPlaying: "",
+      currentUser: this.$store.getters["authApp/getUser"],
       modified: false,
       nbTracks: 0
     }
@@ -221,9 +221,9 @@ export default {
     dragOptions() {
       return {
         animation: 0,
-        group: 'description',
+        group: "description",
         disabled: false,
-        ghostClass: 'ghost'
+        ghostClass: "ghost"
       }
     }
   },
@@ -241,7 +241,7 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$on('playingTrack', (idTrackPlaying) => {
+    this.$bus.$on("playingTrack", (idTrackPlaying) => {
       this.trackPlaying = idTrackPlaying.trackId
     })
   },
@@ -257,14 +257,14 @@ export default {
   methods: {
     play() {
       const playlist = this.tracks
-      this.$bus.$emit('playlistPlayer', {
+      this.$bus.$emit("playlistPlayer", {
         display: true,
         playlist
       })
     },
     openSpotifyBrowser() {
       this.dialogBrowserSpotify = true
-      //this.initSpotifyBrowser()
+      // this.initSpotifyBrowser()
     },
     browserClose() {
       this.dialogBrowserSpotify = false
@@ -278,7 +278,7 @@ export default {
       this.$router.back()
     },
     deleteTrack(trackId) {
-      if (window.confirm('Do you really want to delete this track ?')) {
+      if (window.confirm("Do you really want to delete this track ?")) {
         const indexToDelete = this.tracks.findIndex(
           (track) => track.id === trackId
         )
@@ -309,20 +309,20 @@ export default {
       try {
         await playlistService.update(this.playlist, this.currentUser.token)
 
-        this.$bus.$emit('flashMessage', {
-          message: 'Your playlist has been saved',
-          status: 'success'
+        this.$bus.$emit("flashMessage", {
+          message: "Your playlist has been saved",
+          status: "success"
         })
       } catch (e) {
-        this.$bus.$emit('flashMessage', {
-          message: 'An error has occured',
-          status: 'error'
+        this.$bus.$emit("flashMessage", {
+          message: "An error has occured",
+          status: "error"
         })
       }
       this.modified = false
     },
     async savePlaylistSpotify() {
-      let playlistSpotifyId = ''
+      let playlistSpotifyId = ""
 
       if (!this.playlist.spotifySync) {
         const resultCreationPlaylist = await playlistService.createPlaylistSpotify(
@@ -345,24 +345,24 @@ export default {
       this.savePlaylist()
     },
     createTanda() {
-      const url = '../tanda-editor?playlist=' + this.playlist._id
+      const url = "../tanda-editor?playlist=" + this.playlist._id
       this.$router.push(url)
     },
     async sharePLaylist() {
       const baseUrl =
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === "development"
           ? process.env.DEV_clientUrl
           : process.env.PROD_clientUrl
 
       try {
         await this.$copyText(`${baseUrl}/playlists/${this.playlist._id}`)
       } catch (e) {
-        //console.error(e)
+        // console.error(e)
       }
 
-      this.$bus.$emit('flashMessage', {
-        message: 'The link has been copied to your clipboard',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "The link has been copied to your clipboard",
+        status: "success"
       })
     },
     checkNoDuplicateTrack(playlist) {
@@ -372,7 +372,7 @@ export default {
     },
     addToPlaylist(track) {
       const tracks = [track]
-      this.$bus.$emit('openDialogPlaylistPicker', tracks)
+      this.$bus.$emit("openDialogPlaylistPicker", tracks)
     }
   }
 }

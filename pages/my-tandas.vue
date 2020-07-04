@@ -6,27 +6,27 @@
 </template>
 
 <script>
-import TandasList from '@/components/TandasList'
+import TandasList from "@/components/TandasList"
 
 export default {
-  middleware: ['spotifyConnexion'],
+  middleware: ["spotifyConnexion"],
   components: { TandasList },
   data() {
     return {}
   },
   head() {
     return {
-      title: 'Your tandas',
+      title: "Your tandas",
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content: "Browse all the tanda you've created or imported."
         },
         {
-          hid: 'og:image',
-          name: 'og:image',
-          content: require('@/static/tandafurybanner.jpg')
+          hid: "og:image",
+          name: "og:image",
+          content: require("@/static/tandafurybanner.jpg")
         }
       ]
     }

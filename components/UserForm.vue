@@ -87,40 +87,40 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
+import { userService } from "@/services/users.service"
 export default {
   props: {
     mode: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {
     return {
-      username: '',
-      password: '',
-      nickname: '',
+      username: "",
+      password: "",
+      nickname: "",
       disableUsername: false,
       successCreation: false,
       valid: false,
       spotify: false,
-      link: '',
+      link: "",
       contactByMail: false,
       userInStore: {},
       emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /.+@.+/.test(v) || 'E-mail must be valid'
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+/.test(v) || "E-mail must be valid"
       ],
       passwordRules: [
         (value) =>
-          value.length >= 6 || 'Password must contain more than 6 characters'
+          value.length >= 6 || "Password must contain more than 6 characters"
       ],
       snackbar: false,
-      scnackMessage: ''
+      scnackMessage: ""
     }
   },
   mounted() {
-    this.userInStore = this.$store.getters['authApp/getUser']
+    this.userInStore = this.$store.getters["authApp/getUser"]
 
     if (this.userInStore.username) {
       this.disableUsername = true
@@ -135,13 +135,13 @@ export default {
   methods: {
     async createAction() {
       const user = this.userBuilder()
-      user.role = 'user'
+      user.role = "user"
       const result = await userService.addUser(user)
       if (result.status === 201 || result.status === 200) {
         this.successCreation = true
       } else {
         alert(
-          'An error has happened. Please send me an email at fab.grignoux@gmail to help me resolve this problem. Thank you !'
+          "An error has happened. Please send me an email at fab.grignoux@gmail to help me resolve this problem. Thank you !"
         )
       }
     },
@@ -155,30 +155,30 @@ export default {
       const result = await userService.updateUser(user, this.userInStore.token)
 
       if (result.status === 201 || result.status === 200) {
-        this.scnackMessage = 'Your account has been succesfully updated'
+        this.scnackMessage = "Your account has been succesfully updated"
         this.snackbar = true
 
-        this.$store.dispatch('authApp/setUser', user)
+        this.$store.dispatch("authApp/setUser", user)
 
-        //localStorage.setItem('user', JSON.stringify(user))
-        this.$cookies.set('user', JSON.stringify(user))
+        // localStorage.setItem('user', JSON.stringify(user))
+        this.$cookies.set("user", JSON.stringify(user))
 
         //  need to signin again if password has changed
         if (this.password) {
           alert(
-            'Your modifications have been saved. You will have to sign in again, thank you !'
+            "Your modifications have been saved. You will have to sign in again, thank you !"
           )
           this.$cookies.removeAll()
-          document.location.href = '/signin'
+          document.location.href = "/signin"
         }
       } else {
         alert(
-          'An error has happened. Please send me an email at fab.grignoux@gmail to help me resolve this problem. Thank you !'
+          "An error has happened. Please send me an email at fab.grignoux@gmail to help me resolve this problem. Thank you !"
         )
       }
     },
     userBuilder() {
-      const usernameClean = this.username.replace(/\s/g, '').toLowerCase()
+      const usernameClean = this.username.replace(/\s/g, "").toLowerCase()
       const user = {
         username: usernameClean,
         nickname: this.nickname,
@@ -187,7 +187,7 @@ export default {
         link: this.link
       }
 
-      if (this.password != null && this.password !== '') {
+      if (this.password != null && this.password !== "") {
         user.password = this.password
       }
 

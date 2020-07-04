@@ -58,19 +58,19 @@
 </template>
 
 <script>
-import LoaderCircular from '@/components/LoaderCircular'
-import TrackItem from '~/components/TrackItem'
+import LoaderCircular from "@/components/LoaderCircular"
+import TrackItem from "~/components/TrackItem"
 
 export default {
   components: {
     TrackItem,
     LoaderCircular
   },
-  middleware: ['spotifyConnexion'],
+  middleware: ["spotifyConnexion"],
   props: {
     searchDefault: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {
@@ -80,15 +80,15 @@ export default {
       loading: false,
       offset: 0,
       back: false,
-      textResults: '',
-      mode: 'all',
+      textResults: "",
+      mode: "all",
       more: false
     }
   },
   mounted() {
     // sfautofocus
     this.$nextTick(this.$refs.searchString.focus)
-    this.$bus.$on('initBrowser', (orchestra) => this.initBrowser(orchestra))
+    this.$bus.$on("initBrowser", (orchestra) => this.initBrowser(orchestra))
   },
   methods: {
     initBrowser(orchestra) {
@@ -110,7 +110,7 @@ export default {
     },
     async launchRequest() {
       this.loading = true
-      this.mode = 'all'
+      this.mode = "all"
       this.more = false
 
       const results = await this.sendRequestToSpotify({
@@ -128,12 +128,12 @@ export default {
     async sendRequestToSpotify({ search, mode, offset }) {
       try {
         const serverUrl =
-          process.env.NODE_ENV === 'development'
+          process.env.NODE_ENV === "development"
             ? process.env.DEV_serverUrl
             : process.env.PROD_serverUrl
 
         let url = `${serverUrl}/spotify/search/songs/${search}/${offset}`
-        if (mode === 'album') {
+        if (mode === "album") {
           url = `${serverUrl}/spotify/search/albums/${search}/${offset}`
         }
 
@@ -141,26 +141,26 @@ export default {
 
         return resultSearch
       } catch (e) {
-        alert('Search error, please contact me to help me fix this problem', e)
+        alert("Search error, please contact me to help me fix this problem", e)
       }
     },
     addTrackAction(track) {
       if (track.available_markets) track.available_markets = null
       if (track.album.available_markets) track.album.available_markets = null
-      this.$emit('clicked', track)
+      this.$emit("clicked", track)
     },
     async requestAlbumAction(album) {
       this.back = true
       this.loading = true
-      this.mode = 'album'
+      this.mode = "album"
 
       const results = await this.sendRequestToSpotify({
         search: album.id,
-        mode: 'album',
+        mode: "album",
         offset: this.offset
       })
 
-      this.textResults = 'album ' + results.data.name
+      this.textResults = "album " + results.data.name
       const tracksWithoutAlbum = results.data.tracks.items
 
       tracksWithoutAlbum.forEach((track) => (track.album = album))
@@ -169,8 +169,8 @@ export default {
 
       this.loading = false
 
-      const container = this.$el.querySelector('#resultsBrowser')
-      //this.$refs.resultsBrowser.scrollTop = 0
+      const container = this.$el.querySelector("#resultsBrowser")
+      // this.$refs.resultsBrowser.scrollTop = 0
       container.scrollY = 0
     }
   }

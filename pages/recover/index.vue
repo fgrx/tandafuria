@@ -52,16 +52,16 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
+import { userService } from "@/services/users.service"
 export default {
   data() {
     return {
-      username: '',
+      username: "",
       emailSent: false,
       valid: false,
       emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /.+@.+/.test(v) || 'E-mail must be valid'
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+/.test(v) || "E-mail must be valid"
       ]
     }
   },

@@ -14,6 +14,6 @@ export const getters = {
 
 export const actions = {
   setSearchState({ commit }, search) {
-    commit('SET_SEARCH', search)
+    commit("SET_SEARCH", search)
   }
 }

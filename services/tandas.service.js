@@ -1,10 +1,10 @@
-import axios from 'axios'
+import axios from "axios"
 
 const baseUrl =
-  process.env.NODE_ENV === 'development'
+  process.env.NODE_ENV === "development"
     ? process.env.DEV_serverUrl
     : process.env.PROD_serverUrl
-const urlApi = baseUrl + '/tandas'
+const urlApi = baseUrl + "/tandas"
 
 export const tandaService = {
   async getAllTandasId() {
@@ -36,22 +36,22 @@ export const tandaService = {
     return result.data
   },
   async save(tanda, token) {
-    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const header = { headers: { Authorization: "Bearer " + token } }
     const result = await axios.post(urlApi, tanda, header)
     return result
   },
   update(idTanda, tanda, token) {
-    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const header = { headers: { Authorization: "Bearer " + token } }
     const result = axios.put(`${urlApi}/${idTanda}`, tanda, header)
     return result
   },
   updateTandaComments(idTanda, tanda, token) {
-    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const header = { headers: { Authorization: "Bearer " + token } }
     const result = axios.put(`${urlApi}/${idTanda}/comments`, tanda, header)
     return result
   },
   delete(idTanda, token) {
-    const header = { headers: { Authorization: 'Bearer ' + token } }
+    const header = { headers: { Authorization: "Bearer " + token } }
     const result = axios.delete(`${urlApi}/${idTanda}`, header)
     return result
   }

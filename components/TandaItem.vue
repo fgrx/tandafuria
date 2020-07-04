@@ -117,7 +117,7 @@
 
         <v-btn @click="showMore = !showMore" icon>
           <v-icon>{{
-            showMore ? 'mdi-chevron-up' : 'mdi-chevron-down'
+            showMore ? "mdi-chevron-up" : "mdi-chevron-down"
           }}</v-icon>
         </v-btn>
       </v-card-actions>
@@ -145,12 +145,12 @@
 </template>
 
 <script>
-import { orchestras } from '@/data/orchestras'
+import { orchestras } from "@/data/orchestras"
 
-import { tandaService } from '@/services/tandas.service.js'
+import { tandaService } from "@/services/tandas.service.js"
 
-import RatingInfos from '@/components/RatingInfos'
-import TrackItem from '~/components/TrackItem'
+import RatingInfos from "@/components/RatingInfos"
+import TrackItem from "~/components/TrackItem"
 
 export default {
   components: {
@@ -166,10 +166,10 @@ export default {
   data() {
     return {
       orchestra: {},
-      period: '',
-      duration: '',
+      period: "",
+      duration: "",
       showMore: false,
-      currentUser: this.$store.getters['authApp/getUser']
+      currentUser: this.$store.getters["authApp/getUser"]
     }
   },
   mounted() {
@@ -184,7 +184,7 @@ export default {
   methods: {
     playTanda() {
       const playlist = this.tanda.tracks
-      this.$bus.$emit('playlistPlayer', {
+      this.$bus.$emit("playlistPlayer", {
         display: true,
         playlist
       })
@@ -211,34 +211,34 @@ export default {
 
       tandaService.save(newTanda, this.currentUser.token)
 
-      this.$store.dispatch('tandas/addTanda', {
-        target: 'myTandas',
+      this.$store.dispatch("tandas/addTanda", {
+        target: "myTandas",
         tanda: newTanda
       })
-      this.$bus.$emit('flashMessage', {
-        message: 'Tanda imported to your library',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "Tanda imported to your library",
+        status: "success"
       })
     },
     async shareTanda(tanda) {
       const baseUrl =
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === "development"
           ? process.env.DEV_clientUrl
           : process.env.PROD_clientUrl
 
       try {
         await this.$copyText(`${baseUrl}/tanda/${tanda._id}`)
       } catch (e) {
-        //console.error(e)
+        // console.error(e)
       }
 
-      this.$bus.$emit('flashMessage', {
-        message: 'The link has been copied to your clipboard',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "The link has been copied to your clipboard",
+        status: "success"
       })
     },
     addToPlaylist(tracks) {
-      this.$bus.$emit('openDialogPlaylistPicker', tracks)
+      this.$bus.$emit("openDialogPlaylistPicker", tracks)
     },
     displayPeriod(tanda) {
       if (tanda.tracks.length > 0) {
@@ -249,7 +249,7 @@ export default {
         this.duration = millisToMinutesAndSeconds(durationInMS)
       }
 
-      return tanda.periodStart + ' - ' + tanda.periodEnd
+      return tanda.periodStart + " - " + tanda.periodEnd
     }
   }
 }
@@ -257,7 +257,7 @@ export default {
 function millisToMinutesAndSeconds(millis) {
   const minutes = Math.floor(millis / 60000)
   const seconds = ((millis % 60000) / 1000).toFixed(0)
-  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds
 }
 </script>
 

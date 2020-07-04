@@ -181,119 +181,119 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
+import { userService } from "@/services/users.service"
 
 export default {
-  pageTransition: 'page',
+  pageTransition: "page",
   data() {
     return {
       signed: false,
       topUsers: {},
       genres: [
         {
-          id: 'tango',
-          name: 'Tangos',
-          image: require('@/static/tango.jpg')
+          id: "tango",
+          name: "Tangos",
+          image: require("@/static/tango.jpg")
         },
         {
-          id: 'vals',
-          name: 'Vals',
-          image: require('@/static/vals.jpg')
+          id: "vals",
+          name: "Vals",
+          image: require("@/static/vals.jpg")
         },
         {
-          id: 'milonga',
-          name: 'Milongas',
-          image: require('@/static/milonga.jpg')
+          id: "milonga",
+          name: "Milongas",
+          image: require("@/static/milonga.jpg")
         }
       ],
       maestros1: [
         {
           name: "Juan D'arienzo",
-          url: 'jdarienzo',
-          image: require('@/static/arienzov.jpg')
+          url: "jdarienzo",
+          image: require("@/static/arienzov.jpg")
         },
         {
-          name: 'Osvaldo Pugliese',
-          url: 'opugliese',
-          image: require('@/static/pugliesev.png')
+          name: "Osvaldo Pugliese",
+          url: "opugliese",
+          image: require("@/static/pugliesev.png")
         },
         {
-          name: 'Carlos Di Sarli',
-          url: 'cdisarli',
-          image: require('@/static/sarliv.png')
+          name: "Carlos Di Sarli",
+          url: "cdisarli",
+          image: require("@/static/sarliv.png")
         },
         {
-          name: 'Francisco Canaro',
-          url: 'fcanaro',
-          image: require('@/static/canarov.png')
+          name: "Francisco Canaro",
+          url: "fcanaro",
+          image: require("@/static/canarov.png")
         }
       ],
       maestros2: [
         {
-          name: 'Alfredo De Angelis',
-          url: 'adeangelis',
-          image: require('@/static/angelisv.jpg')
+          name: "Alfredo De Angelis",
+          url: "adeangelis",
+          image: require("@/static/angelisv.jpg")
         },
         {
-          name: 'Anibal Troilo',
-          url: 'atroilo',
-          image: require('@/static/troilov.png')
+          name: "Anibal Troilo",
+          url: "atroilo",
+          image: require("@/static/troilov.png")
         },
 
         {
-          name: 'Edgardo Donato',
-          url: 'edonato',
-          image: require('@/static/donatov.jpg')
+          name: "Edgardo Donato",
+          url: "edonato",
+          image: require("@/static/donatov.jpg")
         },
         {
-          name: 'Miguel Calo',
-          url: 'mcalo',
-          image: require('@/static/calov.jpg')
+          name: "Miguel Calo",
+          url: "mcalo",
+          image: require("@/static/calov.jpg")
         }
       ]
     }
   },
   head() {
     return {
-      title: 'The tanda online tool for tango DJs',
+      title: "The tanda online tool for tango DJs",
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content:
-            'Welcome to Tanda Furia, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
+            "Welcome to Tanda Furia, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks."
         },
         {
-          hid: 'og:title',
-          name: 'og:title',
-          content: 'The tanda online tool for tango DJs'
+          hid: "og:title",
+          name: "og:title",
+          content: "The tanda online tool for tango DJs"
         },
         {
-          hid: 'og:description',
-          name: 'og:description',
+          hid: "og:description",
+          name: "og:description",
           content:
-            'Welcome to Tanda fury, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.'
+            "Welcome to Tanda fury, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks."
         },
         {
-          hid: 'og:image',
-          name: 'og:image',
-          content: require('@/static/tandafurybanner.jpg')
+          hid: "og:image",
+          name: "og:image",
+          content: require("@/static/tandafurybanner.jpg")
         },
         {
-          hid: 'og:image:width',
-          name: 'og:image:width',
-          content: `1280`
+          hid: "og:image:width",
+          name: "og:image:width",
+          content: "1280"
         },
         {
-          hid: 'og:image:height',
-          name: 'og:image:height',
-          content: `486`
+          hid: "og:image:height",
+          name: "og:image:height",
+          content: "486"
         }
       ]
     }
   },
   async mounted() {
-    const user = this.$store.getters['authApp/getUser']
+    const user = this.$store.getters["authApp/getUser"]
     if (user.id) this.signed = true
 
     this.topUsers = await userService.getTopUsers()
@@ -308,31 +308,31 @@ export default {
 
 h1 {
   img {
-    width: '200px' !important;
+    width: "200px" !important;
   }
 }
 
 .logoTandaFuria {
-  width: '200px' !important;
+  width: "200px" !important;
 }
 
 #topSite {
   .title1 {
     color: white;
     display: block;
-    font-family: 'Overpass' !important;
+    font-family: "Overpass" !important;
   }
 
   .title2 {
     color: white;
-    font-family: 'Overpass' !important;
+    font-family: "Overpass" !important;
   }
 }
 
 .maestroName,
 .genreName {
   color: white;
-  font-family: 'Overpass' !important;
+  font-family: "Overpass" !important;
 }
 
 #topSite {
@@ -359,7 +359,7 @@ h1 {
 }
 
 #imageHome::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -373,7 +373,7 @@ h1 {
 }
 
 .itemGenre::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -388,7 +388,7 @@ h1 {
 }
 
 .itemMaestro2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -403,7 +403,7 @@ h1 {
 }
 
 .itemMaestro1::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;

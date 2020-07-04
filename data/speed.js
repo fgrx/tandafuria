@@ -1,1 +1,1 @@
-export const speed = ['slow', 'medium', 'fast']
+export const speed = ["slow", "medium", "fast"]

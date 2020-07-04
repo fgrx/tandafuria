@@ -20,9 +20,9 @@ export const getters = {
 
 export const actions = {
   setTrackPlaying({ commit }, track) {
-    commit('SET_TRACKPLAYING', track)
+    commit("SET_TRACKPLAYING", track)
   },
   setPlayerId({ commit }, playerId) {
-    commit('SET_PLAYERID', playerId)
+    commit("SET_PLAYERID", playerId)
   }
 }

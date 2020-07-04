@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { tandaService } from '@/services/tandas.service'
+import { tandaService } from "@/services/tandas.service"
 
 export default {
   props: {
@@ -85,7 +85,7 @@ export default {
       count: 0,
       rating: 0,
       hover: true,
-      comment: '',
+      comment: "",
       dialogComment: false,
       tandaToComment: null,
       user: {},
@@ -98,7 +98,7 @@ export default {
     if (this.tanda.comments) this.count = this.tanda.comments.length
     this.rating = this.tanda.overallRating || 0
 
-    this.user = this.$store.getters['authApp/getUser']
+    this.user = this.$store.getters["authApp/getUser"]
     const alreadyCommented = this.isAlreadyCommented()
 
     if (
@@ -132,7 +132,7 @@ export default {
       this.dialogComment = true
     },
     commentFormClose() {
-      this.comment = ''
+      this.comment = ""
       this.dialogComment = false
     },
     saveCommentAction() {
@@ -191,9 +191,9 @@ export default {
         this.user.token
       )
 
-      this.$bus.$emit('flashMessage', {
-        message: 'Your comment has been saved. Thank you ! ',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "Your comment has been saved. Thank you ! ",
+        status: "success"
       })
     }
   }

@@ -13,40 +13,40 @@
 </template>
 
 <script>
-import { tandaService } from '@/services/tandas.service.js'
-import { orchestras } from '@/data/orchestras'
+import { tandaService } from "@/services/tandas.service.js"
+import { orchestras } from "@/data/orchestras"
 
-import TandaItem from '~/components/TandaItem'
+import TandaItem from "~/components/TandaItem"
 
 export default {
   components: {
     TandaItem
   },
   head() {
-    const tandaDate = this.$moment(this.tanda.date).format('MM-DD-YYYY')
+    const tandaDate = this.$moment(this.tanda.date).format("MM-DD-YYYY")
     return {
       title: `${this.orchestra.title} ${this.tanda.genre} tanda by ${this.tanda.author.name} the ${tandaDate}`,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content: `${this.orchestra.title} ${this.tanda.genre} tanda created by ${this.tanda.author.name} containing ${this.tanda.tracks.length} tracks`
         },
         {
-          hid: 'og:title',
-          name: 'og:title',
+          hid: "og:title",
+          name: "og:title",
           content: `${this.orchestra.title} ${this.tanda.genre} tanda by ${this.tanda.author.name} the ${tandaDate}`
         },
         {
-          hid: 'og:description',
-          name: 'og:description',
+          hid: "og:description",
+          name: "og:description",
           content: `${this.orchestra.title} ${this.tanda.genre} tanda created by ${this.tanda.author.name} containing ${this.tanda.tracks.length} tracks`
         },
         {
-          hid: 'og:image',
-          name: 'og:image',
+          hid: "og:image",
+          name: "og:image",
           content: this.tanda.tracks[0].album.images[0].url
-          //content: require('@/static/tandafurybanner.jpg')
+          // content: require('@/static/tandafurybanner.jpg')
         }
         /*
         {
@@ -58,7 +58,7 @@ export default {
           hid: 'og:image:height',
           name: 'og:image:height',
           content: `486`
-        }*/
+        } */
       ]
     }
   },

@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  inject: ['theme']
+  inject: ["theme"]
 }
 </script>
 

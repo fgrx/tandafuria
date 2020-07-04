@@ -5,26 +5,28 @@ module.exports = {
     node: true
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: "babel-eslint"
   },
   extends: [
-    '@nuxtjs',
-    'prettier',
-    'prettier/vue',
-    'plugin:prettier/recommended',
-    'plugin:nuxt/recommended'
+    "@nuxtjs",
+    "prettier",
+    "prettier/vue",
+    "plugin:prettier/recommended",
+    "plugin:nuxt/recommended"
   ],
-  plugins: ['prettier'],
+  plugins: ["prettier"],
   // add your custom rules here
   rules: {
-    camelcase: 0,
-    'spaced-comment': 0,
-    useTabs: 0,
-    'prettier/prettier': [
-      'error',
-      {
-        endOfLine: 'auto'
-      }
-    ]
+    // semi: 0,
+    camelcase: ["error", { properties: "never" }]
+    // "spaced-comment": 0,
+    // useTabs: 0,
+    // quotes: [1, "single"],
+    // "prettier/prettier": [
+    //   "error",
+    //   {
+    //     endOfLine: "auto"
+    //   }
+    // ]
   }
 }

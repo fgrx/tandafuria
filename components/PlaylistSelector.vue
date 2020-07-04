@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { playlistService } from '@/services/playlistService'
-import LoaderCircular from '@/components/LoaderCircular'
+import { playlistService } from "@/services/playlistService"
+import LoaderCircular from "@/components/LoaderCircular"
 
 export default {
   components: {
@@ -56,12 +56,12 @@ export default {
       playlists: [],
       loading: false,
       dialogPlaylistPicker: false,
-      currentUser: this.$store.getters['authApp/getUser'],
+      currentUser: this.$store.getters["authApp/getUser"],
       tracks: []
     }
   },
   async mounted() {
-    this.$bus.$on('openDialogPlaylistPicker', (tracks) => {
+    this.$bus.$on("openDialogPlaylistPicker", (tracks) => {
       this.dialogPlaylistPicker = true
       this.tracks = tracks
     })
@@ -87,9 +87,9 @@ export default {
       )
 
       if (result) {
-        this.$bus.$emit('flashMessage', {
-          message: 'Tracks has been added to your playlist',
-          status: 'success'
+        this.$bus.$emit("flashMessage", {
+          message: "Tracks has been added to your playlist",
+          status: "success"
         })
       }
 

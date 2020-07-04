@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
+import { userService } from "@/services/users.service"
 
 export default {
   data() {
@@ -33,12 +33,12 @@ export default {
     }
   },
   mounted() {
-    this.userInStore = this.$store.getters['authApp/getUser']
+    this.userInStore = this.$store.getters["authApp/getUser"]
   },
   methods: {
     askCode() {
       const serverUrl =
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === "development"
           ? process.env.DEV_serverUrl
           : process.env.PROD_serverUrl
       window.location.href = `${serverUrl}/spotify/askcode`
@@ -47,14 +47,14 @@ export default {
       const modifiedUser = { ...this.userInStore }
       modifiedUser.spotify = false
 
-      this.$store.dispatch('authApp/setUser', modifiedUser)
+      this.$store.dispatch("authApp/setUser", modifiedUser)
 
       await userService.updateUser(modifiedUser, this.userInStore.token)
 
-      //localStorage.setItem('user', JSON.stringify(modifiedUser))
-      this.$cookies.set('user', JSON.stringify(modifiedUser))
+      // localStorage.setItem('user', JSON.stringify(modifiedUser))
+      this.$cookies.set("user", JSON.stringify(modifiedUser))
 
-      this.$router.replace({ path: '/' })
+      this.$router.replace({ path: "/" })
     }
   }
 }

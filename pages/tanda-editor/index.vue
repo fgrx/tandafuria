@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import TandaForm from '@/components/TandaForm'
+import TandaForm from "@/components/TandaForm"
 export default {
-  middleware: ['appAuthorization', 'spotifyConnexion'],
+  middleware: ["appAuthorization", "spotifyConnexion"],
 
   components: {
     TandaForm

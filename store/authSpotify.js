@@ -1,10 +1,10 @@
 export const state = () => ({
-  token: '',
-  user: '',
-  refreshToken: '',
-  deviceId: '',
+  token: "",
+  user: "",
+  refreshToken: "",
+  deviceId: "",
   player: null,
-  mode: ''
+  mode: ""
 })
 
 export const mutations = {
@@ -51,21 +51,21 @@ export const getters = {
 
 export const actions = {
   setToken({ commit }, token) {
-    commit('SET_TOKEN', token)
+    commit("SET_TOKEN", token)
   },
   setRefreshToken({ commit }, refreshToken) {
-    commit('SET_REFRESH_TOKEN', refreshToken)
+    commit("SET_REFRESH_TOKEN", refreshToken)
   },
   setDeviceId({ commit }, deviceId) {
-    commit('SET_DEVICE_ID', deviceId)
+    commit("SET_DEVICE_ID", deviceId)
   },
   setUser({ commit }, user) {
-    commit('SET_USER', user)
+    commit("SET_USER", user)
   },
   setPlayer({ commit }, player) {
-    commit('SET_PLAYER', player)
+    commit("SET_PLAYER", player)
   },
   setMode({ commit }, mode) {
-    commit('SET_MODE', mode)
+    commit("SET_MODE", mode)
   }
 }

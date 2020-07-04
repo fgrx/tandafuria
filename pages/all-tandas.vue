@@ -6,15 +6,15 @@
 </template>
 
 <script>
-import TandasList from '@/components/TandasList'
-import { orchestras } from '@/data/orchestras'
+import TandasList from "@/components/TandasList"
+import { orchestras } from "@/data/orchestras"
 
 export default {
-  middleware: ['spotifyConnexion'],
+  middleware: ["spotifyConnexion"],
   components: { TandasList },
   data() {
     return {
-      //titleSpecified: ''
+      // titleSpecified: ''
     }
   },
   head() {
@@ -22,44 +22,44 @@ export default {
       title: `Browse all ${this.titleSpecified} tandas`,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`
         },
         {
-          hid: 'og:title',
-          name: 'og:title',
+          hid: "og:title",
+          name: "og:title",
           content: `Browse all ${this.titleSpecified} tandas`
         },
         {
-          hid: 'og:description',
-          name: 'og:description',
+          hid: "og:description",
+          name: "og:description",
           content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`
         },
         {
-          hid: 'og:image',
-          name: 'og:image',
-          content: require('@/static/tandafurybanner.jpg')
+          hid: "og:image",
+          name: "og:image",
+          content: require("@/static/tandafurybanner.jpg")
         },
         {
-          hid: 'og:image:width',
-          name: 'og:image:width',
-          content: `1280`
+          hid: "og:image:width",
+          name: "og:image:width",
+          content: "1280"
         },
         {
-          hid: 'og:image:height',
-          name: 'og:image:height',
-          content: `486`
+          hid: "og:image:height",
+          name: "og:image:height",
+          content: "486"
         }
       ]
     }
   },
   asyncData({ params, route }) {
-    let titleSpecified = ''
+    let titleSpecified = ""
 
     if (route.query.orchestra) {
       const orchestra = orchestras.filter((e) => e.id === route.query.orchestra)
-      if (orchestra[0].id !== 'mixed' && orchestra[0].id !== 'other') {
+      if (orchestra[0].id !== "mixed" && orchestra[0].id !== "other") {
         titleSpecified = orchestra[0].title
       }
     }

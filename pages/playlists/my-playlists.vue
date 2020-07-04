@@ -158,26 +158,26 @@
 </template>
 
 <script>
-import { playlistService } from '@/services/playlistService'
-import LoaderCircular from '@/components/LoaderCircular'
+import { playlistService } from "@/services/playlistService"
+import LoaderCircular from "@/components/LoaderCircular"
 
 export default {
-  middleware: ['spotifyConnexion'],
+  middleware: ["spotifyConnexion"],
   components: {
     LoaderCircular
   },
   data() {
     return {
       dialogPlaylist: false,
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       isPublic: true,
       playlist: {},
       valid: true,
-      currentUser: this.$store.getters['authApp/getUser'],
+      currentUser: this.$store.getters["authApp/getUser"],
       playlists: null,
-      mode: 'create',
-      user: this.$store.getters['authApp/getUser'],
+      mode: "create",
+      user: this.$store.getters["authApp/getUser"],
       dialogPlaylistImport: false,
       loading: false,
       usersPlaylistsFromSpotify: [],
@@ -186,13 +186,13 @@ export default {
   },
   head() {
     return {
-      title: 'Browse your playlists',
+      title: "Browse your playlists",
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content:
-            'Welcome to the tango playlist editor. Create your own playlists and play it in milongas!'
+            "Welcome to the tango playlist editor. Create your own playlists and play it in milongas!"
         }
       ]
     }
@@ -213,7 +213,7 @@ export default {
   },
   methods: {
     openDialogAction() {
-      this.mode = 'create'
+      this.mode = "create"
       this.dialogPlaylist = true
     },
     async openDialogImportAction() {
@@ -234,7 +234,7 @@ export default {
     },
 
     editPlaylistAction(playlist) {
-      this.mode = 'edit'
+      this.mode = "edit"
       this.dialogPlaylist = true
       this.name = playlist.name
       this.description = playlist.description
@@ -248,19 +248,19 @@ export default {
       delete this.playlist.tracks
 
       playlistService.update(this.playlist, this.currentUser.token)
-      this.$bus.$emit('flashMessage', {
-        message: 'Your playlist has been saved',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "Your playlist has been saved",
+        status: "success"
       })
       this.dialogPlaylist = false
     },
     deleteAction() {
-      if (window.confirm('Do you really want to delete this playlist ?')) {
+      if (window.confirm("Do you really want to delete this playlist ?")) {
         playlistService.delete(this.playlist, this.currentUser.token)
 
-        this.$bus.$emit('flashMessage', {
-          message: 'Your playlist has been deleted',
-          status: 'success'
+        this.$bus.$emit("flashMessage", {
+          message: "Your playlist has been deleted",
+          status: "success"
         })
 
         this.playlists = this.playlists.filter(
@@ -279,9 +279,9 @@ export default {
         playlist,
         this.currentUser.token
       )
-      this.$bus.$emit('flashMessage', {
-        message: 'Your playlist has been saved',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "Your playlist has been saved",
+        status: "success"
       })
 
       this.playlists.unshift(newPlaylist.data)

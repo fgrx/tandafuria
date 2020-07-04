@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import UserForm from '~/components/UserForm'
+import UserForm from "~/components/UserForm"
 export default {
-  middleware: ['appAuthorization'],
+  middleware: ["appAuthorization"],
   components: {
     UserForm
   }

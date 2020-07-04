@@ -93,34 +93,34 @@
 </template>
 
 <script>
-import TandaItem from '@/components/TandaItem'
-import NoTandaMessage from '@/components/NoTandaMessage'
+import TandaItem from "@/components/TandaItem"
+import NoTandaMessage from "@/components/NoTandaMessage"
 
-import { genres } from '@/data/genres'
-import { speed } from '@/data/speed'
-import { orchestras } from '@/data/orchestras'
+import { genres } from "@/data/genres"
+import { speed } from "@/data/speed"
+import { orchestras } from "@/data/orchestras"
 
-import { tandaService } from '@/services/tandas.service'
-import Loader from '@/components/Loader'
+import { tandaService } from "@/services/tandas.service"
+import Loader from "@/components/Loader"
 
-import PlaylistSelector from '@/components/PlaylistSelector'
+import PlaylistSelector from "@/components/PlaylistSelector"
 
 export default {
   components: { TandaItem, NoTandaMessage, Loader, PlaylistSelector },
   props: {
-    context: { type: String, default: 'allTandas' },
-    userIdParam: { type: String, default: '' }
+    context: { type: String, default: "allTandas" },
+    userIdParam: { type: String, default: "" }
   },
   data() {
     return {
       tandas: [],
-      speedList: ['', ...speed],
-      orchestraList: [{ id: null, title: '' }, ...orchestras],
-      genreList: [{ id: null, name: '' }, ...genres],
-      orchestraField: '',
-      speedField: '',
-      genreField: '',
-      singerField: '',
+      speedList: ["", ...speed],
+      orchestraList: [{ id: null, title: "" }, ...orchestras],
+      genreList: [{ id: null, name: "" }, ...genres],
+      orchestraField: "",
+      speedField: "",
+      genreField: "",
+      singerField: "",
       countTotalResults: 0,
       searchEngine: false,
       offset: 0,
@@ -131,8 +131,8 @@ export default {
   created() {
     this.$store.subscribe((mutation, state) => {
       if (
-        mutation.type === 'tandas/CLEAR_TANDA' ||
-        mutation.type === 'tandas/ADD_TANDA'
+        mutation.type === "tandas/CLEAR_TANDA" ||
+        mutation.type === "tandas/ADD_TANDA"
       ) {
         const storeToWatch = this.selectStoreForTanda()
         this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
@@ -158,17 +158,17 @@ export default {
       this.initTandas()
     },
     searchClear() {
-      this.genreField = ''
-      this.orchestraField = ''
-      this.speedField = ''
-      this.singerField = ''
+      this.genreField = ""
+      this.orchestraField = ""
+      this.speedField = ""
+      this.singerField = ""
       this.offset = 0
       this.countTotalResults = 0
 
       this.tandas = []
     },
     async showMore() {
-      //get position
+      // get position
       this.loading = true
       const pos = window.scrollY
 
@@ -176,12 +176,12 @@ export default {
 
       const resTandas = await this.searchTandas()
 
-      if (this.context === 'allTandas' || this.context === 'myTandas') {
+      if (this.context === "allTandas" || this.context === "myTandas") {
         resTandas.tandas.forEach((tanda) => {
-          this.$store.dispatch('tandas/addTanda', {
+          this.$store.dispatch("tandas/addTanda", {
             target: this.context,
             tanda,
-            order: 'end'
+            order: "end"
           })
         })
       }
@@ -196,13 +196,13 @@ export default {
       const resTandas = await this.searchTandas()
       this.loading = false
 
-      if (this.context === 'allTandas' || this.context === 'myTandas') {
-        this.$store.dispatch('tandas/clearTandas', this.context)
+      if (this.context === "allTandas" || this.context === "myTandas") {
+        this.$store.dispatch("tandas/clearTandas", this.context)
         resTandas.tandas.forEach((tanda) => {
-          this.$store.dispatch('tandas/addTanda', {
+          this.$store.dispatch("tandas/addTanda", {
             target: this.context,
             tanda,
-            order: 'end'
+            order: "end"
           })
         })
       } else {
@@ -212,7 +212,7 @@ export default {
       this.countTotalResults = resTandas.countTotalResults
       this.endOfResults = this.isEndOfResult(resTandas.countTotalResults)
 
-      if (this.context === 'allTandas' || this.context === 'myTandas') {
+      if (this.context === "allTandas" || this.context === "myTandas") {
         this.saveSearchToStore()
       }
     },
@@ -221,13 +221,13 @@ export default {
 
       let result = []
 
-      if (this.context === 'allTandas') {
+      if (this.context === "allTandas") {
         result = await tandaService.getTandas(this.offset, params)
       } else {
-        const user = this.$store.getters['authApp/getUser']
+        const user = this.$store.getters["authApp/getUser"]
         let userIdSearch = user.id
 
-        if (this.context === 'publicUserTandas') {
+        if (this.context === "publicUserTandas") {
           userIdSearch = this.userIdParam
         }
 
@@ -245,18 +245,18 @@ export default {
     },
     buildParams() {
       const paramsArray = []
-      let paramsString = ''
-      if (this.context === 'publicUserTandas') paramsArray.push('isPublic=true')
-      if (this.userId) paramsArray.push('author=' + this.userId)
-      if (this.genreField) paramsArray.push('genre=' + this.genreField)
-      if (this.speedField) paramsArray.push('speed=' + this.speedField)
-      if (this.singerField) paramsArray.push('singer=' + this.singerField)
+      let paramsString = ""
+      if (this.context === "publicUserTandas") paramsArray.push("isPublic=true")
+      if (this.userId) paramsArray.push("author=" + this.userId)
+      if (this.genreField) paramsArray.push("genre=" + this.genreField)
+      if (this.speedField) paramsArray.push("speed=" + this.speedField)
+      if (this.singerField) paramsArray.push("singer=" + this.singerField)
       if (this.orchestraField)
-        paramsArray.push('orchestra=' + this.orchestraField)
+        paramsArray.push("orchestra=" + this.orchestraField)
 
-      if (paramsArray) paramsString = paramsArray.join('&')
+      if (paramsArray) paramsString = paramsArray.join("&")
 
-      if (paramsString) paramsString = '?' + paramsString
+      if (paramsString) paramsString = "?" + paramsString
 
       return paramsString
     },
@@ -287,16 +287,16 @@ export default {
         singerField: this.singerField,
         countTotalResults: this.countTotalResults
       }
-      if (this.context === 'allTandas' || this.context === 'myTandas') {
+      if (this.context === "allTandas" || this.context === "myTandas") {
         const storeForSearch = this.selectStoreForSearch()
         this.$store.dispatch(`${storeForSearch}/setSearchState`, search)
       }
     },
     selectStoreForSearch() {
-      return this.context === 'allTandas' ? 'searchAllTandas' : 'searchMyTandas'
+      return this.context === "allTandas" ? "searchAllTandas" : "searchMyTandas"
     },
     selectStoreForTanda() {
-      return this.context === 'allTandas' ? 'getAllTandas' : 'getMyTandas'
+      return this.context === "allTandas" ? "getAllTandas" : "getMyTandas"
     },
     getParamsInUrlAndSearch() {
       if (
@@ -307,7 +307,7 @@ export default {
       ) {
         this.searchEngine = 0
         this.tandas = []
-        this.$store.dispatch('tandas/clearTandas', this.context)
+        this.$store.dispatch("tandas/clearTandas", this.context)
       }
 
       if (this.$route.query.orchestra) {

@@ -48,18 +48,18 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
+import { userService } from "@/services/users.service"
 export default {
   data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       fail: false,
       resetDone: false,
       valid: false,
       passwordRules: [
         (value) =>
-          value.length >= 6 || 'Password must contain more than 6 characters'
+          value.length >= 6 || "Password must contain more than 6 characters"
       ]
     }
   },
@@ -73,7 +73,7 @@ export default {
         await userService.resetPassword(this.email, this.code, this.password)
         this.resetDone = true
       } catch (e) {
-        alert('Something went wrong. Your password has not been updated.')
+        alert("Something went wrong. Your password has not been updated.")
       }
     }
   }

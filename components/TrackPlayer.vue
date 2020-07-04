@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      icon: 'mdi-play-circle'
+      icon: "mdi-play-circle"
     }
   },
   created() {},
@@ -24,7 +24,7 @@ export default {
     play() {
       const playlist = []
       playlist.push(this.track)
-      this.$bus.$emit('playlistPlayer', {
+      this.$bus.$emit("playlistPlayer", {
         display: true,
         playlist
       })

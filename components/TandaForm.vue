@@ -154,17 +154,17 @@
 </template>
 
 <script>
-import { genres } from '@/data/genres'
-import { speed } from '@/data/speed'
-import { orchestras } from '@/data/orchestras'
+import { genres } from "@/data/genres"
+import { speed } from "@/data/speed"
+import { orchestras } from "@/data/orchestras"
 
-import { tandaService } from '@/services/tandas.service.js'
-import { playlistService } from '@/services/playlistService.js'
-import { userService } from '@/services/users.service'
+import { tandaService } from "@/services/tandas.service.js"
+import { playlistService } from "@/services/playlistService.js"
+import { userService } from "@/services/users.service"
 
-import SpotifyBrowser from '@/components/SpotifyBrowser'
-import draggable from 'vuedraggable'
-import TrackItem from '~/components/TrackItem'
+import SpotifyBrowser from "@/components/SpotifyBrowser"
+import draggable from "vuedraggable"
+import TrackItem from "~/components/TrackItem"
 
 export default {
   components: {
@@ -180,32 +180,32 @@ export default {
   },
   data() {
     return {
-      currentUser: this.$store.getters['authApp/getUser'],
+      currentUser: this.$store.getters["authApp/getUser"],
       speedList: speed,
       orchestraList: orchestras,
       genreList: genres,
-      description: '',
+      description: "",
       dialogBrowserSpotify: false,
       dialog: false,
       tracks: [],
       valid: true,
-      descriptionField: '',
-      orchestraField: '',
-      speedField: '',
-      genreField: '',
-      periodStartField: '',
-      periodEndField: '',
+      descriptionField: "",
+      orchestraField: "",
+      speedField: "",
+      genreField: "",
+      periodStartField: "",
+      periodEndField: "",
       isInstrumentalField: false,
-      singerField: '',
-      searchDefault: '',
-      dragOptions: '',
+      singerField: "",
+      searchDefault: "",
+      dragOptions: "",
       playlistId: null,
 
       maxPeriod: new Date().getFullYear(),
       minPeriod: 1920,
       isPublicField: true,
       periodRules: [
-        (v) => v.length === 4 || 'period must be 4 characters ex : 1946'
+        (v) => v.length === 4 || "period must be 4 characters ex : 1946"
       ]
     }
   },
@@ -241,12 +241,12 @@ export default {
     },
     initSpotifyBrowser() {
       const orchestra =
-        this.orchestraField !== 'other' ? this.orchestraField : ''
+        this.orchestraField !== "other" ? this.orchestraField : ""
 
-      this.$bus.$emit('initBrowser', orchestra)
+      this.$bus.$emit("initBrowser", orchestra)
     },
     deleteTrack(trackId) {
-      if (window.confirm('Do you really want to delete this track ?')) {
+      if (window.confirm("Do you really want to delete this track ?")) {
         const indexToDelete = this.tracks.findIndex(
           (track) => track.id === trackId
         )
@@ -261,8 +261,8 @@ export default {
       if (
         orchestraSelected &&
         orchestraSelected.length > 0 &&
-        orchestraSelected[0].id !== 'mixed' &&
-        orchestraSelected[0].id !== 'other'
+        orchestraSelected[0].id !== "mixed" &&
+        orchestraSelected[0].id !== "other"
       ) {
         this.searchDefault = orchestraSelected[0].title
       }
@@ -286,7 +286,7 @@ export default {
           path: `/playlists/${this.playlistId}#end`
         })
       } else {
-        this.$router.replace({ path: '/my-tandas' })
+        this.$router.replace({ path: "/my-tandas" })
       }
     },
     async saveNewTanda() {
@@ -302,27 +302,27 @@ export default {
 
       this.updateTandaCountForUser()
 
-      this.$store.dispatch('tandas/addTanda', {
-        target: 'myTandas',
+      this.$store.dispatch("tandas/addTanda", {
+        target: "myTandas",
         tanda,
-        order: 'top'
+        order: "top"
       })
       if (tanda.isPublic)
-        this.$store.dispatch('tandas/addTanda', {
-          target: 'allTandas',
+        this.$store.dispatch("tandas/addTanda", {
+          target: "allTandas",
           tanda,
-          order: 'top'
+          order: "top"
         })
 
-      this.$bus.$emit('flashMessage', {
-        message: 'Your tanda has been saved',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "Your tanda has been saved",
+        status: "success"
       })
 
       return tanda
     },
     async updateTandaCountForUser() {
-      this.userInStore = this.$store.getters['authApp/getUser']
+      this.userInStore = this.$store.getters["authApp/getUser"]
       const modifiedUser = { ...this.userInStore }
 
       const countTanda = await tandaService.getCountTandaUser(
@@ -332,12 +332,12 @@ export default {
       if (modifiedUser.countTanda == null) modifiedUser.countTanda = 0
 
       modifiedUser.countTanda = countTanda + 1
-      this.$store.dispatch('authApp/setUser', modifiedUser)
+      this.$store.dispatch("authApp/setUser", modifiedUser)
 
       userService.updateUser(modifiedUser, this.userInStore.token)
 
-      //localStorage.setItem('user', JSON.stringify(modifiedUser))
-      this.$cookies.set('user', JSON.stringify(modifiedUser))
+      // localStorage.setItem('user', JSON.stringify(modifiedUser))
+      this.$cookies.set("user", JSON.stringify(modifiedUser))
     },
     updateTanda() {
       const tanda = this.buildTandaFromForm()
@@ -346,15 +346,15 @@ export default {
 
       tanda._id = this.tandaToModify._id
 
-      this.$store.dispatch('tandas/updateTanda', tanda)
+      this.$store.dispatch("tandas/updateTanda", tanda)
 
-      this.$bus.$emit('flashMessage', {
-        message: 'Your tanda has been saved',
-        status: 'success'
+      this.$bus.$emit("flashMessage", {
+        message: "Your tanda has been saved",
+        status: "success"
       })
     },
     buildTandaFromForm() {
-      const user = this.$store.getters['authApp/getUser']
+      const user = this.$store.getters["authApp/getUser"]
 
       return {
         author: { id: user.id, name: user.name },
@@ -367,16 +367,16 @@ export default {
         periodStart: this.periodStartField,
         periodEnd: this.periodEndField,
         isInstrumental: this.isInstrumentalField,
-        singer: !this.isInstrumentalField ? this.singerField : ''
+        singer: !this.isInstrumentalField ? this.singerField : ""
       }
     },
     deleteTanda(idTanda) {
-      if (window.confirm('Do you really want to delete this tanda ? ')) {
+      if (window.confirm("Do you really want to delete this tanda ? ")) {
         this.updateTandaCountForUser()
 
         tandaService.delete(idTanda, this.currentUser.token)
-        this.$store.dispatch('tandas/deleteTanda', idTanda)
-        this.$router.replace({ path: '../my-tandas' })
+        this.$store.dispatch("tandas/deleteTanda", idTanda)
+        this.$router.replace({ path: "../my-tandas" })
       }
     }
   }

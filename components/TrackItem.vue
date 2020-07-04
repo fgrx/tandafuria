@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import TrackPlayer from '~/components/TrackPlayer'
+import TrackPlayer from "~/components/TrackPlayer"
 
 export default {
   components: {
@@ -60,32 +60,32 @@ export default {
     },
     mode: {
       type: String,
-      default: ''
+      default: ""
     },
     playerId: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {
     return {
       fullSong: false,
-      youtubeLink: '',
-      elRecodoLink: ''
+      youtubeLink: "",
+      elRecodoLink: ""
     }
   },
   mounted() {
-    const user = this.$store.getters['authApp/getUser']
+    const user = this.$store.getters["authApp/getUser"]
     if (user.spotify) this.fullSong = true
 
-    const reducer = (acc, artist) => acc + ',' + artist.name
+    const reducer = (acc, artist) => acc + "," + artist.name
 
-    const artistsSearch = this.track.artists.reduce(reducer, '')
+    const artistsSearch = this.track.artists.reduce(reducer, "")
 
     const trackNameForSearch = this.track.name
-      .replace(' - Remastered', '')
-      .replace(' - Remasterizado', '')
-      .replace(' - Instrumental', '')
+      .replace(" - Remastered", "")
+      .replace(" - Remasterizado", "")
+      .replace(" - Instrumental", "")
 
     this.youtubeLink = `https://www.youtube.com/results?search_query=${trackNameForSearch}+${artistsSearch}`
     this.elRecodoLink = `https://www.el-recodo.com/music?lang=en&T=${trackNameForSearch}`
@@ -93,10 +93,10 @@ export default {
 
   methods: {
     addTrackAction(track) {
-      this.$emit('clicked', track)
+      this.$emit("clicked", track)
     },
     requestAlbum(album) {
-      this.$emit('requestAlbum', album)
+      this.$emit("requestAlbum", album)
     }
   }
 }

@@ -20,7 +20,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'No tanda found'
+      default: "No tanda found"
     }
   }
 }

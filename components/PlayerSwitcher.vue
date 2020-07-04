@@ -35,13 +35,13 @@
 </template>
 
 <script>
-import { spotifyConnexionService } from '@/services/spotifyConnexion'
+import { spotifyConnexionService } from "@/services/spotifyConnexion"
 
 export default {
   data() {
     return {
       players: [],
-      user: this.$store.getters['authApp/getUser']
+      user: this.$store.getters["authApp/getUser"]
     }
   },
   mounted() {},
@@ -49,7 +49,7 @@ export default {
     async getPlayers() {
       const header = await this.getHeaderSpotify(this.user)
 
-      const serverUrl = 'https://api.spotify.com/v1'
+      const serverUrl = "https://api.spotify.com/v1"
 
       const url = `${serverUrl}/me/player/devices`
 
@@ -58,7 +58,7 @@ export default {
         this.players = result.data.devices
         return result.data.devices
       } catch (e) {
-        alert('error, please try reloading the page', e)
+        alert("error, please try reloading the page", e)
       }
     },
     // changePlayer(player) {
@@ -66,12 +66,12 @@ export default {
     // },
 
     async changeDevice(idPlayer) {
-      this.$store.dispatch('authSpotify/setDeviceId', idPlayer)
-      if (idPlayer === 'classic') return true
+      this.$store.dispatch("authSpotify/setDeviceId", idPlayer)
+      if (idPlayer === "classic") return true
 
       const header = await this.getHeaderSpotify(this.user)
 
-      const serverUrl = 'https://api.spotify.com/v1'
+      const serverUrl = "https://api.spotify.com/v1"
 
       const url = `${serverUrl}/me/player`
 
@@ -83,14 +83,14 @@ export default {
         )
         return result
       } catch (e) {
-        alert('error, please try reloading the page', e)
+        alert("error, please try reloading the page", e)
       }
     },
     async getHeaderSpotify(user) {
       const token = await spotifyConnexionService.refreshTokenFromSpotify(
         user.refreshToken
       )
-      const header = { headers: { Authorization: 'Bearer ' + token } }
+      const header = { headers: { Authorization: "Bearer " + token } }
       return header
     }
   }

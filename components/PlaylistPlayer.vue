@@ -29,7 +29,7 @@
             </v-col>
             <v-col cols="3" sm="1" class="d-none d-sm-flex">
               <v-img
-                v-if="currentTrack.album"
+                v-if="currentTrack && currentTrack.album"
                 :src="currentTrack.album.images[1].url"
                 class="img-player"
               ></v-img>
@@ -42,11 +42,11 @@
                 min="0"
                 track-color="primary"
               ></v-slider>
-              <p v-if="!currentTrack.preview_url" class="error">
+              <p v-if="currentTrack && !currentTrack.preview_url" class="error">
                 No preview available
               </p>
 
-              <v-list-item-title>
+              <v-list-item-title v-if="currentTrack">
                 {{ currentTrack.name }}
                 <span
                   v-for="(artist, index) in currentTrack.artists"
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { spotifyConnexionService } from '@/services/spotifyConnexion'
+import { spotifyConnexionService } from "@/services/spotifyConnexion"
 export default {
   data() {
     return {
@@ -111,12 +111,12 @@ export default {
       playerComponentRef: null,
       currentTrackPosition: 0,
       volume: 100,
-      currentTrack: null,
+      currentTrack: {},
       isPlaying: false,
-      user: this.$store.getters['authApp/getUser'],
-      accessToken: this.$store.getters['authSpotify/getToken'],
+      user: this.$store.getters["authApp/getUser"],
+      accessToken: this.$store.getters["authSpotify/getToken"],
       spotifyPlayer: null,
-      mode: 'classic',
+      mode: "classic",
       timing: 0,
       playingPosition: 0,
       duration: 30000,
@@ -126,7 +126,7 @@ export default {
   },
   computed: {
     player() {
-      const playerRef = 'bottomPlayer'
+      const playerRef = "bottomPlayer"
       const domRefPlayer = this.$refs[playerRef].player
       return domRefPlayer
     }
@@ -134,13 +134,13 @@ export default {
   head() {
     if (this.user.spotify) {
       return {
-        script: [{ src: 'https://sdk.scdn.co/spotify-player.js' }]
+        script: [{ src: "https://sdk.scdn.co/spotify-player.js" }]
       }
     }
   },
   created() {
     this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'authSpotify/SET_TOKEN') {
+      if (mutation.type === "authSpotify/SET_TOKEN") {
         this.accessToken = state.authSpotify.token
       }
     })
@@ -151,7 +151,7 @@ export default {
       const spotifyPlayersLoaded = await this.detectActualPlayers()
 
       this.tandaFuryPlayer = spotifyPlayersLoaded.find(
-        (player) => player.name === 'TandaFury'
+        (player) => player.name === "TandaFury"
       )
     }
 
@@ -163,7 +163,7 @@ export default {
       }, 3400000)
     }
 
-    this.$bus.$on('playlistPlayer', (params) => {
+    this.$bus.$on("playlistPlayer", (params) => {
       this.display = true
       this.playlist = params.playlist
       this.playTrack = this.playlist[0].preview_url
@@ -172,20 +172,20 @@ export default {
       this.playingPosition = 0
       this.position = 0
 
-      let modeInStore = 'classic'
+      let modeInStore = "classic"
 
-      const device = this.$store.getters['authSpotify/getDeviceId']
+      const device = this.$store.getters["authSpotify/getDeviceId"]
 
-      device === 'classic'
-        ? (modeInStore = 'classic')
-        : (modeInStore = 'spotify')
+      device === "classic"
+        ? (modeInStore = "classic")
+        : (modeInStore = "spotify")
 
-      if (this.user.spotify && this.accessToken && modeInStore !== 'classic') {
-        this.mode = 'spotify'
+      if (this.user.spotify && this.accessToken && modeInStore !== "classic") {
+        this.mode = "spotify"
         this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
         this.watchSpotifyWebPlayer()
       } else {
-        this.mode = 'classic'
+        this.mode = "classic"
         this.playClassicPlayer(this.playlist[this.currentTrackPosition])
         this.initClassicPlaylist()
       }
@@ -197,13 +197,13 @@ export default {
   },
   methods: {
     watchSpotifyWebPlayer() {
-      this.spotifyPlayer.addListener('player_state_changed', (state) => {
+      this.spotifyPlayer.addListener("player_state_changed", (state) => {
         if (
           this.state &&
           !this.state.paused &&
           state.paused &&
           state.restrictions.disallow_resuming_reasons &&
-          state.restrictions.disallow_resuming_reasons[0] === 'not_paused' &&
+          state.restrictions.disallow_resuming_reasons[0] === "not_paused" &&
           this.currentTrack &&
           this.isPlaying === true
         ) {
@@ -216,23 +216,23 @@ export default {
       if (this.isPlaying) {
         if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
         if (this.playingPosition >= this.duration + 1000) this.next()
-        //console.log({ duration: this.duration, position: this.playingPosition })
+        // console.log({ duration: this.duration, position: this.playingPosition })
       }
     },
     initClassicPlaylist() {
       const playerComponentRef = this.player
 
-      playerComponentRef.on('ended', (event) => {
+      playerComponentRef.on("ended", (event) => {
         this.next()
       })
     },
     async changeTiming() {
-      if (this.mode === 'spotify') {
-        //this.spotifyPlayer.seek(this.playingPosition)
+      if (this.mode === "spotify") {
+        // this.spotifyPlayer.seek(this.playingPosition)
         const urlSpotify = `https://api.spotify.com/v1/me/player/seek?position_ms=${this.playingPosition}`
 
         const headersApi = {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${this.accessToken}`
         }
 
@@ -255,19 +255,19 @@ export default {
 
       await this.pause()
 
-      this.$bus.$emit('playingTrack', {
-        trackId: ''
+      this.$bus.$emit("playingTrack", {
+        trackId: ""
       })
 
       this.isPlaying = false
     },
     async pause() {
-      if (this.mode === 'spotify') {
-        //this.spotifyPlayer.pause()
-        const urlSpotify = `https://api.spotify.com/v1/me/player/pause`
+      if (this.mode === "spotify") {
+        // this.spotifyPlayer.pause()
+        const urlSpotify = "https://api.spotify.com/v1/me/player/pause"
 
         const headersApi = {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${this.accessToken}`
         }
         const body = { device_id: this.deviceId }
@@ -283,12 +283,12 @@ export default {
       this.isPlaying = false
     },
     async undoPause() {
-      if (this.mode === 'spotify') {
-        //this.spotifyPlayer.resume()
-        const urlSpotify = `https://api.spotify.com/v1/me/player/play`
+      if (this.mode === "spotify") {
+        // this.spotifyPlayer.resume()
+        const urlSpotify = "https://api.spotify.com/v1/me/player/play"
 
         const headersApi = {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${this.accessToken}`
         }
         const body = { device_id: this.deviceId }
@@ -302,11 +302,11 @@ export default {
       this.isPlaying = true
     },
     async changeVolume() {
-      if (this.mode === 'spotify') {
+      if (this.mode === "spotify") {
         const urlSpotify = `https://api.spotify.com/v1/me/player/volume?volume_percent=${this.volume}`
 
         const headersApi = {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${this.accessToken}`
         }
 
@@ -328,7 +328,7 @@ export default {
         this.currentTrackPosition + 1 < this.playlist.length
       ) {
         this.currentTrackPosition++
-        this.mode === 'classic'
+        this.mode === "classic"
           ? this.playClassicPlayer(this.playlist[this.currentTrackPosition])
           : this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
         this.isPlaying = true
@@ -341,19 +341,19 @@ export default {
       this.playingPosition = 0
       if (this.currentTrackPosition - 1 >= 0) {
         this.currentTrackPosition--
-        this.mode === 'classic'
+        this.mode === "classic"
           ? this.playClassicPlayer(this.playlist[this.currentTrackPosition])
           : this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
         this.isPlaying = true
       } else {
-        this.mode === 'classic'
+        this.mode === "classic"
           ? this.playClassicPlayer(this.playlist[0])
           : this.playSpotifyPlayer(this.playlist[0])
         this.isPlaying = true
       }
     },
     eventIsPlaying(id) {
-      this.$bus.$emit('playingTrack', {
+      this.$bus.$emit("playingTrack", {
         trackId: id
       })
     },
@@ -361,7 +361,7 @@ export default {
       this.playingPosition = 0
       const playerComponentRef = this.player
       playerComponentRef.source = this.setSource(track)
-      playerComponentRef.on('ready', (event) => {
+      playerComponentRef.on("ready", (event) => {
         playerComponentRef.play()
       })
       this.isPlaying = true
@@ -373,7 +373,7 @@ export default {
 
       this.duration = track.duration_ms
 
-      //If device_id bug appened, renew the device_id
+      // If device_id bug appened, renew the device_id
       if (!this.deviceId) {
         const delay = (milliseconds) => {
           return new Promise((resolve) => setTimeout(resolve, milliseconds))
@@ -382,7 +382,7 @@ export default {
         await delay(500)
       }
 
-      const deviceChoosen = this.$store.getters['authSpotify/getDeviceId']
+      const deviceChoosen = this.$store.getters["authSpotify/getDeviceId"]
 
       let deviceToLaunch = this.deviceId
       if (deviceChoosen) deviceToLaunch = deviceChoosen
@@ -396,7 +396,7 @@ export default {
       await this.renewSpotifyToken()
 
       const headersApi = {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${this.accessToken}`
       }
 
@@ -414,7 +414,7 @@ export default {
         responseFromSpotify.status === 404
       ) {
         const headersApi = {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${this.accessToken}`
         }
 
@@ -431,16 +431,16 @@ export default {
       )
 
       this.accessToken = newToken
-      this.$store.dispatch('authSpotify/setToken', newToken)
-      this.$cookies.get('access_token', newToken)
+      this.$store.dispatch("authSpotify/setToken", newToken)
+      this.$cookies.get("access_token", newToken)
     },
     setSource(track) {
       return {
-        type: 'audio',
+        type: "audio",
         sources: [
           {
             src: track.preview_url,
-            type: 'audio/mp3'
+            type: "audio/mp3"
           }
         ]
       }
@@ -460,9 +460,9 @@ export default {
       const token = await spotifyConnexionService.refreshTokenFromSpotify(
         this.user.refreshToken
       )
-      const header = { headers: { Authorization: 'Bearer ' + token } }
+      const header = { headers: { Authorization: "Bearer " + token } }
 
-      const serverUrl = 'https://api.spotify.com/v1'
+      const serverUrl = "https://api.spotify.com/v1"
 
       const url = `${serverUrl}/me/player/devices`
 
@@ -471,7 +471,7 @@ export default {
 
         return result.data.devices
       } catch (e) {
-        alert('error, please try reloading the page', e)
+        alert("error, please try reloading the page", e)
       }
     },
     async initiatePlayerSpotifyPlayer() {
@@ -483,9 +483,9 @@ export default {
         )
       }
       const token = this.accessToken
-      //console.log('init', token)
+      // console.log('init', token)
       this.sdk = new Player({
-        name: 'TandaFury',
+        name: "TandaFury",
         volume: 1.0,
         getOAuthToken: (callback) => {
           callback(token)
@@ -495,31 +495,31 @@ export default {
       this.spotifyPlayer = this.sdk
       // console.log('player', this.spotifyPlayer)
       // Error handling
-      this.sdk.addListener('initialization_error', ({ message }) => {
+      this.sdk.addListener("initialization_error", ({ message }) => {
         // console.log('Initialization_error: ' + message)
       })
-      this.sdk.addListener('authentication_error', ({ message }) => {
+      this.sdk.addListener("authentication_error", ({ message }) => {
         // console.log('Authentication_error: ' + message)
       })
-      this.sdk.addListener('account_error', ({ message }) => {
+      this.sdk.addListener("account_error", ({ message }) => {
         // console.log('Account_error: ' + message)
       })
-      this.sdk.addListener('playback_error', ({ message }) => {
+      this.sdk.addListener("playback_error", ({ message }) => {
         // console.log('Playback_error: ' + message)
       })
       // Playback status updates
-      this.sdk.addListener('player_state_changed', (state) => {
+      this.sdk.addListener("player_state_changed", (state) => {
         // Update UI information on player state changed
-        //console.log('state changed')
+        // console.log('state changed')
       })
       // Ready
-      this.sdk.addListener('ready', ({ device_id }) => {
-        this.deviceId = device_id
+      this.sdk.addListener("ready", ({ deviceId }) => {
+        this.deviceId = deviceId
 
-        //console.log('Ready with Device Id: ', device_id)
+        // console.log('Ready with Device Id: ', device_id)
       })
       // Not Ready
-      this.sdk.addListener('not_ready', ({ device_id }) => {
+      this.sdk.addListener("not_ready", ({ deviceId }) => {
         // console.log('Not ready with device Id: ', device_id)
       })
       this.sdk.connect()

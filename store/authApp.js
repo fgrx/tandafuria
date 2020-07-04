@@ -27,9 +27,9 @@ export const getters = {
 
 export const actions = {
   setUser({ commit }, user) {
-    commit('SET_USER', user)
+    commit("SET_USER", user)
   },
   clearUser({ commit }) {
-    commit('CLEAR_USER')
+    commit("CLEAR_USER")
   }
 }

@@ -1,6 +1,7 @@
 {
   "semi": false,
   "arrowParens": "always",
-  "singleQuote": true,
-  "tabs": false
+  "singleQuote": false,
+  "tabs": false,
+  "camelcase": false
 }

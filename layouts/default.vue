@@ -209,10 +209,10 @@
 </template>
 
 <script>
-import { userService } from '@/services/users.service'
-import PlayerSwitcher from '@/components/PlayerSwitcher'
-import PlaylistPlayer from '@/components/PlaylistPlayer'
-import BarBottom from '@/components/BarBottom'
+import { userService } from "@/services/users.service"
+import PlayerSwitcher from "@/components/PlayerSwitcher"
+import PlaylistPlayer from "@/components/PlaylistPlayer"
+import BarBottom from "@/components/BarBottom"
 
 export default {
   components: {
@@ -220,26 +220,26 @@ export default {
     PlayerSwitcher,
     BarBottom
   },
-  middleware: ['initializeAppData'],
+  middleware: ["initializeAppData"],
   data() {
     return {
       clipped: false,
       drawer: !this.$vuetify.breakpoint.mdAndDown,
       fixed: false,
-      user: this.$store.getters['authApp/getUser'],
+      user: this.$store.getters["authApp/getUser"],
       device: null,
-      accessToken: this.$store.getters['authSpotify/getToken'],
-      flash: { message: '', display: false, icon: 'mdi-check-circle-outline' },
+      accessToken: this.$store.getters["authSpotify/getToken"],
+      flash: { message: "", display: false, icon: "mdi-check-circle-outline" },
       flashMessage: false,
-      textFlashMessage: '',
+      textFlashMessage: "",
       miniVariant: false,
-      title: 'Tandafury',
-      subtitle: 'The tanda creation tool'
+      title: "Tandafury",
+      subtitle: "The tanda creation tool"
     }
   },
   created() {
     this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'authSpotify/SET_TOKEN') {
+      if (mutation.type === "authSpotify/SET_TOKEN") {
         this.accessToken = state.authSpotify.token
       }
     })
@@ -251,22 +251,22 @@ export default {
       await this.initializeSpotifyTokens(code, state)
     }
 
-    this.$bus.$on('flashMessage', (params) => {
+    this.$bus.$on("flashMessage", (params) => {
       this.displayFlashMessage(params.message, params.status)
     })
 
-    //refresh user infos if credentials are too old
+    // refresh user infos if credentials are too old
     try {
       if (this.user.token) await userService.getUser(this.user)
     } catch (e) {
-      this.$router.replace({ path: '/signin' })
+      this.$router.replace({ path: "/signin" })
     }
   },
   methods: {
     logout() {
       this.$cookies.removeAll()
-      this.$store.dispatch('authApp/clearUser')
-      document.location.href = '/'
+      this.$store.dispatch("authApp/clearUser")
+      document.location.href = "/"
     },
     async initializeSpotifyTokens(code, state) {
       const resultTokensFromSpotify = await this.getTokenFromSpotify(
@@ -279,7 +279,7 @@ export default {
     },
     async getTokenFromSpotify(code, state) {
       const serverUrl =
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === "development"
           ? process.env.DEV_serverUrl
           : process.env.PROD_serverUrl
       const resultSpotify = await this.$axios.get(
@@ -295,7 +295,7 @@ export default {
     },
     async memorizeTokenFromSpotify(resultTokensFromSpotify) {
       await this.$store.dispatch(
-        'authSpotify/setToken',
+        "authSpotify/setToken",
         resultTokensFromSpotify.accessToken
       )
 
@@ -304,10 +304,10 @@ export default {
       //   resultTokensFromSpotify.accessToken
       // )
 
-      this.$cookies.set('access_token', resultTokensFromSpotify.accessToken)
+      this.$cookies.set("access_token", resultTokensFromSpotify.accessToken)
 
       await this.$store.dispatch(
-        'authSpotify/setRefreshToken',
+        "authSpotify/setRefreshToken",
         resultTokensFromSpotify.refreshToken
       )
 
@@ -316,7 +316,7 @@ export default {
       //   resultTokensFromSpotify.refreshToken
       // )
 
-      this.$cookies.set('refresh_token', resultTokensFromSpotify.refreshToken)
+      this.$cookies.set("refresh_token", resultTokensFromSpotify.refreshToken)
 
       const userUpdated = JSON.parse(JSON.stringify(this.user))
       userUpdated.refreshToken = resultTokensFromSpotify.refreshToken
@@ -324,16 +324,16 @@ export default {
       await userService.updateUser(userUpdated, this.user.token)
     },
     displayFlashMessage(message, status) {
-      const color = status === 'success' ? 'primary' : 'info'
+      const color = status === "success" ? "primary" : "info"
       this.flash = {
         color,
         message,
         display: true,
-        icon: 'mdi-check-circle-outline'
+        icon: "mdi-check-circle-outline"
       }
     },
     toHomeAction() {
-      this.$router.replace({ path: '/' })
+      this.$router.replace({ path: "/" })
     }
   }
 }
@@ -344,7 +344,7 @@ h1,
 h2,
 h3 {
   color: #4527a0;
-  font-family: 'Overpass', Arial, sans-serif !important;
+  font-family: "Overpass", Arial, sans-serif !important;
 }
 a {
   color: rgb(115, 40, 158);

@@ -165,12 +165,12 @@
 </template>
 
 <script>
-import { playlistService } from '@/services/playlistService'
-import { userService } from '@/services/users.service'
-import LoaderCircular from '@/components/LoaderCircular'
+import { playlistService } from "@/services/playlistService"
+import { userService } from "@/services/users.service"
+import LoaderCircular from "@/components/LoaderCircular"
 
 export default {
-  middleware: ['spotifyConnexion'],
+  middleware: ["spotifyConnexion"],
   components: {
     LoaderCircular
   },
@@ -182,43 +182,43 @@ export default {
       itemsToDisplay: 12,
       countPlaylists: 0,
       loading: false,
-      currentUser: this.$store.getters['authApp/getUser'],
+      currentUser: this.$store.getters["authApp/getUser"],
       endOfResults: true
     }
   },
   head() {
     return {
-      title: 'Browse all playlists',
+      title: "Browse all playlists",
       meta: [
         {
-          hid: 'description',
-          name: 'description',
-          content: 'Browse all playlists from our contributors.'
+          hid: "description",
+          name: "description",
+          content: "Browse all playlists from our contributors."
         },
         {
-          hid: 'og:title',
-          name: 'og:title',
-          content: `Browse all playlists from our contributors.`
+          hid: "og:title",
+          name: "og:title",
+          content: "Browse all playlists from our contributors."
         },
         {
-          hid: 'og:description',
-          name: 'og:description',
-          content: `Browse all public tandas that users shared with us. `
+          hid: "og:description",
+          name: "og:description",
+          content: "Browse all public tandas that users shared with us. "
         },
         {
-          hid: 'og:image',
-          name: 'og:image',
-          content: require('@/static/tandafurybanner.jpg')
+          hid: "og:image",
+          name: "og:image",
+          content: require("@/static/tandafurybanner.jpg")
         },
         {
-          hid: 'og:image:width',
-          name: 'og:image:width',
-          content: `1280`
+          hid: "og:image:width",
+          name: "og:image:width",
+          content: "1280"
         },
         {
-          hid: 'og:image:height',
-          name: 'og:image:height',
-          content: `486`
+          hid: "og:image:height",
+          name: "og:image:height",
+          content: "486"
         }
       ]
     }
@@ -253,17 +253,17 @@ export default {
         this.currentUser.favorites.push(playlist._id)
         this.playlistsFav.push(playlist)
 
-        this.$store.dispatch('authApp/setUser', this.currentUser)
+        this.$store.dispatch("authApp/setUser", this.currentUser)
 
         userService.updateUser(this.currentUser, this.currentUser.token)
-        this.$bus.$emit('flashMessage', {
-          message: 'This playlist has been added to your favorites',
-          status: 'success'
+        this.$bus.$emit("flashMessage", {
+          message: "This playlist has been added to your favorites",
+          status: "success"
         })
       } else {
-        this.$bus.$emit('flashMessage', {
-          message: 'This playlist is already in your favorites',
-          status: 'success'
+        this.$bus.$emit("flashMessage", {
+          message: "This playlist is already in your favorites",
+          status: "success"
         })
       }
     },
@@ -274,7 +274,7 @@ export default {
 
       this.playlistsFav.splice(indexToDelete, 1)
       this.currentUser.favorites = this.playlistsFav
-      this.$store.dispatch('authApp/setUser', this.currentUser)
+      this.$store.dispatch("authApp/setUser", this.currentUser)
       userService.updateUser(this.currentUser, this.currentUser.token)
     },
     isEndOfList() {
