@@ -213,8 +213,11 @@ import { userService } from "@/services/users.service"
 import PlayerSwitcher from "@/components/PlayerSwitcher"
 import PlaylistPlayer from "@/components/PlaylistPlayer"
 import BarBottom from "@/components/BarBottom"
+import PlayerMixin from "@/mixins/player"
+import DeviceMixin from "@/mixins/device"
 
 export default {
+  mixins: [PlayerMixin, DeviceMixin],
   components: {
     PlaylistPlayer,
     PlayerSwitcher,
@@ -261,6 +264,32 @@ export default {
     } catch (e) {
       this.$router.replace({ path: "/signin" })
     }
+
+    if (this.user.spotify && !this.tandaFuryPlayer) {
+      this.spotifyPlayer = await this.initiatePlayerSpotifyPlayer()
+    }
+
+    await this.waitForSpotifyWebPlaybackSDKToLoad()
+
+    const sleep = (milliseconds) => {
+      const date = Date.now()
+      let currentDate = null
+      do {
+        currentDate = Date.now()
+      } while (currentDate - date < milliseconds)
+    }
+
+    sleep(500)
+
+    const spotifyPlayersLoaded = await this.detectActualPlayers(
+      this.user.refreshToken
+    )
+
+    if (this.user.refreshToken) {
+      this.tandaFuryPlayer = this.findSpotifyPlayerInPlayersList(
+        spotifyPlayersLoaded
+      )
+    }
   },
   methods: {
     logout() {
@@ -273,7 +302,7 @@ export default {
         code,
         state
       )
-
+      console.log("token ? ", resultTokensFromSpotify)
       if (resultTokensFromSpotify.accessToken)
         this.memorizeTokenFromSpotify(resultTokensFromSpotify)
     },

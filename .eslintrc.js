@@ -18,7 +18,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     // semi: 0,
-    camelcase: ["error", { properties: "never" }]
+    // camelcase: ["error", { properties: "never" }]
     // "spaced-comment": 0,
     // useTabs: 0,
     // quotes: [1, "single"],

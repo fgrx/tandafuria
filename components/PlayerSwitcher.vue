@@ -2,7 +2,7 @@
   <div>
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
-        <v-list-item v-on="on" @click="getPlayers()">
+        <v-list-item v-on="on" @click="detectActualPlayers(userRefreshToken)">
           <v-list-item-action>
             <v-icon>mdi-speaker</v-icon>
           </v-list-item-action>
@@ -35,42 +35,28 @@
 </template>
 
 <script>
-import { spotifyConnexionService } from "@/services/spotifyConnexion"
+import deviceMixin from "@/mixins/device"
 
 export default {
+  mixins: [deviceMixin],
   data() {
     return {
       players: [],
       user: this.$store.getters["authApp/getUser"]
     }
   },
+  computed: {
+    userRefreshToken() {
+      return this.user.refreshToken
+    }
+  },
   mounted() {},
   methods: {
-    async getPlayers() {
-      const header = await this.getHeaderSpotify(this.user)
-
-      const serverUrl = "https://api.spotify.com/v1"
-
-      const url = `${serverUrl}/me/player/devices`
-
-      try {
-        const result = await this.$axios.get(url, header)
-        this.players = result.data.devices
-        return result.data.devices
-      } catch (e) {
-        alert("error, please try reloading the page", e)
-      }
-    },
-    // changePlayer(player) {
-    //   this.$store.dispatch('authSpotify/setMode', player)
-    // },
-
     async changeDevice(idPlayer) {
       this.$store.dispatch("authSpotify/setDeviceId", idPlayer)
       if (idPlayer === "classic") return true
 
-      const header = await this.getHeaderSpotify(this.user)
-
+      const header = await this.getHeaderSpotify(this.user.refreshToken)
       const serverUrl = "https://api.spotify.com/v1"
 
       const url = `${serverUrl}/me/player`
@@ -85,13 +71,6 @@ export default {
       } catch (e) {
         alert("error, please try reloading the page", e)
       }
-    },
-    async getHeaderSpotify(user) {
-      const token = await spotifyConnexionService.refreshTokenFromSpotify(
-        user.refreshToken
-      )
-      const header = { headers: { Authorization: "Bearer " + token } }
-      return header
     }
   }
 }

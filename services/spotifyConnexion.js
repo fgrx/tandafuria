@@ -6,6 +6,7 @@ export const spotifyConnexionService = {
       process.env.NODE_ENV === "development"
         ? process.env.DEV_serverUrl
         : process.env.PROD_serverUrl
+
     const resultSpotify = await axios.get(
       `${serverUrl}/spotify/refresh_token/${refreshToken}`
     )
