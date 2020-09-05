@@ -140,8 +140,7 @@ export default {
     })
 
     this.loadSearchStore()
-  },
-  mounted() {
+
     this.getParamsInUrlAndSearch()
     const storeToWatch = this.selectStoreForTanda()
     this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
