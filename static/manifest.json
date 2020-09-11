@@ -1,0 +1,23 @@
+{
+  "name": "Tanda Fury",
+  "short_name": "TandaFury",
+  "lang": "en",
+  "description": "Discover new tango tandas, build your own and create your playlists",
+  "theme_color": "#1A237",
+  "background_color": "#F2F2F2",
+  "ogImage": "http://tandafury.com/icon.png",
+  "icons": [
+    {
+      "src": "icons/manifest-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/manifest-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}

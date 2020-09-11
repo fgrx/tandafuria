@@ -1,0 +1,1 @@
+pwa-asset-generator  ./icon.png ./icons --background "#f2f2f2" --scrape false -m ./manifest.json
