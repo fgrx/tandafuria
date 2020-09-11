@@ -1,20 +1,21 @@
 <template>
   <v-container fluid grid-list-md>
     <h1>All {{ titleSpecified }} tandas</h1>
-    <TandasList context="allTandas" />
+    <TandasList :defaultTandas="defaultTandas" context="allTandas" />
   </v-container>
 </template>
 
 <script>
 import TandasList from "@/components/TandasList"
 import { orchestras } from "@/data/orchestras"
+import { tandaService } from "@/services/tandas.service"
 
 export default {
   middleware: ["spotifyConnexion"],
   components: { TandasList },
   data() {
     return {
-      // titleSpecified: ''
+      defaultTandas: []
     }
   },
   head() {
@@ -54,10 +55,16 @@ export default {
       ]
     }
   },
-  asyncData({ params, route }) {
+  async asyncData({ params, route }) {
     let titleSpecified = ""
+    let paramsString = ""
+    const paramsArray = []
+
+    const offset = 0
 
     if (route.query.orchestra) {
+      paramsArray.push("orchestra=" + route.query.orchestra)
+
       const orchestra = orchestras.filter((e) => e.id === route.query.orchestra)
       if (orchestra[0].id !== "mixed" && orchestra[0].id !== "other") {
         titleSpecified = orchestra[0].title
@@ -66,13 +73,18 @@ export default {
 
     if (route.query.genre) {
       titleSpecified = route.query.genre
+      paramsArray.push("genre=" + route.query.genre)
     }
 
+    if (paramsArray) paramsString = paramsArray.join("&")
+    if (paramsString) paramsString = "?" + paramsString
+
+    const result = await tandaService.getTandas(offset, paramsString)
+
     return {
-      titleSpecified
+      titleSpecified,
+      defaultTandas: result.tandas
     }
-  },
-  mounted() {},
-  methods: {}
+  }
 }
 </script>

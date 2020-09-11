@@ -29,20 +29,26 @@ export default {
         })
       })
     },
+
     async initiatePlayerSpotifyPlayer() {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
 
-      if (!this.accessToken) {
-        this.accessToken = await spotifyConnexionService.refreshTokenFromSpotify(
-          this.user.refreshToken
-        )
-      }
-      const token = this.accessToken
+      // if (!this.accessToken) {
+      //   this.accessToken = await spotifyConnexionService.refreshTokenFromSpotify(
+      //     this.user.refreshToken
+      //   )
+      // }
+
+      // const token = this.accessToken
+
       // console.log('init', token)
       this.sdk = new Player({
         name: "TandaFury",
         volume: 1.0,
-        getOAuthToken: (callback) => {
+        getOAuthToken: async (callback) => {
+          const token = await spotifyConnexionService.refreshTokenFromSpotify(
+            this.user.refreshToken
+          )
           callback(token)
         }
       })

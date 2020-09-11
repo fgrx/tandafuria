@@ -229,12 +229,12 @@ import PlayerMixin from "@/mixins/player"
 import DeviceMixin from "@/mixins/device"
 
 export default {
-  mixins: [PlayerMixin, DeviceMixin],
   components: {
     PlaylistPlayer,
     PlayerSwitcher,
     BarBottom
   },
+  mixins: [PlayerMixin, DeviceMixin],
   middleware: ["initializeAppData"],
   data() {
     return {
@@ -314,7 +314,6 @@ export default {
         code,
         state
       )
-      console.log("token ? ", resultTokensFromSpotify)
       if (resultTokensFromSpotify.accessToken)
         this.memorizeTokenFromSpotify(resultTokensFromSpotify)
     },

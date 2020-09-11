@@ -101,19 +101,28 @@ import { speed } from "@/data/speed"
 import { orchestras } from "@/data/orchestras"
 
 import { tandaService } from "@/services/tandas.service"
-import Loader from "@/components/Loader"
 
 import PlaylistSelector from "@/components/PlaylistSelector"
+import LoaderCircular from "@/components/LoaderCircular"
 
 export default {
-  components: { TandaItem, NoTandaMessage, Loader, PlaylistSelector },
+  components: {
+    TandaItem,
+    NoTandaMessage,
+    Loader: LoaderCircular,
+    PlaylistSelector
+  },
   props: {
+    defaultTandas: {
+      type: Array,
+      default: () => {}
+    },
     context: { type: String, default: "allTandas" },
     userIdParam: { type: String, default: "" }
   },
   data() {
     return {
-      tandas: [],
+      tandas: this.defaultTandas,
       speedList: ["", ...speed],
       orchestraList: [{ id: null, title: "" }, ...orchestras],
       genreList: [{ id: null, name: "" }, ...genres],
@@ -128,6 +137,7 @@ export default {
       endOfResults: false
     }
   },
+
   created() {
     this.$store.subscribe((mutation, state) => {
       if (
