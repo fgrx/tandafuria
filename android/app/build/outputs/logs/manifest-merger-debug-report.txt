@@ -1,0 +1,143 @@
+-- Merging decision tree log ---
+application
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:25:5-58:19
+MERGED from [com.github.GoogleChrome.custom-tabs-client:customtabs:e849e45c90] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\1059c9218fd3504cc76f59d8ad0708dc\customtabs-e849e45c90\AndroidManifest.xml:22:5-23:19
+MERGED from [com.github.GoogleChrome.custom-tabs-client:customtabs:e849e45c90] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\1059c9218fd3504cc76f59d8ad0708dc\customtabs-e849e45c90\AndroidManifest.xml:22:5-23:19
+	android:supportsRtl
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:29:9-35
+	android:label
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:28:9-40
+	android:icon
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:27:9-43
+	android:allowBackup
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:26:9-35
+	android:theme
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:30:9-47
+meta-data#asset_statements
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:32:9-34:50
+	android:value
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:34:13-47
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:33:13-44
+activity#android.support.customtabs.trusted.LauncherActivity
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:36:9-57:20
+	android:label
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:37:13-44
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:36:19-85
+meta-data#android.support.customtabs.trusted.DEFAULT_URL
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:38:13-39:49
+	android:value
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:39:17-46
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:38:24-85
+data
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:54:17-55:49
+	android:host
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:55:21-47
+	android:scheme
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:54:23-45
+manifest
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+MERGED from [com.github.GoogleChrome.custom-tabs-client:customtabs:e849e45c90] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\1059c9218fd3504cc76f59d8ad0708dc\customtabs-e849e45c90\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:appcompat-v7:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\5999653a58a513f1695110305774686b\appcompat-v7-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\96bc07a4aac63c7045ab8048d5843ff4\support-v4-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\965e18b1b5c5b5e3b57b84236b0ea4d5\support-fragment-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\83d2fc75e16f95c73778c848db8c1ee3\animated-vector-drawable-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\e400d0c10dcd24b5705c8ff2685bd17d\support-core-ui-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\e4b8803d7b80ae74f30ce586589e9bfb\support-media-compat-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\17982dea21d709486085218a0878a21e\support-core-utils-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\cc20934b26b01b61cd7cb509dedfa212\support-vector-drawable-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\c217ad5798cd45381e7269b05916df01\support-compat-27.0.2\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.0.3] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\3f42638e622181c82f32785addecb8a3\runtime-1.0.3\AndroidManifest.xml:17:1-24:12
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+	package
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:23:5-30
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:1-59:12
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:22:11-69
+uses-sdk
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+MERGED from [com.github.GoogleChrome.custom-tabs-client:customtabs:e849e45c90] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\1059c9218fd3504cc76f59d8ad0708dc\customtabs-e849e45c90\AndroidManifest.xml:20:5-44
+MERGED from [com.github.GoogleChrome.custom-tabs-client:customtabs:e849e45c90] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\1059c9218fd3504cc76f59d8ad0708dc\customtabs-e849e45c90\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\5999653a58a513f1695110305774686b\appcompat-v7-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\5999653a58a513f1695110305774686b\appcompat-v7-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\96bc07a4aac63c7045ab8048d5843ff4\support-v4-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\96bc07a4aac63c7045ab8048d5843ff4\support-v4-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\965e18b1b5c5b5e3b57b84236b0ea4d5\support-fragment-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\965e18b1b5c5b5e3b57b84236b0ea4d5\support-fragment-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\83d2fc75e16f95c73778c848db8c1ee3\animated-vector-drawable-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\83d2fc75e16f95c73778c848db8c1ee3\animated-vector-drawable-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\e400d0c10dcd24b5705c8ff2685bd17d\support-core-ui-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\e400d0c10dcd24b5705c8ff2685bd17d\support-core-ui-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\e4b8803d7b80ae74f30ce586589e9bfb\support-media-compat-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\e4b8803d7b80ae74f30ce586589e9bfb\support-media-compat-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\17982dea21d709486085218a0878a21e\support-core-utils-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\17982dea21d709486085218a0878a21e\support-core-utils-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\cc20934b26b01b61cd7cb509dedfa212\support-vector-drawable-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\cc20934b26b01b61cd7cb509dedfa212\support-vector-drawable-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\c217ad5798cd45381e7269b05916df01\support-compat-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.0.2] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\c217ad5798cd45381e7269b05916df01\support-compat-27.0.2\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.0.3] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\3f42638e622181c82f32785addecb8a3\runtime-1.0.3\AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.lifecycle:runtime:1.0.3] C:\Users\fabien\.gradle\caches\transforms-2\files-2.1\3f42638e622181c82f32785addecb8a3\runtime-1.0.3\AndroidManifest.xml:20:5-22:41
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml
+meta-data#android.support.customtabs.trusted.STATUS_BAR_COLOR
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:41:13-43:58
+	android:resource
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:43:17-55
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:42:17-83
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:45:13-48:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:46:17-69
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:46:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:47:17-77
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:47:27-74
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:tandafury.com+data:scheme:https
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:50:13-56:29
+action#android.intent.action.VIEW
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:51:17-68
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:51:25-66
+category#android.intent.category.DEFAULT
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:52:17-76
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:52:27-73
+category#android.intent.category.BROWSABLE
+ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:53:17-77
+	android:name
+		ADDED from C:\Users\fabien\work\tandafuria-client\android\app\src\main\AndroidManifest.xml:53:27-75

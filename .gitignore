@@ -72,6 +72,9 @@ typings/
 # Nuxt generate
 dist
 
+#twa
+android
+
 # vuepress build output
 .vuepress/dist
 

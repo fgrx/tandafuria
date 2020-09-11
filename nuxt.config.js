@@ -132,6 +132,28 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     ["@bazzite/nuxt-netlify", {}],
+    [
+      "nuxt-twa-module",
+      {
+        /* module options */
+        defaultUrl: "https://tandafury.com",
+        hostName: "tandafury.com",
+        applicationId: "com.tandayfury.tandafury",
+        launcherName: "Tanda Fury",
+        versionCode: 1,
+        versionName: "1.0",
+        statusBarColor: "#1A237",
+        distFolder: "/.nuxt/dist/client",
+        // The sha256Fingerprints by is an array with one SHA-256 key string.
+        // But if you have multiple you can add them to the array. More information about the website asociation:
+        // https://developer.android.com/training/app-links/verify-site-associations#web-assoc
+        sha256Fingerprints: [
+          "D8:D5:3D:55:78:44:4C:64:89:77:AC:E6:CD:83:85:1F:99:59:3D:75:B3:D5:BC:E0:43:79:B2:91:FF:0C:E3:6C"
+        ],
+        /* optional */
+        iconPath: "/static/icon.png"
+      }
+    ],
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
@@ -167,6 +189,7 @@ export default {
       ogImage: `http://tandafury.com/icon.png`
     }
   },
+
   webfontloader: {
     google: {
       families: ["Fjalla One", "Overpass"]
