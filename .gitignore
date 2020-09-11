@@ -73,6 +73,7 @@ typings/
 dist
 
 #twa
+/android
 android
 
 # vuepress build output
