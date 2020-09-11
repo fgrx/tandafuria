@@ -10,8 +10,8 @@
     <div
       v-if="display"
       role="document"
-      class="v-dialog__content v-dialog__content--active"
-      style="top:auto;height:auto;bottom:0px;z-index:202;"
+      class="dialog__player v-dialog__content v-dialog__content--active"
+      style="top:auto;height:auto;z-index:202;bottom:0px"
       tabindex="0"
     >
       <!-- <div
@@ -24,24 +24,14 @@
       >
         <v-list dark>
           <v-row class="pa-2" dark>
-            <v-col cols="3" sm="1">
-              <v-btn @click="close()" color="primary">Close</v-btn>
-            </v-col>
-            <v-col cols="3" sm="1" class="d-none d-sm-flex">
+            <v-col cols="1" class="d-none d-md-flex">
               <v-img
                 v-if="currentTrack && currentTrack.album"
                 :src="currentTrack.album.images[1].url"
                 class="img-player"
               ></v-img>
             </v-col>
-            <v-col cols="6" sm="6">
-              <v-slider
-                v-model="playingPosition"
-                @click="changeTiming()"
-                :max="duration"
-                min="0"
-                track-color="primary"
-              ></v-slider>
+            <v-col cols="7" sm="4">
               <p v-if="currentTrack && !currentTrack.preview_url" class="error">
                 No preview available
               </p>
@@ -54,8 +44,16 @@
                   >- {{ artist.name }}</span
                 >
               </v-list-item-title>
+
+              <v-slider
+                v-model="playingPosition"
+                @click="changeTiming()"
+                :max="duration"
+                min="0"
+                track-color="primary"
+              ></v-slider>
             </v-col>
-            <v-col>
+            <v-col cols="5" sm="2">
               <v-slider
                 v-model="volume"
                 @click="changeVolume()"
@@ -87,6 +85,9 @@
                   <v-icon>mdi-skip-next</v-icon>
                 </v-btn>
               </div>
+            </v-col>
+            <v-col cols="3" sm="1">
+              <v-btn @click="close()" color="primary">Close</v-btn>
             </v-col>
           </v-row>
         </v-list>
@@ -425,7 +426,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.dialog__player {
+  @media (max-width: 768px) {
+    bottom: 56px !important;
+  }
+}
+
 .hide {
   display: none;
 }

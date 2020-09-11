@@ -38,7 +38,7 @@ android {
                 assetStatements: '[{ "relation": ["delegate_permission/common.handle_all_urls"], ' +
                         '"target": {"namespace": "web", "site": "https://tandafury.com"}}]'
         ]
-        resValue "color", "colorPrimary", "#1A237"
+        resValue "color", "colorPrimary", "#311B92"
     }
     buildTypes {
         release {

@@ -29,7 +29,7 @@
 
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="28" />
+        android:targetSdkVersion="29" />
 
     <application
         android:allowBackup="true"
@@ -37,6 +37,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Tanda Fury"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/Theme.TwaSplash" >
         <meta-data
             android:name="asset_statements"

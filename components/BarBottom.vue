@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-bottom-navigation fixed dark color="pink" class="d-lg-none">
+    <v-bottom-navigation
+      fixed
+      dark
+      color="pink accent-2"
+      background-color="navigationDrawer"
+      class="d-lg-none"
+    >
       <v-btn to="/all-tandas" value="all-tandas">
         <span>All tandas</span>
         <v-icon>mdi-music</v-icon>

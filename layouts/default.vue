@@ -165,7 +165,7 @@
           <div class="d-flex d-lg-none">
             <v-menu v-if="user.id" transition="slide-y-transition" bottom>
               <template v-slot:activator="{ on }">
-                <v-btn v-on="on" text color="primary" block dark>
+                <v-btn v-on="on" text color="light-blue lighten-5" block dark>
                   <v-icon>mdi-account</v-icon>
                   {{ user.nickname }}
                 </v-btn>
@@ -213,9 +213,10 @@
 
       <v-container>
         <nuxt />
+        <PlaylistPlayer />
       </v-container>
     </v-content>
-    <PlaylistPlayer />
+
     <BarBottom :user="user" />
   </v-app>
 </template>

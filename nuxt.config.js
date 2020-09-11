@@ -142,7 +142,7 @@ export default {
         launcherName: "Tanda Fury",
         versionCode: 1,
         versionName: "1.0",
-        statusBarColor: "#1A237",
+        statusBarColor: "#311B92",
         distFolder: "/.nuxt/dist/client",
         // The sha256Fingerprints by is an array with one SHA-256 key string.
         // But if you have multiple you can add them to the array. More information about the website asociation:

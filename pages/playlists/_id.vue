@@ -51,8 +51,11 @@
             >
               <TrackItem :track="track" />
 
-              <v-list-item-action v-if="playlist.author.id === currentUser.id">
-                <v-btn class="handle">
+              <v-list-item-action>
+                <v-btn
+                  v-if="playlist.author.id === currentUser.id"
+                  class="handle"
+                >
                   <v-icon color="primary">mdi-drag-variant</v-icon>
                 </v-btn>
 
@@ -65,7 +68,7 @@
                     </v-list-item>
                   </template>
                   <v-list>
-                    <v-list-item>
+                    <v-list-item v-if="playlist.author.id === currentUser.id">
                       <v-list-item-title>
                         <v-btn @click="setAsCortina(track)" text small>
                           <v-icon>mdi-party-popper</v-icon>
@@ -85,7 +88,7 @@
                       </v-list-item-title>
                     </v-list-item>
 
-                    <v-list-item>
+                    <v-list-item v-if="playlist.author.id === currentUser.id">
                       <v-list-item-title>
                         <v-btn @click="deleteTrack(track.id)">
                           <v-icon color="danger">mdi-delete</v-icon>Delete track
