@@ -51,10 +51,49 @@ export default {
       {
         name: "google-site-verification",
         content: "j0TfbxpdSM5_oV_dazaWsNkhoMZA4h6kER3KPBUCIvA"
-      }
+      },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-touch-fullscreen", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" }
     ],
     // script: [{ src: ' https://sdk.scdn.co/spotify-player.js' }],
-    link: [{ rel: "shortcut icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "shortcut icon", type: "image/x-icon", href: "/favicon.ico" },
+      // apple
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/icons/apple-icon-180.png"
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "167x167",
+        href: "/icons/apple-icon-167.png"
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "152x152",
+        href: "/icons/apple-icon-152.png"
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "120x120",
+        href: "/icons/apple-icon-120.png"
+      },
+      {
+        rel: "apple-touch-startup-image",
+        href: "/splash/apple-splash-2048-2732.png",
+        media:
+          "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      },
+      {
+        rel: "apple-touch-startup-image",
+        href: "/splash/apple-splash-1136-640.png",
+        media:
+          "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -115,6 +154,18 @@ export default {
     hostname: "https://tandafury.com",
     gzip: true,
     routes: generateRoutes
+  },
+  pwa: {
+    manifest: {
+      name: "Tanda Fury",
+      short_name: "TandaFury",
+      lang: "en",
+      description:
+        "Discover new tango tandas, build your own and create your playlists",
+      theme_color: "#1A237",
+      background_color: "#F2F2F2",
+      ogImage: `http://tandafury.com/icon.png`
+    }
   },
   webfontloader: {
     google: {

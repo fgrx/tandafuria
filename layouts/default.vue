@@ -139,13 +139,25 @@
           </v-list-item>
 
           <v-list-item v-if="!user.id" class="d-flex d-lg-none">
-            <v-btn block to="signin" color="primary" text large>
+            <v-btn
+              block
+              to="signin"
+              color="light-blue lighten-5"
+              small
+              outlined
+            >
               <v-icon>mdi-account-arrow-right</v-icon>Sign In
             </v-btn>
           </v-list-item>
 
           <v-list-item v-if="!user.id" class="d-flex d-lg-none">
-            <v-btn block to="create-account" text large color="primary">
+            <v-btn
+              block
+              to="create-account"
+              outlined
+              small
+              color="light-blue lighten-5"
+            >
               <v-icon>mdi-account-plus</v-icon>Create your account
             </v-btn>
           </v-list-item>
