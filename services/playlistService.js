@@ -147,10 +147,28 @@ export const playlistService = {
     })
 
     try {
-      const result = await axios.put(url, { uris: tracksForSpotify }, header)
-      return result
+      const spotifyLimitToPutUpdate = 100
+      for (
+        let i = 0;
+        i < tracksForSpotify.length;
+        i += spotifyLimitToPutUpdate
+      ) {
+        const tracksPackToSend = tracksForSpotify.slice(
+          i,
+          i + spotifyLimitToPutUpdate
+        )
+
+        if (i === 0) {
+          await axios.put(url, { uris: tracksPackToSend }, header)
+        } else {
+          await axios.post(url, { uris: tracksPackToSend }, header)
+        }
+      }
+
+      return true
     } catch (e) {
       alert("error, please contact me to help me fix this problem", e)
+      return false
     }
   },
   async getHeaderSpotify(user) {
