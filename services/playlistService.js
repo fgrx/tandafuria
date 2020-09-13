@@ -7,6 +7,8 @@ const baseUrl =
     : process.env.PROD_serverUrl
 const urlApi = baseUrl + "/playlists"
 
+const spotifyTracksNumberLimit = 100
+
 export const playlistService = {
   async save(playlist, token) {
     const header = { headers: { Authorization: "Bearer " + token } }
@@ -102,13 +104,25 @@ export const playlistService = {
 
     const serverUrl = "https://api.spotify.com/v1"
 
-    const url = `${serverUrl}/playlists/${playlist.id}/tracks`
+    const url = `${serverUrl}/playlists/${playlist.id}/tracks?limit=${spotifyTracksNumberLimit}`
+
+    const tracks = []
 
     try {
-      const result = await axios.get(url, header)
-      return result
+      for (
+        let i = 0;
+        i < playlist.tracks.total;
+        i += spotifyTracksNumberLimit
+      ) {
+        const result = await axios.get(url + "&offset=" + i, header)
+        result.data.items.forEach((itemTrack) => {
+          tracks.push(itemTrack.track)
+        })
+      }
+      return tracks
     } catch (e) {
       alert("error, please contact me to help me fix this problem", e)
+      return false
     }
   },
   async createPlaylistSpotify(playlist, user) {
@@ -147,15 +161,14 @@ export const playlistService = {
     })
 
     try {
-      const spotifyLimitToPutUpdate = 100
       for (
         let i = 0;
         i < tracksForSpotify.length;
-        i += spotifyLimitToPutUpdate
+        i += spotifyTracksNumberLimit
       ) {
         const tracksPackToSend = tracksForSpotify.slice(
           i,
-          i + spotifyLimitToPutUpdate
+          i + spotifyTracksNumberLimit
         )
 
         if (i === 0) {

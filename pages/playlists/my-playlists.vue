@@ -131,6 +131,9 @@
                 <v-list-item-content>
                   <v-list-item-title>
                     {{ playlistFromSpotify.name }}
+                    <span v-if="playlistFromSpotify.tracks.total"
+                      >- {{ playlistFromSpotify.tracks.total }} songs</span
+                    >
                   </v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
@@ -288,13 +291,10 @@ export default {
       this.dialogPlaylist = false
     },
     async importPlaylistAction(playlistToImport) {
-      const tracksData = await playlistService.getTrackFromSpotifyPlaylist(
+      const tracks = await playlistService.getTrackFromSpotifyPlaylist(
         playlistToImport,
         this.currentUser
       )
-
-      const tracks = []
-      tracksData.data.items.forEach((trackItem) => tracks.push(trackItem.track))
 
       const playlist = {
         name: playlistToImport.name,

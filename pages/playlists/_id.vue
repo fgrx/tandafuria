@@ -369,7 +369,6 @@ export default {
       })
     },
     checkNoDuplicateTrack(playlist) {
-      // console.log('OK Duplicate')
       const tracks = playlist.tracks
       return tracks
     },
