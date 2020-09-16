@@ -31,7 +31,7 @@
                     color="primary"
                     small
                     light
-                    ><v-icon>mdi-star-off</v-icon> Remove from Favorites</v-btn
+                    ><v-icon>mdi-star-off</v-icon> Remove from Favs</v-btn
                   >
                 </v-list-item-icon>
                 <v-list-item-content>
@@ -85,72 +85,84 @@
           </v-card-title>
 
           <v-card-text>
-            <div
-              v-for="(playlistItem, index) in playlists"
-              :key="playlistItem._id"
-            >
-              <v-list-item>
-                <v-list-item-action
-                  v-if="
-                    currentUser.id && currentUser.id === playlistItem.author.id
-                  "
-                >
-                  <v-icon>mdi-playlist-music</v-icon>
-                  <v-list-item-icon
+            <v-list>
+              <div
+                v-for="(playlistItem, index) in playlists"
+                :key="playlistItem._id"
+                :class="
+                  currentUser.id === playlistItem.author.id
+                    ? 'usersPlaylist'
+                    : ''
+                "
+              >
+                <v-list-item color="primary">
+                  <v-list-item-action
                     v-if="
                       currentUser.id &&
-                        currentUser.id !== playlistItem.author.id
+                        currentUser.id === playlistItem.author.id
                     "
-                    ><v-btn
-                      @click="setAsFavAction(playlistItem)"
-                      color="primary"
-                      small
-                      dark
-                      ><v-icon>mdi-star</v-icon> Set as Favorite</v-btn
-                    >
-                  </v-list-item-icon>
-                </v-list-item-action>
+                  >
+                    <v-icon>mdi-playlist-music</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-action v-else>
+                    <v-list-item-icon
+                      v-if="
+                        currentUser.id &&
+                          currentUser.id !== playlistItem.author.id
+                      "
+                      ><v-btn
+                        @click="setAsFavAction(playlistItem)"
+                        color="primary"
+                        small
+                        dark
+                        ><v-icon>mdi-star</v-icon>
+                      </v-btn>
+                    </v-list-item-icon>
+                  </v-list-item-action>
 
-                <v-list-item-content>
-                  <v-list-item-title two-line class="headline mb-1">
-                    <v-btn
-                      :to="{
-                        name: 'playlists-id',
-                        params: { id: playlistItem._id }
-                      }"
-                      text
-                      >{{ playlistItem.name }}</v-btn
-                    >
-                  </v-list-item-title>
-                  <v-list-item-subtitle v-if="playlistItem.countTracks">
-                    <span class="font-regular"
-                      >by
-                      <nuxt-link
+                  <v-list-item-content>
+                    <v-list-item-title two-line class="headline mb-1">
+                      <v-btn
                         :to="{
-                          name: 'djs-id',
-                          params: { id: playlistItem.author.id }
+                          name: 'playlists-id',
+                          params: { id: playlistItem._id }
                         }"
+                        text
+                        >{{ playlistItem.name }}</v-btn
                       >
-                        {{ playlistItem.author.name }}
-                      </nuxt-link>
-                    </span>
-                  </v-list-item-subtitle>
+                    </v-list-item-title>
+                    <v-list-item-subtitle v-if="playlistItem.countTracks">
+                      <span class="font-regular"
+                        >by
+                        <nuxt-link
+                          :to="{
+                            name: 'djs-id',
+                            params: { id: playlistItem.author.id }
+                          }"
+                        >
+                          {{ playlistItem.author.name }}
+                        </nuxt-link>
+                      </span>
+                    </v-list-item-subtitle>
 
-                  <v-list-item-subtitle v-if="playlistItem.countTracks">
-                    {{ playlistItem.countTracks }} tracks
-                    <span v-if="playlistItem.isPublic"> - public playlist</span>
-                    <span v-if="!playlistItem.isPublic">
-                      - private playlist</span
-                    >
-                    {{ playlistItem.description }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider
-                v-if="index + 1 < playlists.length"
-                :key="index"
-              ></v-divider>
-            </div>
+                    <v-list-item-subtitle v-if="playlistItem.countTracks">
+                      {{ playlistItem.countTracks }} tracks
+                      <span v-if="playlistItem.isPublic">
+                        - public playlist</span
+                      >
+                      <span v-if="!playlistItem.isPublic">
+                        - private playlist</span
+                      >
+                      {{ playlistItem.description }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider
+                  v-if="index + 1 < playlists.length"
+                  :key="index"
+                ></v-divider>
+              </div>
+            </v-list>
             <v-row v-if="!loading && !endOfResults" justify="center">
               <v-btn @click="showMore()" color="primary"
                 >+ More playlists</v-btn
@@ -182,8 +194,9 @@ export default {
       itemsToDisplay: 12,
       countPlaylists: 0,
       loading: false,
-      currentUser: this.$store.getters["authApp/getUser"],
-      endOfResults: true
+      favoritesInStore: [],
+      endOfResults: true,
+      currentUser: {}
     }
   },
   head() {
@@ -224,6 +237,8 @@ export default {
     }
   },
   mounted() {
+    this.currentUser = this.$store.getters["authApp/getUser"]
+    this.favoritesInStore = this.$store.state.favoritesPlaylists
     this.loadPlaylists()
     if (this.currentUser) this.getFavorites()
   },
@@ -243,19 +258,20 @@ export default {
       this.endOfResults = this.isEndOfList()
     },
     setAsFavAction(playlist) {
-      let exist = false
-
-      if (this.currentUser.favorites)
-        exist = this.currentUser.favorites.find((e) => e === playlist._id)
+      const exist = this.playlistsFav.find((e) => e._id === playlist._id)
 
       if (!exist) {
-        if (!this.currentUser.favorites) this.currentUser.favorites = []
-        this.currentUser.favorites.push(playlist._id)
         this.playlistsFav.push(playlist)
+        this.$store.dispatch(
+          "favoritesPlaylists/updateActionFavoritesPlaylists",
+          this.playlistsFav
+        )
 
-        this.$store.dispatch("authApp/setUser", this.currentUser)
+        userService.updateUser(
+          { ...this.currentUser, favorites: this.playlistsFav },
+          this.currentUser.token
+        )
 
-        userService.updateUser(this.currentUser, this.currentUser.token)
         this.$bus.$emit("flashMessage", {
           message: "This playlist has been added to your favorites",
           status: "success"
@@ -273,9 +289,15 @@ export default {
       )
 
       this.playlistsFav.splice(indexToDelete, 1)
-      this.currentUser.favorites = this.playlistsFav
-      this.$store.dispatch("authApp/setUser", this.currentUser)
-      userService.updateUser(this.currentUser, this.currentUser.token)
+
+      this.$store.dispatch(
+        "favoritesPlaylists/updateActionFavoritesPlaylists",
+        this.playlistsFav
+      )
+      userService.updateUser(
+        { ...this.currentUser, favorites: this.playlistsFav },
+        this.currentUser.token
+      )
     },
     isEndOfList() {
       return this.offset + this.itemsToDisplay >= this.countPlaylists
@@ -298,5 +320,9 @@ export default {
 <style lang="scss" scoped>
 a {
   color: rgb(115, 40, 158);
+}
+
+.usersPlaylist {
+  background: rgba(245, 227, 253, 0.993);
 }
 </style>

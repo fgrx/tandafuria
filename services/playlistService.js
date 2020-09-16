@@ -85,8 +85,8 @@ export const playlistService = {
 
     const serverUrl = "https://api.spotify.com/v1"
 
-    const urlGetUserInfsos = `${serverUrl}/me`
-    const resultUser = await axios.get(urlGetUserInfsos, header)
+    const urlGetUserInfos = `${serverUrl}/me`
+    const resultUser = await axios.get(urlGetUserInfos, header)
 
     const userSpotify = resultUser.data.id
 
