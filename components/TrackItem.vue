@@ -1,7 +1,9 @@
 <template>
   <v-list-item four-line>
     <v-list-item-icon>
-      <TrackPlayer :track="track" />
+      <v-btn @click="play()" color="primary" small fab depressed dark>
+        <v-icon>mdi-play-circle</v-icon>
+      </v-btn>
     </v-list-item-icon>
     <v-list-item-content>
       <p v-if="track.duplicate" class="duplicate">
@@ -47,14 +49,21 @@
 </template>
 
 <script>
-import TrackPlayer from "~/components/TrackPlayer"
+import playlistMixin from "@/mixins/playlist"
 
 export default {
-  components: {
-    TrackPlayer
-  },
+  mixins: [playlistMixin],
+  components: {},
   props: {
     track: {
+      type: Object,
+      default: null
+    },
+    trackNumber: {
+      type: Number,
+      default: 0
+    },
+    playlist: {
       type: Object,
       default: null
     },
@@ -97,6 +106,9 @@ export default {
     },
     requestAlbum(album) {
       this.$emit("requestAlbum", album)
+    },
+    play() {
+      this.playPlaylistMixin(this.playlist, this.track)
     }
   }
 }

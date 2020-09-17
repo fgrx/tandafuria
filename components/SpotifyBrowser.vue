@@ -33,7 +33,7 @@
               @clicked="addTrackAction"
               @requestAlbum="requestAlbumAction"
               :track="track"
-              :key="index"
+              :playlist="{ tracks }"
               mode="browser"
             />
 
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import playlistMixin from "@/mixins/playlist"
 import LoaderCircular from "@/components/LoaderCircular"
 import TrackItem from "~/components/TrackItem"
 
@@ -66,6 +67,7 @@ export default {
     TrackItem,
     LoaderCircular
   },
+  mixins: [playlistMixin],
   middleware: ["spotifyConnexion"],
   props: {
     searchDefault: {

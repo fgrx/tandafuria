@@ -41,11 +41,7 @@
       </v-card-text>
 
       <template v-for="(track, index) in tanda.tracks" :keys="index">
-        <TrackItem
-          :track="track"
-          :playerId="track.id + randomizeString()"
-          :key="track.id"
-        />
+        <TrackItem :track="track" :playlist="playlist" />
         <v-divider
           v-if="index + 1 < tanda.tracks.length"
           :key="index"
@@ -145,6 +141,7 @@
 </template>
 
 <script>
+import playlistMixin from "@/mixins/playlist"
 import { orchestras } from "@/data/orchestras"
 
 import { tandaService } from "@/services/tandas.service.js"
@@ -153,6 +150,7 @@ import RatingInfos from "@/components/RatingInfos"
 import TrackItem from "~/components/TrackItem"
 
 export default {
+  mixins: [playlistMixin],
   components: {
     TrackItem,
     RatingInfos
@@ -172,6 +170,11 @@ export default {
       currentUser: this.$store.getters["authApp/getUser"]
     }
   },
+  computed: {
+    playlist() {
+      return { tracks: this.tanda.tracks }
+    }
+  },
   mounted() {
     this.randomString = this.randomizeString()
 
@@ -183,11 +186,7 @@ export default {
   },
   methods: {
     playTanda() {
-      const playlist = this.tanda.tracks
-      this.$bus.$emit("playlistPlayer", {
-        display: true,
-        playlist
-      })
+      this.playPlaylistMixin(this.playlist, this.tanda.tracks[0])
     },
     randomizeString() {
       return Math.random()

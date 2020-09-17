@@ -6,7 +6,7 @@
       indeterminate
       color="primary"
     ></v-progress-circular>
-    <p class="display-1">Loading...</p>
+    <p class="display-1">Loading... Please wait.</p>
   </div>
 </template>
 

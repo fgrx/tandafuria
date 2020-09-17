@@ -25,8 +25,6 @@ export default {
       this.user.refreshToken
     )
 
-    console.log("players", spotifyPlayersLoaded)
-
     const findSpotifyPlayerInPlayersList = (players) =>
       players.find((player) => player.name === "TandaFury")
 
@@ -35,8 +33,6 @@ export default {
         spotifyPlayersLoaded
       )
     }
-
-    console.log("tfp", this.tandaFuryPlayer)
   }
 }
 </script>

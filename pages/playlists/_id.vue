@@ -17,7 +17,7 @@
       </v-card-text>
 
       <v-card-text>
-        <v-btn v-if="tracks" @click="play()" block>
+        <v-btn v-if="tracks" @click="play(tracks[0])" block>
           <v-icon>mdi-play</v-icon>Start playlist
         </v-btn>
       </v-card-text>
@@ -31,6 +31,7 @@
 
       <draggable
         v-model="tracks"
+        @change="updateCurrentPlayingPlaylist"
         @start="isDragging = true"
         @end="isDragging = false"
         v-bind="dragOptions"
@@ -39,7 +40,7 @@
         handle=".handle"
       >
         <transition-group type="transition" name="flip-list">
-          <div v-for="track in tracks" :key="track.id">
+          <div v-for="(track, index) in tracks" :key="index">
             <v-list-item
               :class="[
                 { playing: track.id === trackPlaying },
@@ -49,7 +50,7 @@
               two-line
               class="ml-n6"
             >
-              <TrackItem :track="track" />
+              <TrackItem :track="track" :playlist="playlist" />
 
               <v-list-item-action>
                 <v-btn
@@ -155,6 +156,7 @@
 </template>
 
 <script>
+import playlistMixin from "@/mixins/playlist"
 import { playlistService } from "@/services/playlistService"
 import LoaderCircular from "@/components/LoaderCircular"
 import SpotifyBrowser from "@/components/SpotifyBrowser"
@@ -170,6 +172,7 @@ export default {
     TrackItem,
     PlaylistSelector
   },
+  mixins: [playlistMixin],
   middleware: ["spotifyConnexion"],
   head() {
     return {
@@ -258,12 +261,8 @@ export default {
     }
   },
   methods: {
-    play() {
-      const playlist = this.tracks
-      this.$bus.$emit("playlistPlayer", {
-        display: true,
-        playlist
-      })
+    play(trackNumber) {
+      this.playPlaylistMixin(this.playlist, trackNumber)
     },
     openSpotifyBrowser() {
       this.dialogBrowserSpotify = true
@@ -304,6 +303,14 @@ export default {
         }
         return trackItem
       })
+    },
+    updateCurrentPlayingPlaylist() {
+      if (this.playlist._id === this.$store.state.player.playlistPlaying._id) {
+        this.$store.dispatch("player/setPlaylistPlaying", {
+          ...this.playlist,
+          tracks: this.tracks
+        })
+      }
     },
     async savePlaylist() {
       this.playlist.tracks = this.tracks

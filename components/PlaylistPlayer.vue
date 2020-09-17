@@ -78,7 +78,10 @@
                 </v-btn>
 
                 <v-btn
-                  v-if="playlist && currentTrackPosition + 1 < playlist.length"
+                  v-if="
+                    playlist &&
+                      currentTrackPosition + 1 < playlist.tracks.length
+                  "
                   @click="next()"
                   icon
                 >
@@ -112,12 +115,9 @@ export default {
   data() {
     return {
       display: false,
-      playlist: null,
-      playTrack: null,
+      playTrack: this.$store.state.player.trackPlaying,
       playerComponentRef: null,
-      currentTrackPosition: 0,
       volume: 100,
-      currentTrack: {},
       isPlaying: false,
       user: this.$store.getters["authApp/getUser"],
       accessToken: "",
@@ -134,6 +134,17 @@ export default {
       const playerRef = "bottomPlayer"
       const domRefPlayer = this.$refs[playerRef].player
       return domRefPlayer
+    },
+    playlist() {
+      return this.$store.state.player.playlistPlaying
+    },
+    currentTrack() {
+      return this.$store.state.player.trackPlaying
+    },
+    currentTrackPosition() {
+      return this.playlist.tracks.findIndex(
+        (track) => track.id === this.currentTrack.id
+      )
     }
   },
   head() {
@@ -154,10 +165,8 @@ export default {
   mounted() {
     this.$bus.$on("playlistPlayer", async (params) => {
       this.display = true
-      this.playlist = params.playlist
-      this.playTrack = this.playlist[0].preview_url
+      this.playTrack = this.playlist.tracks[0].preview_url
       this.isPlaying = true
-      this.currentTrackPosition = 0
       this.playingPosition = 0
       this.position = 0
       this.accessToken = this.user.token
@@ -183,10 +192,10 @@ export default {
           }
         }
         this.mode = "spotify"
-        this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
+        this.playSpotifyPlayer(this.playlist.tracks[this.currentTrackPosition])
       } else {
         this.mode = "classic"
-        this.playClassicPlayer(this.playlist[this.currentTrackPosition])
+        this.playClassicPlayer(this.playlist.tracks[this.currentTrackPosition])
         this.initClassicPlaylist()
       }
     })
@@ -304,13 +313,21 @@ export default {
       this.position = 0
       this.playingPosition = 0
       if (
-        this.playlist &&
-        this.currentTrackPosition + 1 < this.playlist.length
+        this.playlist.tracks &&
+        this.currentTrackPosition + 1 < this.playlist.tracks.length
       ) {
-        this.currentTrackPosition++
+        this.$store.dispatch(
+          "player/setTrackPlaying",
+          this.playlist.tracks[this.currentTrackPosition + 1]
+        )
+
         this.mode === "classic"
-          ? this.playClassicPlayer(this.playlist[this.currentTrackPosition])
-          : this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
+          ? this.playClassicPlayer(
+              this.playlist.tracks[this.currentTrackPosition]
+            )
+          : this.playSpotifyPlayer(
+              this.playlist.tracks[this.currentTrackPosition]
+            )
         this.isPlaying = true
       } else {
         this.close()
@@ -320,15 +337,22 @@ export default {
       this.position = 0
       this.playingPosition = 0
       if (this.currentTrackPosition - 1 >= 0) {
-        this.currentTrackPosition--
+        this.$store.dispatch(
+          "player/setTrackPlaying",
+          this.playlist.tracks[this.currentTrackPosition - 1]
+        )
         this.mode === "classic"
-          ? this.playClassicPlayer(this.playlist[this.currentTrackPosition])
-          : this.playSpotifyPlayer(this.playlist[this.currentTrackPosition])
+          ? this.playClassicPlayer(
+              this.playlist.tracks[this.currentTrackPosition]
+            )
+          : this.playSpotifyPlayer(
+              this.playlist.tracks[this.currentTrackPosition]
+            )
         this.isPlaying = true
       } else {
         this.mode === "classic"
-          ? this.playClassicPlayer(this.playlist[0])
-          : this.playSpotifyPlayer(this.playlist[0])
+          ? this.playClassicPlayer(this.playlist.tracks[0])
+          : this.playSpotifyPlayer(this.playlist.tracks[0])
         this.isPlaying = true
       }
     },
@@ -345,7 +369,6 @@ export default {
         playerComponentRef.play()
       })
       this.isPlaying = true
-      this.currentTrack = track
       this.eventIsPlaying(track.id)
     },
     async playSpotifyPlayer(track) {
@@ -358,11 +381,6 @@ export default {
       const deviceToLaunch = this.tandaFuryPlayer
         ? this.tandaFuryPlayer.id
         : deviceChoosen
-
-      // console.log({
-      //   player: this.tandaFuryPlayer,
-      //   devicechoosen: deviceChoosen
-      // })
 
       const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${deviceToLaunch}`
 
@@ -377,7 +395,6 @@ export default {
         Authorization: `Bearer ${this.accessToken}`
       }
 
-      this.currentTrack = track
       this.eventIsPlaying(track.id)
       this.isPlaying = true
 
