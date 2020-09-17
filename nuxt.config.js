@@ -52,6 +52,7 @@ export default {
         name: "google-site-verification",
         content: "j0TfbxpdSM5_oV_dazaWsNkhoMZA4h6kER3KPBUCIvA"
       },
+      { name: "theme-color", content: "#1A237E" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-touch-fullscreen", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
@@ -184,7 +185,7 @@ export default {
       lang: "en",
       description:
         "Discover new tango tandas, build your own and create your playlists",
-      theme_color: "#1A237",
+      theme_color: "#1A237E",
       background_color: "#F2F2F2",
       ogImage: `http://tandafury.com/icon.png`
     }

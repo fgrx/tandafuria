@@ -4,7 +4,8 @@ export const state = () => ({
   refreshToken: "",
   deviceId: "",
   player: null,
-  mode: ""
+  mode: "",
+  playerSpotifyDefault: null
 })
 
 export const mutations = {
@@ -25,6 +26,9 @@ export const mutations = {
   },
   SET_MODE(state, mode) {
     state.mode = mode
+  },
+  SET_PLAYER_SPOTIFY_DEFAULT(state, playerid) {
+    state.playerSpotifyDefault = playerid
   }
 }
 
@@ -46,6 +50,9 @@ export const getters = {
   },
   getMode: (state) => {
     return state.mode
+  },
+  setPlaylistPlaying({ commit }, playlist) {
+    commit("SET_PLAYLIST_PLAYING", playlist)
   }
 }
 
@@ -67,5 +74,8 @@ export const actions = {
   },
   setMode({ commit }, mode) {
     commit("SET_MODE", mode)
+  },
+  setPlayerSpotifyDefault({ commit }, playerId) {
+    commit("SET_PLAYER_SPOTIFY_DEFAULT", playerId)
   }
 }

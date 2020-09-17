@@ -23,9 +23,20 @@
 
         <v-list-item v-for="player in players" :key="player.id">
           <v-list-item-title
-            ><v-btn @click="changeDevice(player.id)" text>
+            ><v-btn
+              :color="
+                tandafuryPlayerOfThisInstance === player.id
+                  ? 'pink accent-2'
+                  : ''
+              "
+              @click="changeDevice(player.id)"
+              text
+            >
               <v-icon>mdi-spotify</v-icon>
-              {{ player.name }}</v-btn
+              {{ player.name }}
+              <span v-if="DefaultSpotifyInstanceId === player.id"
+                >(default)</span
+              ></v-btn
             >
           </v-list-item-title>
         </v-list-item>
@@ -48,12 +59,20 @@ export default {
   computed: {
     userRefreshToken() {
       return this.user.refreshToken
+    },
+    tandafuryPlayerOfThisInstance() {
+      return (
+        this.$store.state.authSpotify.player ?? this.DefaultSpotifyInstanceId
+      )
+    },
+    DefaultSpotifyInstanceId() {
+      return this.$store.state.authSpotify.playerSpotifyDefault
     }
   },
-  mounted() {},
   methods: {
     async changeDevice(idPlayer) {
-      this.$store.dispatch("authSpotify/setDeviceId", idPlayer)
+      this.$store.dispatch("authSpotify/setPlayer", idPlayer)
+
       if (idPlayer === "classic") return true
 
       const header = await this.getHeaderSpotify(this.user.refreshToken)

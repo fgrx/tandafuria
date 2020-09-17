@@ -29,8 +29,5 @@ export const actions = {
   },
   setPlayerId({ commit }, playerId) {
     commit("SET_PLAYERID", playerId)
-  },
-  setPlaylistPlaying({ commit }, playlist) {
-    commit("SET_PLAYLIST_PLAYING", playlist)
   }
 }

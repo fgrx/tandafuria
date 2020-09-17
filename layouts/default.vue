@@ -283,6 +283,12 @@ export default {
     }
 
     await this.waitForSpotifyWebPlaybackSDKToLoad()
+    const defaultSpotifyInstanceId = this.spotifyPlayer._options.id
+
+    this.$store.dispatch(
+      "authSpotify/setPlayerSpotifyDefault",
+      defaultSpotifyInstanceId
+    )
 
     const sleep = (milliseconds) => {
       const date = Date.now()
