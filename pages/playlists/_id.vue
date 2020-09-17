@@ -60,7 +60,7 @@
                   <v-icon color="primary">mdi-drag-variant</v-icon>
                 </v-btn>
 
-                <v-menu offset-y>
+                <v-menu v-if="currentUser.id" offset-y>
                   <template v-slot:activator="{ on }">
                     <v-list-item v-on="on">
                       <v-btn color="primary" icon>
@@ -79,7 +79,7 @@
                       </v-list-item-title>
                     </v-list-item>
 
-                    <v-list-item>
+                    <v-list-item v-if="playlist.author.id === currentUser.id">
                       <v-list-item-title>
                         <v-btn @click="addToPlaylist(track)" text small>
                           <v-icon>mdi-playlist-music</v-icon>

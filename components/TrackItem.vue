@@ -52,8 +52,8 @@
 import playlistMixin from "@/mixins/playlist"
 
 export default {
-  mixins: [playlistMixin],
   components: {},
+  mixins: [playlistMixin],
   props: {
     track: {
       type: Object,

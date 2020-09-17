@@ -150,11 +150,11 @@ import RatingInfos from "@/components/RatingInfos"
 import TrackItem from "~/components/TrackItem"
 
 export default {
-  mixins: [playlistMixin],
   components: {
     TrackItem,
     RatingInfos
   },
+  mixins: [playlistMixin],
   props: {
     tanda: {
       type: Object,

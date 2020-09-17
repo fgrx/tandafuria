@@ -50,9 +50,6 @@ export const getters = {
   },
   getMode: (state) => {
     return state.mode
-  },
-  setPlaylistPlaying({ commit }, playlist) {
-    commit("SET_PLAYLIST_PLAYING", playlist)
   }
 }
 

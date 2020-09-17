@@ -98,7 +98,7 @@
                 <v-list-item color="primary">
                   <v-list-item-action
                     v-if="
-                      currentUser.id &&
+                      !currentUser.id ||
                         currentUser.id === playlistItem.author.id
                     "
                   >
