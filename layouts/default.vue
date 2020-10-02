@@ -228,6 +228,7 @@ import PlaylistPlayer from "@/components/PlaylistPlayer"
 import BarBottom from "@/components/BarBottom"
 import PlayerMixin from "@/mixins/player"
 import DeviceMixin from "@/mixins/device"
+import { spotifyService } from "@/services/spotify.service"
 
 export default {
   components: {
@@ -253,7 +254,15 @@ export default {
       subtitle: "The tanda creation tool"
     }
   },
-  created() {
+
+  async created() {
+    // refresh user infos if credentials are too old or on errors
+    try {
+      if (this.user.token) await userService.getUser(this.user)
+    } catch (e) {
+      this.$router.replace({ path: "/signin" })
+    }
+
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "authSpotify/SET_TOKEN") {
         this.accessToken = state.authSpotify.token
@@ -261,53 +270,39 @@ export default {
     })
   },
   async mounted() {
-    const code = this.$route.query.code
-    const state = this.$route.query.state
-    if (code) {
-      await this.initializeSpotifyTokens(code, state)
-    }
-
     this.$bus.$on("flashMessage", (params) => {
       this.displayFlashMessage(params.message, params.status)
     })
 
-    // refresh user infos if credentials are too old
-    try {
-      if (this.user.token) await userService.getUser(this.user)
-    } catch (e) {
-      this.$router.replace({ path: "/signin" })
-    }
+    await this.initializeSpotifyTokens()
 
-    if (this.user.spotify && !this.tandaFuryPlayer) {
+    if (this.user.spotify && this.user.refreshToken && !this.tandaFuryPlayer) {
       this.spotifyPlayer = await this.initiatePlayerSpotifyPlayer()
-    }
 
-    await this.waitForSpotifyWebPlaybackSDKToLoad()
-    const defaultSpotifyInstanceId = this.spotifyPlayer._options.id
+      await this.waitForSpotifyWebPlaybackSDKToLoad()
+      const defaultSpotifyInstanceId = this.spotifyPlayer._options.id
 
-    this.$store.dispatch(
-      "authSpotify/setPlayerSpotifyDefault",
-      defaultSpotifyInstanceId
-    )
+      this.$store.dispatch("player/setPlayerId", defaultSpotifyInstanceId)
 
-    const sleep = (milliseconds) => {
-      const date = Date.now()
-      let currentDate = null
-      do {
-        currentDate = Date.now()
-      } while (currentDate - date < milliseconds)
-    }
+      const sleep = (milliseconds) => {
+        const date = Date.now()
+        let currentDate = null
+        do {
+          currentDate = Date.now()
+        } while (currentDate - date < milliseconds)
+      }
 
-    sleep(500)
+      sleep(500)
 
-    const spotifyPlayersLoaded = await this.detectActualPlayers(
-      this.user.refreshToken
-    )
-
-    if (this.user.refreshToken) {
-      this.tandaFuryPlayer = this.findSpotifyPlayerInPlayersList(
-        spotifyPlayersLoaded
+      const spotifyPlayersLoaded = await this.detectActualPlayers(
+        this.user.refreshToken
       )
+
+      if (this.user.refreshToken) {
+        this.tandaFuryPlayer = this.findSpotifyPlayerInPlayersList(
+          spotifyPlayersLoaded
+        )
+      }
     }
   },
   methods: {
@@ -316,29 +311,17 @@ export default {
       this.$store.dispatch("authApp/clearUser")
       document.location.href = "/"
     },
-    async initializeSpotifyTokens(code, state) {
-      const resultTokensFromSpotify = await this.getTokenFromSpotify(
-        code,
-        state
-      )
-      if (resultTokensFromSpotify.accessToken)
-        this.memorizeTokenFromSpotify(resultTokensFromSpotify)
-    },
-    async getTokenFromSpotify(code, state) {
-      const serverUrl =
-        process.env.NODE_ENV === "development"
-          ? process.env.DEV_serverUrl
-          : process.env.PROD_serverUrl
-      const resultSpotify = await this.$axios.get(
-        `${serverUrl}/spotify/callback/${code}?state=${state}`
-      )
-
-      const tokens = {
-        accessToken: resultSpotify.data.access_token,
-        refreshToken: resultSpotify.data.refresh_token
+    async initializeSpotifyTokens() {
+      const code = this.$route.query.code
+      const state = this.$route.query.state
+      if (code) {
+        const resultTokensFromSpotify = await spotifyService.getTokenFromSpotify(
+          code,
+          state
+        )
+        if (resultTokensFromSpotify.accessToken)
+          this.memorizeTokenFromSpotify(resultTokensFromSpotify)
       }
-
-      return tokens
     },
     async memorizeTokenFromSpotify(resultTokensFromSpotify) {
       await this.$store.dispatch(
@@ -346,22 +329,12 @@ export default {
         resultTokensFromSpotify.accessToken
       )
 
-      // localStorage.setItem(
-      //   'access_token',
-      //   resultTokensFromSpotify.accessToken
-      // )
-
       this.$cookies.set("access_token", resultTokensFromSpotify.accessToken)
 
       await this.$store.dispatch(
         "authSpotify/setRefreshToken",
         resultTokensFromSpotify.refreshToken
       )
-
-      // localStorage.setItem(
-      //   'refresh_token',
-      //   resultTokensFromSpotify.refreshToken
-      // )
 
       this.$cookies.set("refresh_token", resultTokensFromSpotify.refreshToken)
 

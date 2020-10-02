@@ -1,4 +1,4 @@
-import { spotifyConnexionService } from "@/services/spotifyConnexion"
+import { spotifyService } from "@/services/spotify.service"
 
 export default {
   data() {
@@ -9,27 +9,8 @@ export default {
 
   methods: {
     async detectActualPlayers(userRefreshToken) {
-      const header = await this.getHeaderSpotify(userRefreshToken)
-
-      const serverUrl = "https://api.spotify.com/v1"
-
-      const url = `${serverUrl}/me/player/devices`
-
-      try {
-        const result = await this.$axios.get(url, header)
-        this.players = result.data.devices
-        return result.data.devices
-      } catch (e) {
-        alert("error, please try reloading the page", e)
-      }
-    },
-
-    async getHeaderSpotify(userRefreshToken) {
-      const token = await spotifyConnexionService.refreshTokenFromSpotify(
-        userRefreshToken
-      )
-      const header = { headers: { Authorization: "Bearer " + token } }
-      return header
+      this.players = await spotifyService.getPlayers(userRefreshToken)
+      return this.players
     },
     findSpotifyPlayerInPlayersList(players) {
       return players.find((player) => player.name === "TandaFury")

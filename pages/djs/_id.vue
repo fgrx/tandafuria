@@ -89,7 +89,7 @@
 
 <script>
 import { userService } from "@/services/users.service"
-import { playlistService } from "@/services/playlistService"
+import { playlistService } from "@/services/playlist.service"
 
 import TandasList from "@/components/TandasList"
 
@@ -145,12 +145,12 @@ export default {
   async asyncData({ params }) {
     const user = await userService.getUserInfos(params.id)
     const reqPlaylists = await playlistService.getPublicPlaylists(params.id)
-    const result = reqPlaylists.data
+    const result = reqPlaylists
     const playlists = result.playlists.filter(
       (playlist) => playlist.countTracks > 0
     )
     const countPlaylists = playlists.length
-    return { user: user.data, playlists, countPlaylists }
+    return { user, playlists, countPlaylists }
   }
 }
 </script>

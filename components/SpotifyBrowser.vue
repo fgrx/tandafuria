@@ -122,9 +122,9 @@ export default {
 
       this.loading = false
 
-      if (results.data.tracks.total > this.offset + 20) this.more = true
+      if (results.tracks.total > this.offset + 20) this.more = true
 
-      return results.data.tracks.items
+      return results.tracks.items
     },
 
     async sendRequestToSpotify({ search, mode, offset }) {
@@ -139,9 +139,12 @@ export default {
           url = `${serverUrl}/spotify/search/albums/${search}/${offset}`
         }
 
-        const resultSearch = await this.$axios.get(url)
-
-        return resultSearch
+        try {
+          const resultSearch = await this.$axios.get(url)
+          return resultSearch
+        } catch (e) {
+          console.log("error spotifybrowser.vue", e)
+        }
       } catch (e) {
         alert("Search error, please contact me to help me fix this problem", e)
       }
@@ -162,8 +165,8 @@ export default {
         offset: this.offset
       })
 
-      this.textResults = "album " + results.data.name
-      const tracksWithoutAlbum = results.data.tracks.items
+      this.textResults = "album " + results.name
+      const tracksWithoutAlbum = results.tracks.items
 
       tracksWithoutAlbum.forEach((track) => (track.album = album))
 

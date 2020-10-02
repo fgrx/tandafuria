@@ -47,6 +47,7 @@
 
 <script>
 import deviceMixin from "@/mixins/device"
+import { spotifyService } from "@/services/spotify.service"
 
 export default {
   mixins: [deviceMixin],
@@ -61,35 +62,19 @@ export default {
       return this.user.refreshToken
     },
     tandafuryPlayerOfThisInstance() {
-      return (
-        this.$store.state.authSpotify.player ?? this.DefaultSpotifyInstanceId
-      )
+      return this.$store.state.player.playerId ?? this.DefaultSpotifyInstanceId
     },
     DefaultSpotifyInstanceId() {
-      return this.$store.state.authSpotify.playerSpotifyDefault
+      return this.$store.state.player.playerIdSpotifyDefault
     }
   },
   methods: {
     async changeDevice(idPlayer) {
-      this.$store.dispatch("authSpotify/setPlayer", idPlayer)
+      this.$store.dispatch("player/setPlayerId", idPlayer)
 
       if (idPlayer === "classic") return true
 
-      const header = await this.getHeaderSpotify(this.user.refreshToken)
-      const serverUrl = "https://api.spotify.com/v1"
-
-      const url = `${serverUrl}/me/player`
-
-      try {
-        const result = await this.$axios.put(
-          url,
-          { device_ids: [idPlayer], play: true },
-          header
-        )
-        return result
-      } catch (e) {
-        alert("error, please try reloading the page", e)
-      }
+      await spotifyService.switchSpotifyPlayer(idPlayer, this.user.refreshToken)
     }
   }
 }

@@ -161,7 +161,7 @@
 </template>
 
 <script>
-import { playlistService } from "@/services/playlistService"
+import { playlistService } from "@/services/playlist.service"
 import LoaderCircular from "@/components/LoaderCircular"
 
 export default {
@@ -207,7 +207,7 @@ export default {
       this.currentUser.token
     )
 
-    const result = reqPlaylists.data
+    const result = reqPlaylists
 
     this.playlists = result.playlists
     this.countPlaylists = result.countTotalResults
@@ -224,7 +224,7 @@ export default {
         this.user
       )
 
-      this.usersPlaylistsFromSpotify = playlistsFromSpotify.data.items
+      this.usersPlaylistsFromSpotify = playlistsFromSpotify.items
 
       this.dialogPlaylistImport = true
     },
@@ -287,7 +287,7 @@ export default {
         status: "success"
       })
 
-      this.playlists.unshift(newPlaylist.data)
+      this.playlists.unshift(newPlaylist)
       this.dialogPlaylist = false
     },
     async importPlaylistAction(playlistToImport) {
@@ -311,7 +311,7 @@ export default {
 
       newPlaylist.id = newPlaylist._id
 
-      this.playlists.unshift(newPlaylist.data)
+      this.playlists.unshift(newPlaylist)
 
       this.closeImportPlaylistAction()
     }

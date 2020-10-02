@@ -1,4 +1,4 @@
-import { spotifyConnexionService } from "@/services/spotifyConnexion"
+import { spotifyService } from "@/services/spotify.service"
 
 export default {
   data() {
@@ -34,7 +34,7 @@ export default {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
 
       // if (!this.accessToken) {
-      //   this.accessToken = await spotifyConnexionService.refreshTokenFromSpotify(
+      //   this.accessToken = await spotifyService.refreshTokenFromSpotify(
       //     this.user.refreshToken
       //   )
       // }
@@ -46,7 +46,7 @@ export default {
         name: "TandaFury",
         volume: 1.0,
         getOAuthToken: async (callback) => {
-          const token = await spotifyConnexionService.refreshTokenFromSpotify(
+          const token = await spotifyService.refreshTokenFromSpotify(
             this.user.refreshToken
           )
           callback(token)

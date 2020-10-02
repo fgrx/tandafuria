@@ -177,7 +177,7 @@
 </template>
 
 <script>
-import { playlistService } from "@/services/playlistService"
+import { playlistService } from "@/services/playlist.service"
 import { userService } from "@/services/users.service"
 import LoaderCircular from "@/components/LoaderCircular"
 
@@ -240,14 +240,16 @@ export default {
     this.currentUser = this.$store.getters["authApp/getUser"]
     this.favoritesInStore = this.$store.state.favoritesPlaylists
     this.loadPlaylists()
-    if (this.currentUser) this.getFavorites()
+    if (this.currentUser.username) {
+      this.getFavorites()
+    }
   },
   methods: {
     async loadPlaylists() {
       this.loading = true
       const reqPlaylists = await playlistService.getAllPlaylists(this.offset)
 
-      const result = reqPlaylists.data
+      const result = reqPlaylists
 
       result.playlists.forEach((itemPlaylist) =>
         this.playlists.push(itemPlaylist)
@@ -311,7 +313,7 @@ export default {
         this.currentUser.id
       )
 
-      this.playlistsFav = reqPlaylists.data
+      this.playlistsFav = reqPlaylists
     }
   }
 }

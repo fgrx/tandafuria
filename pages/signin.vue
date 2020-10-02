@@ -57,8 +57,8 @@ export default {
     async signin() {
       try {
         const result = await userService.signin(this.username, this.password)
-        const token = result.data.accessToken
-        const infos = result.data.userData
+        const token = result.accessToken
+        const infos = result.userData
 
         const user = {
           id: infos.id,

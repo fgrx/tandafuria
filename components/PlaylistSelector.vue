@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { playlistService } from "@/services/playlistService"
+import { playlistService } from "@/services/playlist.service"
 import LoaderCircular from "@/components/LoaderCircular"
 
 export default {
@@ -72,7 +72,7 @@ export default {
       this.currentUser.token
     )
 
-    this.playlists = reqPlaylists.data.playlists
+    this.playlists = reqPlaylists.playlists
     this.loading = false
   },
   methods: {

@@ -157,7 +157,7 @@
 
 <script>
 import playlistMixin from "@/mixins/playlist"
-import { playlistService } from "@/services/playlistService"
+import { playlistService } from "@/services/playlist.service"
 import LoaderCircular from "@/components/LoaderCircular"
 import SpotifyBrowser from "@/components/SpotifyBrowser"
 import draggable from "vuedraggable"
@@ -340,7 +340,7 @@ export default {
           this.currentUser
         )
 
-        playlistSpotifyId = resultCreationPlaylist.data.id
+        playlistSpotifyId = resultCreationPlaylist.id
         this.playlist.spotifySync = playlistSpotifyId
       } else {
         playlistSpotifyId = this.playlist.spotifySync

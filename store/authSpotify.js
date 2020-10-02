@@ -1,11 +1,7 @@
 export const state = () => ({
   token: "",
   user: "",
-  refreshToken: "",
-  deviceId: "",
-  player: null,
-  mode: "",
-  playerSpotifyDefault: null
+  refreshToken: ""
 })
 
 export const mutations = {
@@ -17,18 +13,6 @@ export const mutations = {
   },
   SET_REFRESH_TOKEN(state, refreshToken) {
     state.refreshToken = refreshToken
-  },
-  SET_DEVICE_ID(state, deviceId) {
-    state.deviceId = deviceId
-  },
-  SET_PLAYER(state, player) {
-    state.player = player
-  },
-  SET_MODE(state, mode) {
-    state.mode = mode
-  },
-  SET_PLAYER_SPOTIFY_DEFAULT(state, playerid) {
-    state.playerSpotifyDefault = playerid
   }
 }
 
@@ -41,15 +25,6 @@ export const getters = {
   },
   getRefreshToken: (state) => {
     return state.refreshToken
-  },
-  getDeviceId: (state) => {
-    return state.deviceId
-  },
-  getPlayer: (state) => {
-    return state.player
-  },
-  getMode: (state) => {
-    return state.mode
   }
 }
 
@@ -60,19 +35,7 @@ export const actions = {
   setRefreshToken({ commit }, refreshToken) {
     commit("SET_REFRESH_TOKEN", refreshToken)
   },
-  setDeviceId({ commit }, deviceId) {
-    commit("SET_DEVICE_ID", deviceId)
-  },
   setUser({ commit }, user) {
     commit("SET_USER", user)
-  },
-  setPlayer({ commit }, player) {
-    commit("SET_PLAYER", player)
-  },
-  setMode({ commit }, mode) {
-    commit("SET_MODE", mode)
-  },
-  setPlayerSpotifyDefault({ commit }, playerId) {
-    commit("SET_PLAYER_SPOTIFY_DEFAULT", playerId)
   }
 }

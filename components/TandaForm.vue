@@ -159,7 +159,7 @@ import { speed } from "@/data/speed"
 import { orchestras } from "@/data/orchestras"
 
 import { tandaService } from "@/services/tandas.service.js"
-import { playlistService } from "@/services/playlistService.js"
+import { playlistService } from "@/services/playlist.service.js"
 import { userService } from "@/services/users.service"
 
 import SpotifyBrowser from "@/components/SpotifyBrowser"
@@ -296,9 +296,9 @@ export default {
         this.currentUser.token
       )
 
-      tanda._id = newTandaInDB.data._id
-      tanda.date = newTandaInDB.data.date
-      tanda.author = newTandaInDB.data.author
+      tanda._id = newTandaInDB._id
+      tanda.date = newTandaInDB.date
+      tanda.author = newTandaInDB.author
 
       this.updateTandaCountForUser()
 

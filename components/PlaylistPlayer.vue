@@ -51,6 +51,10 @@
                 :max="duration"
                 min="0"
                 track-color="primary"
+                v-if="
+                  (currentTrack.preview_url && mode === 'classic') ||
+                    mode !== 'classic'
+                "
               ></v-slider>
             </v-col>
             <v-col cols="5" sm="2">
@@ -76,7 +80,6 @@
                 <v-btn v-if="isPlaying" @click="pause()" value="favorites">
                   <v-icon>mdi-pause-circle-outline</v-icon>
                 </v-btn>
-
                 <v-btn
                   v-if="
                     playlist &&
@@ -105,7 +108,7 @@
 </template>
 
 <script>
-import { spotifyConnexionService } from "@/services/spotifyConnexion"
+import { spotifyService } from "@/services/spotify.service"
 import deviceMixin from "@/mixins/device"
 import playerMixin from "@/mixins/player"
 
@@ -122,7 +125,6 @@ export default {
       user: this.$store.getters["authApp/getUser"],
       accessToken: "",
       spotifyPlayer: null,
-      mode: "classic",
       timing: 0,
       playingPosition: 0,
       duration: 30000,
@@ -145,6 +147,20 @@ export default {
       return this.playlist.tracks.findIndex(
         (track) => track.id === this.currentTrack.id
       )
+    },
+    deviceId() {
+      return this.$store.state.player.playerId
+    },
+    mode() {
+      if (
+        this.$store.state.player.playerId === "classic" ||
+        this.$store.state.player.playerId == null ||
+        this.$store.state.player.playerId === ""
+      ) {
+        return "classic"
+      }
+
+      return "spotify"
     }
   },
   head() {
@@ -171,15 +187,7 @@ export default {
       this.position = 0
       this.accessToken = this.user.token
 
-      let modeInStore = "classic"
-
-      const device = this.$store.getters["authSpotify/getDeviceId"]
-
-      device === "classic"
-        ? (modeInStore = "classic")
-        : (modeInStore = "spotify")
-
-      if (this.user.spotify && this.accessToken && modeInStore !== "classic") {
+      if (this.user.spotify && this.accessToken && this.mode !== "classic") {
         if (this.user.spotify && !this.tandaFuryPlayer) {
           const spotifyPlayersLoaded = await this.detectActualPlayers(
             this.user.refreshToken
@@ -191,10 +199,8 @@ export default {
             )
           }
         }
-        this.mode = "spotify"
         this.playSpotifyPlayer(this.playlist.tracks[this.currentTrackPosition])
       } else {
-        this.mode = "classic"
         this.playClassicPlayer(this.playlist.tracks[this.currentTrackPosition])
         this.initClassicPlaylist()
       }
@@ -209,7 +215,6 @@ export default {
       if (this.isPlaying) {
         if (this.isPlaying) this.playingPosition = this.playingPosition + 1000
         if (this.playingPosition >= this.duration + 1000) this.next()
-        // console.log({ duration: this.duration, position: this.playingPosition })
       }
     },
     initClassicPlaylist() {
@@ -231,9 +236,13 @@ export default {
 
         const body = { position_ms: this.playingPosition }
 
-        await this.$axios.put(urlSpotify, body, {
-          headers: headersApi
-        })
+        try {
+          await this.$axios.put(urlSpotify, body, {
+            headers: headersApi
+          })
+        } catch (e) {
+          console.log("error playlistplayer.vue", e)
+        }
       } else {
         const playerComponentRef = this.player
         const position = Math.round(this.playingPosition / 1000)
@@ -263,9 +272,13 @@ export default {
           Authorization: `Bearer ${this.accessToken}`
         }
 
-        await this.$axios.put(urlSpotify, null, {
-          headers: headersApi
-        })
+        try {
+          await this.$axios.put(urlSpotify, null, {
+            headers: headersApi
+          })
+        } catch (e) {
+          console.log("error playlistplayer.vue", e)
+        }
       } else {
         const playerComponentRef = this.player
         playerComponentRef.pause()
@@ -281,9 +294,13 @@ export default {
           Authorization: `Bearer ${this.accessToken}`
         }
         const body = { device_id: this.deviceId }
-        await this.$axios.put(urlSpotify, body, {
-          headers: headersApi
-        })
+        try {
+          await this.$axios.put(urlSpotify, body, {
+            headers: headersApi
+          })
+        } catch (e) {
+          console.log("error playlistplayer.vue", e)
+        }
       } else {
         const playerComponentRef = this.player
         playerComponentRef.play()
@@ -301,9 +318,13 @@ export default {
 
         const body = { device_id: this.deviceId, volume_percent: this.volume }
 
-        await this.$axios.put(urlSpotify, body, {
-          headers: headersApi
-        })
+        try {
+          await this.$axios.put(urlSpotify, body, {
+            headers: headersApi
+          })
+        } catch (e) {
+          console.log("error playlistplayer.vue", e)
+        }
       } else {
         const playerComponentRef = this.player
         playerComponentRef.volume = this.volume / 100
@@ -376,13 +397,7 @@ export default {
 
       this.duration = track.duration_ms
 
-      const deviceChoosen = this.$store.getters["authSpotify/getDeviceId"]
-
-      const deviceToLaunch = this.tandaFuryPlayer
-        ? this.tandaFuryPlayer.id
-        : deviceChoosen
-
-      const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${deviceToLaunch}`
+      const urlSpotify = `https://api.spotify.com/v1/me/player/play?device_id=${this.$store.state.player.playerId}`
 
       const body = JSON.stringify({
         uris: [track.uri]
@@ -398,9 +413,15 @@ export default {
       this.eventIsPlaying(track.id)
       this.isPlaying = true
 
-      let responseFromSpotify = await this.$axios.put(urlSpotify, body, {
-        headers: headersApi
-      })
+      let responseFromSpotify = ""
+
+      try {
+        responseFromSpotify = await this.$axios.put(urlSpotify, body, {
+          headers: headersApi
+        })
+      } catch (e) {
+        console.log("error playlistplayer.vue", e)
+      }
 
       if (
         responseFromSpotify.status === 401 ||
@@ -412,15 +433,19 @@ export default {
           Authorization: `Bearer ${this.accessToken}`
         }
 
-        responseFromSpotify = await this.$axios.put(urlSpotify, body, {
-          headers: headersApi
-        })
+        try {
+          responseFromSpotify = await this.$axios.put(urlSpotify, body, {
+            headers: headersApi
+          })
+        } catch (e) {
+          console.log("error playlistplayer.vue", e)
+        }
       }
 
       return responseFromSpotify
     },
     async renewSpotifyToken() {
-      const newToken = await spotifyConnexionService.refreshTokenFromSpotify(
+      const newToken = await spotifyService.refreshTokenFromSpotify(
         this.user.refreshToken
       )
 

@@ -1,8 +1,12 @@
-import { spotifyConnexionService } from "@/services/spotifyConnexion"
+import { spotifyService } from "@/services/spotify.service"
 
 export default function({ store, route, redirect, app }) {
   reinitTokens(store)
   const user = store.getters["authApp/getUser"]
+
+  if (user.spotify && (user.refreshToken === "" || user.refreshToken == null)) {
+    askCodeFromSpotify(redirect)
+  }
 
   if (user.refreshToken) {
     store.dispatch("authSpotify/setRefreshToken", user.refreshToken)
@@ -21,12 +25,10 @@ const initSpotifyTokens = (store) => (redirect) => async (app) => {
   if (token) store.dispatch("authSpotify/setToken", token)
   if (refreshToken) store.dispatch("authSpotify/setRefreshToken", refreshToken)
 
-  if (refreshToken == null) {
+  if (refreshToken == null || refreshToken === "") {
     askCodeFromSpotify(redirect)
   } else {
-    const newToken = await spotifyConnexionService.refreshTokenFromSpotify(
-      refreshToken
-    )
+    const newToken = await spotifyService.refreshTokenFromSpotify(refreshToken)
 
     await store.dispatch("authSpotify/setToken", newToken)
     app.$cookies.get("access_token", newToken)
