@@ -61,6 +61,7 @@
 import playlistMixin from "@/mixins/playlist"
 import LoaderCircular from "@/components/LoaderCircular"
 import TrackItem from "~/components/TrackItem"
+import { spotifyService } from "~/services/spotify.service"
 
 export default {
   components: {
@@ -115,7 +116,7 @@ export default {
       this.mode = "all"
       this.more = false
 
-      const results = await this.sendRequestToSpotify({
+      const results = await spotifyService.sendRequestToSpotify({
         search: this.searchString,
         offset: this.offset
       })
@@ -125,29 +126,6 @@ export default {
       if (results.tracks.total > this.offset + 20) this.more = true
 
       return results.tracks.items
-    },
-
-    async sendRequestToSpotify({ search, mode, offset }) {
-      try {
-        const serverUrl =
-          process.env.NODE_ENV === "development"
-            ? process.env.DEV_serverUrl
-            : process.env.PROD_serverUrl
-
-        let url = `${serverUrl}/spotify/search/songs/${search}/${offset}`
-        if (mode === "album") {
-          url = `${serverUrl}/spotify/search/albums/${search}/${offset}`
-        }
-
-        try {
-          const resultSearch = await this.$axios.get(url)
-          return resultSearch
-        } catch (e) {
-          console.log("error spotifybrowser.vue", e)
-        }
-      } catch (e) {
-        alert("Search error, please contact me to help me fix this problem", e)
-      }
     },
     addTrackAction(track) {
       if (track.available_markets) track.available_markets = null

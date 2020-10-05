@@ -125,17 +125,8 @@ export const playlistService = {
 
     const serverUrl = "https://api.spotify.com/v1"
 
-    const urlGetUserInfos = `${serverUrl}/me`
-
-    let resultUser = null
-    try {
-      resultUser = await axios.get(urlGetUserInfos, header)
-    } catch (e) {
-      console.log("error playlist.service", e)
-    }
-
-    const userSpotify = resultUser.id
-    const url = `${serverUrl}/users/${userSpotify}/playlists`
+    const userSpotify = await spotifyService.getUserFromSpotify(header)
+    const url = `${serverUrl}/users/${userSpotify.id}/playlists`
 
     try {
       const result = await axios.get(url, header)
@@ -160,7 +151,8 @@ export const playlistService = {
         i += spotifyTracksNumberLimit
       ) {
         const result = await axios.get(url + "&offset=" + i, header)
-        result.items.forEach((itemTrack) => {
+
+        result.data.items.forEach((itemTrack) => {
           tracks.push(itemTrack.track)
         })
       }
@@ -174,17 +166,9 @@ export const playlistService = {
     const header = await this.getHeaderSpotify(user)
     const serverUrl = "https://api.spotify.com/v1"
 
-    const urlGetUserInfsos = `${serverUrl}/me`
+    const userSpotify = await spotifyService.getUserFromSpotify(header)
 
-    let resultUser = null
-    try {
-      resultUser = await axios.get(urlGetUserInfsos, header)
-    } catch (e) {
-      console.log("error playlist.service", e)
-    }
-    const userSpotify = resultUser.id
-
-    const url = `${serverUrl}/users/${userSpotify}/playlists`
+    const url = `${serverUrl}/users/${userSpotify.id}/playlists`
 
     try {
       const result = await axios.post(
@@ -192,6 +176,7 @@ export const playlistService = {
         { name: playlist.name, description: playlist.description },
         header
       )
+
       return result.data
     } catch (e) {
       alert("error, please contact me to help me fix this problem", e)

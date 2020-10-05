@@ -74,5 +74,37 @@ export const spotifyService = {
     const token = await this.refreshTokenFromSpotify(userRefreshToken)
     const header = { headers: { Authorization: "Bearer " + token } }
     return header
+  },
+  async sendRequestToSpotify({ search, mode, offset }) {
+    try {
+      const serverUrl =
+        process.env.NODE_ENV === "development"
+          ? process.env.DEV_serverUrl
+          : process.env.PROD_serverUrl
+
+      let url = `${serverUrl}/spotify/search/songs/${search}/${offset}`
+      if (mode === "album") {
+        url = `${serverUrl}/spotify/search/albums/${search}/${offset}`
+      }
+
+      try {
+        const resultSearch = await axios.get(url)
+        return resultSearch.data
+      } catch (e) {
+        console.log("error spotifybrowser.vue", e)
+      }
+    } catch (e) {
+      alert("Search error, please contact me to help me fix this problem", e)
+    }
+  },
+  async getUserFromSpotify(header) {
+    try {
+      const serverUrl = "https://api.spotify.com/v1"
+      const urlGetUserInfos = `${serverUrl}/me`
+      const resultUser = await axios.get(urlGetUserInfos, header)
+      return resultUser.data
+    } catch (e) {
+      console.log("Error when getting user's data from spotify", e)
+    }
   }
 }

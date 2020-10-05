@@ -49,12 +49,12 @@
                 v-model="playingPosition"
                 @click="changeTiming()"
                 :max="duration"
-                min="0"
-                track-color="primary"
                 v-if="
                   (currentTrack.preview_url && mode === 'classic') ||
                     mode !== 'classic'
                 "
+                min="0"
+                track-color="primary"
               ></v-slider>
             </v-col>
             <v-col cols="5" sm="2">

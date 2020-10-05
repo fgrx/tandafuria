@@ -304,14 +304,22 @@ export default {
         tracks
       }
 
-      const newPlaylist = await playlistService.save(
-        playlist,
-        this.currentUser.token
-      )
+      try {
+        const newPlaylist = await playlistService.save(
+          playlist,
+          this.currentUser.token
+        )
+        newPlaylist.id = newPlaylist._id
 
-      newPlaylist.id = newPlaylist._id
+        this.playlists.unshift(newPlaylist)
 
-      this.playlists.unshift(newPlaylist)
+        this.$bus.$emit("flashMessage", {
+          message: "Your playlist has been imported",
+          status: "success"
+        })
+      } catch (e) {
+        alert("Importation error :(")
+      }
 
       this.closeImportPlaylistAction()
     }
