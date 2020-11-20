@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center ">
+  <div class="text-center">
     <v-card raised align="center">
       <div id="topSite">
         <div class="centerVertically">
@@ -38,9 +38,7 @@
 
     <v-container v-if="!signed">
       <h2 class="display-3 mt-12 mb-3">What is TandaFury ?</h2>
-      <h3 class="display-1 mb-3">
-        TandaFury explained in less than 2 mins
-      </h3>
+      <h3 class="display-1 mb-3">TandaFury explained in less than 2 mins</h3>
       <v-card>
         <div class="youtubeContainer">
           <iframe
@@ -96,43 +94,17 @@
 
     <v-row>
       <v-col v-for="maestro in maestros1" :key="maestro.url" cols="6" md="3">
-        <v-card
-          :to="`/all-tandas?orchestra=${maestro.url}`"
-          shaped
-          raised
-          class="mx-auto"
-          max-width="400"
-        >
-          <div class="centerVertically">
-            <h3 class="maestroName title">{{ maestro.name }}</h3>
-          </div>
-          <v-img
-            :src="maestro.image"
-            class="white--text align-end itemMaestro1"
-            height="200px"
-          >
-          </v-img>
-        </v-card>
+        <MaestroItem
+          :id="maestro.id"
+          classDecoration="itemMaestro1"
+        ></MaestroItem>
       </v-col>
 
       <v-col v-for="maestro in maestros2" :key="maestro.url" cols="6" md="3">
-        <v-card
-          :to="`/all-tandas?orchestra=${maestro.url}`"
-          shaped
-          raised
-          class="mx-auto"
-          max-width="400"
-        >
-          <div class="centerVertically">
-            <h3 class="maestroName title">{{ maestro.name }}</h3>
-          </div>
-          <v-img
-            :src="maestro.image"
-            class="white--text align-end itemMaestro2"
-            height="200px"
-          >
-          </v-img>
-        </v-card>
+        <MaestroItem
+          :id="maestro.id"
+          classDecoration="itemMaestro2"
+        ></MaestroItem>
       </v-col>
 
       <v-col v-for="(genre, index) in genres" :key="index" cols="12" md="4">
@@ -182,9 +154,13 @@
 
 <script>
 import { userService } from "@/services/users.service"
+import MaestroItem from "@/components/MaestroItem"
 
 export default {
   pageTransition: "page",
+  components: {
+    MaestroItem,
+  },
   data() {
     return {
       signed: false,
@@ -193,64 +169,48 @@ export default {
         {
           id: "tango",
           name: "Tangos",
-          image: require("@/static/tango.jpg")
+          image: require("@/static/tango.jpg"),
         },
         {
           id: "vals",
           name: "Vals",
-          image: require("@/static/vals.jpg")
+          image: require("@/static/vals.jpg"),
         },
         {
           id: "milonga",
           name: "Milongas",
-          image: require("@/static/milonga.jpg")
-        }
+          image: require("@/static/milonga.jpg"),
+        },
       ],
       maestros1: [
         {
-          name: "Juan D'arienzo",
-          url: "jdarienzo",
-          image: require("@/static/arienzov.jpg")
+          id: "jdarienzo",
         },
         {
-          name: "Osvaldo Pugliese",
-          url: "opugliese",
-          image: require("@/static/pugliesev.png")
+          id: "opugliese",
         },
         {
-          name: "Carlos Di Sarli",
-          url: "cdisarli",
-          image: require("@/static/sarliv.png")
+          id: "cdisarli",
         },
         {
-          name: "Francisco Canaro",
-          url: "fcanaro",
-          image: require("@/static/canarov.png")
-        }
+          id: "fcanaro",
+        },
       ],
       maestros2: [
         {
-          name: "Alfredo De Angelis",
-          url: "adeangelis",
-          image: require("@/static/angelisv.jpg")
+          id: "adeangelis",
         },
         {
-          name: "Anibal Troilo",
-          url: "atroilo",
-          image: require("@/static/troilov.png")
+          id: "atroilo",
         },
 
         {
-          name: "Edgardo Donato",
-          url: "edonato",
-          image: require("@/static/donatov.jpg")
+          id: "edonato",
         },
         {
-          name: "Miguel Calo",
-          url: "mcalo",
-          image: require("@/static/calov.jpg")
-        }
-      ]
+          id: "mcalo",
+        },
+      ],
     }
   },
   head() {
@@ -261,35 +221,35 @@ export default {
           hid: "description",
           name: "description",
           content:
-            "Welcome to Tanda Furia, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks."
+            "Welcome to Tanda Furia, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.",
         },
         {
           hid: "og:title",
           name: "og:title",
-          content: "The tanda online tool for tango DJs"
+          content: "The tanda online tool for tango DJs",
         },
         {
           hid: "og:description",
           name: "og:description",
           content:
-            "Welcome to Tanda fury, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks."
+            "Welcome to Tanda fury, the only tanda online tool for tango DJs. You can edit your tandas, share them with other users and create your own playlists to play in milongas. You can also link your Spotify account to access millions of tracks.",
         },
         {
           hid: "og:image",
           name: "og:image",
-          content: require("@/static/tandafurybanner.jpg")
+          content: require("@/static/tandafurybanner.jpg"),
         },
         {
           hid: "og:image:width",
           name: "og:image:width",
-          content: "1280"
+          content: "1280",
         },
         {
           hid: "og:image:height",
           name: "og:image:height",
-          content: "486"
-        }
-      ]
+          content: "486",
+        },
+      ],
     }
   },
   async mounted() {
@@ -297,7 +257,7 @@ export default {
     if (user.id) this.signed = true
 
     this.topUsers = await userService.getTopUsers()
-  }
+  },
 }
 </script>
 
@@ -384,35 +344,6 @@ h1 {
     top,
     rgba(36, 26, 80, 0.81) 0%,
     rgba(49, 27, 146, 0.71) 100%
-  );
-}
-
-.itemMaestro2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  // height: 100%;
-  background: -webkit-linear-gradient(
-    top,
-    rgba(18, 204, 148, 0.81) 0%,
-    rgba(49, 27, 146, 0.81) 100%
-  );
-}
-
-.itemMaestro1::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: -webkit-linear-gradient(
-    top,
-    rgba(49, 27, 146, 0.81) 0%,
-    rgba(18, 204, 148, 0.81) 100%
   );
 }
 

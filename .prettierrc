@@ -1,7 +1,8 @@
 {
-  "semi": false,
-  "arrowParens": "always",
-  "singleQuote": false,
-  "tabs": false,
-  "camelcase": false
+	"semi": false,
+	"arrowParens": "always",
+	"singleQuote": false,
+	"tabs": false,
+	"camelcase": false,
+	"endOfLine": "auto"
 }

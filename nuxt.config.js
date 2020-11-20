@@ -2,6 +2,8 @@ import colors from "vuetify/es5/util/colors"
 
 import axios from "axios"
 
+import { orchestras } from "./data/orchestras"
+
 const generateRoutes = async () => {
   const routes = []
 
@@ -19,11 +21,15 @@ const generateRoutes = async () => {
     routes.push(route)
   })
 
+  orchestras.forEach((orchestra) => {
+    const route = { url: "/tango-orchestras/" + orchestra.slug }
+    routes.push(route)
+  })
+
   return routes
 }
 
 export default {
-  mode: "universal",
   /*
    ** Headers of the page
    */

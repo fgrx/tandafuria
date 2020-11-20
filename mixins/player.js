@@ -77,8 +77,7 @@ export default {
       })
       // Ready
       this.sdk.addListener("ready", ({ deviceId }) => {
-        this.deviceId = deviceId
-
+        //this.deviceId = deviceId
         // console.log('Ready with Device Id: ', device_id)
       })
       // Not Ready

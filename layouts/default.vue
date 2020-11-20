@@ -63,7 +63,7 @@
         </v-btn>
       </div>
     </v-app-bar>
-    <v-content class="base">
+    <v-main class="base">
       <v-navigation-drawer
         v-model="drawer"
         dark
@@ -120,6 +120,15 @@
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>All Playlists</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item :to="{ name: 'tango-orchestras' }">
+            <v-list-item-action>
+              <v-icon>mdi-account-group</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Orchestras</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
@@ -215,7 +224,7 @@
         <nuxt />
         <PlaylistPlayer />
       </v-container>
-    </v-content>
+    </v-main>
 
     <BarBottom :user="user" />
   </v-app>
@@ -234,7 +243,7 @@ export default {
   components: {
     PlaylistPlayer,
     PlayerSwitcher,
-    BarBottom
+    BarBottom,
   },
   mixins: [PlayerMixin, DeviceMixin],
   middleware: ["initializeAppData"],
@@ -251,7 +260,7 @@ export default {
       textFlashMessage: "",
       miniVariant: false,
       title: "Tandafury",
-      subtitle: "The tanda creation tool"
+      subtitle: "The tanda creation tool",
     }
   },
 
@@ -349,13 +358,13 @@ export default {
         color,
         message,
         display: true,
-        icon: "mdi-check-circle-outline"
+        icon: "mdi-check-circle-outline",
       }
     },
     toHomeAction() {
       this.$router.replace({ path: "/" })
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -368,6 +377,10 @@ h3 {
 }
 a {
   color: rgb(115, 40, 158);
+}
+
+.portrait {
+  border-radius: 50%;
 }
 
 .spaceBottom {

@@ -110,15 +110,19 @@ export default {
     TandaItem,
     NoTandaMessage,
     Loader: LoaderCircular,
-    PlaylistSelector
+    PlaylistSelector,
   },
   props: {
     defaultTandas: {
       type: Array,
-      default: () => {}
+      default: () => {},
     },
     context: { type: String, default: "allTandas" },
-    userIdParam: { type: String, default: "" }
+    userIdParam: { type: String, default: "" },
+    memoriseRequest: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -134,8 +138,19 @@ export default {
       searchEngine: false,
       offset: 0,
       loading: false,
-      endOfResults: false
+      endOfResults: false,
     }
+  },
+  computed: {
+    orchestra() {
+      const findOrchestra = orchestras.filter(
+        (orchestra) => orchestra.slug === this.slug
+      )
+      return findOrchestra[0]
+    },
+    slug() {
+      return this.$route.params.slug
+    },
   },
 
   created() {
@@ -150,6 +165,8 @@ export default {
     })
 
     this.loadSearchStore()
+
+    if (!this.memoriseRequest) this.searchClearAction()
 
     this.getParamsInUrlAndSearch()
     const storeToWatch = this.selectStoreForTanda()
@@ -190,7 +207,7 @@ export default {
           this.$store.dispatch("tandas/addTanda", {
             target: this.context,
             tanda,
-            order: "end"
+            order: "end",
           })
         })
       }
@@ -211,7 +228,7 @@ export default {
           this.$store.dispatch("tandas/addTanda", {
             target: this.context,
             tanda,
-            order: "end"
+            order: "end",
           })
         })
       } else {
@@ -294,7 +311,7 @@ export default {
         orchestraField: this.orchestraField,
         speedField: this.speedField,
         singerField: this.singerField,
-        countTotalResults: this.countTotalResults
+        countTotalResults: this.countTotalResults,
       }
       if (this.context === "allTandas" || this.context === "myTandas") {
         const storeForSearch = this.selectStoreForSearch()
@@ -322,6 +339,9 @@ export default {
       if (this.$route.query.orchestra) {
         this.orchestraField = this.$route.query.orchestra
       }
+      if (this.slug) {
+        this.orchestraField = this.orchestra.id
+      }
 
       if (this.$route.query.genre) {
         this.genreField = this.$route.query.genre
@@ -334,8 +354,8 @@ export default {
       if (this.$route.query.singer) {
         this.singerField = this.$route.query.singer
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
