@@ -57,30 +57,30 @@ export default {
   props: {
     track: {
       type: Object,
-      default: null
+      default: null,
     },
     trackNumber: {
       type: Number,
-      default: 0
+      default: 0,
     },
     playlist: {
       type: Object,
-      default: null
+      default: null,
     },
     mode: {
       type: String,
-      default: ""
+      default: "",
     },
     playerId: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
       fullSong: false,
       youtubeLink: "",
-      elRecodoLink: ""
+      elRecodoLink: "",
     }
   },
   mounted() {
@@ -109,8 +109,8 @@ export default {
     },
     play() {
       this.playPlaylistMixin(this.playlist, this.track)
-    }
-  }
+    },
+  },
 }
 </script>
 

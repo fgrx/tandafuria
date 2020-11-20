@@ -47,27 +47,87 @@ export const orchestras = [
     title: "Alfredo de Angelis",
     image: "angelisv.jpg"
   },
-  { id: "rtanturi", slug: "ricardo-tanturi", title: "Ricardo Tanturi" },
-  { id: "acarabelli", slug: "adolfo-carabelli", title: "Adolfo Carabelli" },
-  { id: "adagostino", slug: "angel-d-agostino", title: "Angel D'Agostino" },
+  {
+    id: "rbiagi",
+    slug: "rofolfo-biagi",
+    title: "Rodolfo Biagi",
+    image: "biagi.jpg"
+  },
+  {
+    id: "ofresedo",
+    slug: "osvalod-fresedo",
+    title: "Osvaldo Fresedo",
+    image: "fresedo.jpg"
+  },
+  {
+    id: "rtanturi",
+    slug: "ricardo-tanturi",
+    title: "Ricardo Tanturi",
+    image: "tanturi.jpg"
+  },
+  {
+    id: "adagostino",
+    slug: "angel-d-agostino",
+    title: "Angel D'Agostino",
+    image: "agostino.jpg"
+  },
+  {
+    id: "acarabelli",
+    slug: "adolfo-carabelli",
+    title: "Adolfo Carabelli",
+    image: "carabelli.jpg"
+  },
+  {
+    id: "erodriguez",
+    slug: "enrique-rodriguez",
+    title: "Enrique Rodriguez",
+    image: "rodriguez.jpg"
+  },
+  {
+    id: "plaurenz",
+    slug: "pedro-laurenz",
+    title: "Pedro Laurenz",
+    image: "laurenz.jpg"
+  },
+  {
+    id: "flomuto",
+    slug: "francisco-lomuto",
+    title: "Francisco Lomuto",
+    image: "lomuto.jpg"
+  },
+  {
+    id: "rfirpo",
+    slug: "roberto-firpo",
+    title: "Roberto Firpo",
+    image: "firpo.jpg"
+  },
+  {
+    id: "dracciatti",
+    slug: "donato-racciatti",
+    title: "Donato Racciatti",
+    image: "racciatti.jpg"
+  },
+  {
+    id: "tvictor",
+    slug: "orquesta-tipica-victor",
+    title: "Tipica Victor",
+    image: "tipica-victor.jpg"
+  },
+  {
+    id: "frotundo",
+    slug: "francisco-rotundo",
+    title: "Francisco Rotundo",
+    image: "rotundo.jpg"
+  },
   { id: "dfederico", slug: "domingo-federico", title: "Domingo Federico" },
-  { id: "dracciatti", slug: "donato-racciatti", title: "Donato Racciatti" },
-  { id: "erodriguez", slug: "enrique-rodriguez", title: "Enrique Rodriguez" },
-  { id: "flomuto", slug: "francisco-lomuto", title: "Francisco Lomuto" },
-  { id: "frotundo", slug: "francisco-rotundo", title: "Francisco Rotundo" },
   { id: "fsassone", slug: "florindo-sassone", title: "Florindo Sassone" },
   { id: "hvarela", slug: "hector-varela", title: "Hector Varela" },
   { id: "jgarcia", slug: "jose-garcia", title: "Jose Garcia" },
   { id: "jmaglio", slug: "juan-maglio", title: "Juan Maglio" },
   { id: "ldemares", slug: "lucio-demare", title: "Lucio Demare" },
   { id: "mvillasboas", slug: "miguel-villasboas", title: "Miguel Villasboas" },
-  { id: "ofresedo", slug: "osvalod-fresedo", title: "Osvaldo Fresedo" },
-  { id: "plaurenz", slug: "pedro-laurenz", title: "Pedro Laurenz" },
   { id: "rcanaro", slug: "rafael-canaro", title: "Rafael Canaro" },
   { id: "rmalerba", slug: "ricardo-malerba", title: "Ricardo Malerba" },
-  { id: "rfirpo", slug: "roberto-firpo", title: "Roberto Firpo" },
-  { id: "rbiagi", slug: "rofolfo-biagi", title: "Rodolfo Biagi" },
-  { id: "tvictor", slug: "orquesta-tipica-victor", title: "Tipica Victor" },
   { id: "omaderna", slug: "osmar-maderna", title: "Osmar Maderna" },
   {
     id: "tbrunswick",
