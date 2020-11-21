@@ -69,7 +69,7 @@
       </v-expansion-panels>
     </v-row>
 
-    <v-layout ref="results" row wrap>
+    <v-layout v-if="countTotalResults" ref="results" row wrap>
       <v-flex v-for="tanda in tandas" :key="tanda._id" xl3 lg4 md6 xs12>
         <TandaItem :tanda="tanda" />
       </v-flex>
@@ -83,10 +83,8 @@
       <v-btn @click="showMore()" color="primary">+ More tandas</v-btn>
     </v-row>
 
-    <div class="spaceBottom"></div>
-
     <NoTandaMessage
-      v-if="tandas.length === 0 && !loading"
+      v-if="countTotalResults === 0 && !loading"
       title="No tanda for now"
     />
   </div>
@@ -123,6 +121,8 @@ export default {
       type: Boolean,
       default: true,
     },
+    genre: { type: String, default: "" },
+    slug: { type: String, default: "" },
   },
   data() {
     return {
@@ -148,8 +148,11 @@ export default {
       )
       return findOrchestra[0]
     },
-    slug() {
-      return this.$route.params.slug
+  },
+  watch: {
+    genre: function (newVal, oldVal) {
+      this.getParamsInUrlAndSearch()
+      this.initTandas()
     },
   },
 
@@ -169,6 +172,7 @@ export default {
     if (!this.memoriseRequest) this.searchClearAction()
 
     this.getParamsInUrlAndSearch()
+
     const storeToWatch = this.selectStoreForTanda()
     this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
     if (this.tandas.length <= 1) this.initTandas()
@@ -220,6 +224,7 @@ export default {
     async initTandas() {
       this.loading = true
       const resTandas = await this.searchTandas()
+
       this.loading = false
 
       if (this.context === "allTandas" || this.context === "myTandas") {
@@ -247,7 +252,7 @@ export default {
 
       let result = []
 
-      if (this.context === "allTandas") {
+      if (this.context === "allTandas" || this.context === "orchestra") {
         result = await tandaService.getTandas(this.offset, params)
       } else {
         const user = this.$store.getters["authApp/getUser"]
@@ -279,6 +284,9 @@ export default {
       if (this.singerField) paramsArray.push("singer=" + this.singerField)
       if (this.orchestraField)
         paramsArray.push("orchestra=" + this.orchestraField)
+
+      if (this.slug) paramsArray.push("orchestra=" + this.slug)
+      if (this.genre) paramsArray.push("genre=" + this.genre)
 
       if (paramsArray) paramsString = paramsArray.join("&")
 
@@ -339,6 +347,7 @@ export default {
       if (this.$route.query.orchestra) {
         this.orchestraField = this.$route.query.orchestra
       }
+
       if (this.slug) {
         this.orchestraField = this.orchestra.id
       }
@@ -346,6 +355,8 @@ export default {
       if (this.$route.query.genre) {
         this.genreField = this.$route.query.genre
       }
+
+      this.genreField = this.genre
 
       if (this.$route.query.speed) {
         this.speedField = this.$route.query.speed

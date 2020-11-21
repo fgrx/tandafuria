@@ -1,16 +1,5 @@
 <template>
   <v-container fluid grid-list-md>
-    <p class="font-weight-bold">
-      <v-btn
-        fab
-        color="primary"
-        :to="{ name: 'tango-orchestras' }"
-        small
-        class="mr-2"
-        depressed
-        ><v-icon>mdi-arrow-left</v-icon> </v-btn
-      >back to all tango orchestras
-    </p>
     <v-row class="mb-8">
       <v-col cols="12" sm="3">
         <v-img
@@ -23,13 +12,56 @@
         />
       </v-col>
       <v-col cols="12" sm="9">
-        <h1>{{ orchestra.title }}</h1>
+        <p class="font-weight-bold mb-5">
+          <v-btn
+            fab
+            color="primary"
+            :to="{ name: 'tango-orchestras' }"
+            small
+            class="mr-2"
+            depressed
+            ><v-icon>mdi-arrow-left</v-icon> </v-btn
+          >back to all tango orchestras
+        </p>
+        <h1>
+          <span v-if="genre">{{ capitalizedGenre }} tandas by </span
+          >{{ orchestra.title }}
+        </h1>
+        <div>
+          <h2>Filter tandas by genre :</h2>
+          <v-btn
+            :to="`/tango-orchestras/${slug}`"
+            color="primary"
+            :disabled="!genre"
+            >All</v-btn
+          >
+          <v-btn
+            :to="`/tango-orchestras/${slug}/tango`"
+            color="secondary"
+            :disabled="genre === 'tango'"
+            >Tango</v-btn
+          >
+          <v-btn
+            :to="`/tango-orchestras/${slug}/vals`"
+            color="secondary"
+            :disabled="genre === 'vals'"
+            >Vals</v-btn
+          >
+          <v-btn
+            :to="`/tango-orchestras/${slug}/milonga`"
+            color="secondary"
+            :disabled="genre === 'milonga'"
+            >Milonga</v-btn
+          >
+        </div>
       </v-col>
     </v-row>
     <TandasList
       :defaultTandas="defaultTandas"
-      context="allTandas"
+      context="orchestra"
       :memoriseRequest="false"
+      :slug="slug"
+      :genre="genre"
     />
   </v-container>
 </template>
@@ -44,7 +76,6 @@ export default {
   components: { TandasList },
   data() {
     return {
-      slug: this.$route.params.slug,
       orchestras,
       defaultTandas: [],
       titleSpecified: "",
@@ -99,6 +130,15 @@ export default {
 
       return orchestra
     },
+    capitalizedGenre() {
+      return this.genre.charAt(0).toUpperCase() + this.genre.slice(1)
+    },
+    slug() {
+      return this.$route.params.slug
+    },
+    genre() {
+      return this.$route.params.genre
+    },
   },
   async asyncData({ params, route }) {
     let titleSpecified = ""
@@ -108,6 +148,8 @@ export default {
     const offset = 0
 
     const slug = route.params.slug
+    const genre = route.params.genre
+
     const findOrchestra = orchestras.filter(
       (orchestra) => orchestra.slug === slug
     )
@@ -121,9 +163,9 @@ export default {
       }
     }
 
-    if (route.query.genre) {
-      titleSpecified = route.query.genre
-      paramsArray.push("genre=" + route.query.genre)
+    if (genre) {
+      titleSpecified = genre
+      paramsArray.push("genre=" + genre)
     }
 
     if (paramsArray) paramsString = paramsArray.join("&")
