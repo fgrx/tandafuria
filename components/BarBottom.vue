@@ -7,6 +7,11 @@
       background-color="navigationDrawer"
       class="d-lg-none"
     >
+      <v-btn :to="{ name: 'tango-orchestras' }" value="tango-orchestras">
+        <span>Orchestras</span>
+        <v-icon>mdi-account-group</v-icon>
+      </v-btn>
+
       <v-btn to="/all-tandas" value="all-tandas">
         <span>All tandas</span>
         <v-icon>mdi-music</v-icon>
@@ -45,9 +50,9 @@ export default {
   props: {
     user: {
       type: Object,
-      default: null
-    }
-  }
+      default: null,
+    },
+  },
 }
 </script>
 

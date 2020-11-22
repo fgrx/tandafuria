@@ -5,7 +5,7 @@
       found
     </h2>
 
-    <v-row v-if="!loading" justify="center">
+    <v-row v-if="!loading && search" justify="center">
       <v-expansion-panels v-model="searchEngine" class="pa-5">
         <v-expansion-panel>
           <v-expansion-panel-header>
@@ -83,10 +83,11 @@
       <v-btn @click="showMore()" color="primary">+ More tandas</v-btn>
     </v-row>
 
-    <NoTandaMessage
-      v-if="countTotalResults === 0 && !loading"
-      title="No tanda for now"
-    />
+    <v-row>
+      <v-col
+        ><NoTandaMessage v-if="countTotalResults === 0 && !loading"
+      /></v-col>
+    </v-row>
   </div>
 </template>
 
@@ -112,8 +113,8 @@ export default {
   },
   props: {
     defaultTandas: {
-      type: Array,
-      default: () => {},
+      type: Object,
+      default: null,
     },
     context: { type: String, default: "allTandas" },
     userIdParam: { type: String, default: "" },
@@ -123,10 +124,11 @@ export default {
     },
     genre: { type: String, default: "" },
     slug: { type: String, default: "" },
+    search: { type: Boolean, default: true },
   },
   data() {
     return {
-      tandas: this.defaultTandas,
+      tandas: [],
       speedList: ["", ...speed],
       orchestraList: [{ id: null, title: "" }, ...orchestras],
       genreList: [{ id: null, name: "" }, ...genres],
@@ -169,13 +171,20 @@ export default {
 
     this.loadSearchStore()
 
-    if (!this.memoriseRequest) this.searchClearAction()
-
     this.getParamsInUrlAndSearch()
 
-    const storeToWatch = this.selectStoreForTanda()
-    this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
-    if (this.tandas.length <= 1) this.initTandas()
+    if (this.defaultTandas && this.tandas.length === 0) {
+      this.tandas = this.defaultTandas.tandas
+      this.countTotalResults = this.defaultTandas.countTotalResults
+      if (this.context === "allTandas" || this.context === "myTandas") {
+        this.addResultsToStore(this.tandas)
+      }
+    } else {
+      if (!this.memoriseRequest) this.searchClearAction()
+      const storeToWatch = this.selectStoreForTanda()
+      this.tandas = this.$store.getters[`tandas/${storeToWatch}`]
+      this.initTandas()
+    }
   },
   methods: {
     searchAction() {
@@ -184,7 +193,6 @@ export default {
     },
     searchClearAction() {
       this.searchClear()
-
       this.initTandas()
     },
     searchClear() {
@@ -205,16 +213,16 @@ export default {
       this.offset += process.env.numberOfItemsToDisplay
 
       const resTandas = await this.searchTandas()
+      console.log("resTandas:", resTandas)
 
       if (this.context === "allTandas" || this.context === "myTandas") {
-        resTandas.tandas.forEach((tanda) => {
-          this.$store.dispatch("tandas/addTanda", {
-            target: this.context,
-            tanda,
-            order: "end",
-          })
-        })
+        this.addResultsToStore(resTandas.tandas)
       }
+
+      if (this.context === "orchestra") {
+        resTandas.tandas.forEach((tanda) => this.tandas.push(tanda))
+      }
+
       this.loading = false
       window.scroll(0, pos)
 
@@ -228,14 +236,7 @@ export default {
       this.loading = false
 
       if (this.context === "allTandas" || this.context === "myTandas") {
-        this.$store.dispatch("tandas/clearTandas", this.context)
-        resTandas.tandas.forEach((tanda) => {
-          this.$store.dispatch("tandas/addTanda", {
-            target: this.context,
-            tanda,
-            order: "end",
-          })
-        })
+        this.addResultsToStore(resTandas.tandas)
       } else {
         this.tandas = resTandas.tandas
       }
@@ -247,6 +248,18 @@ export default {
         this.saveSearchToStore()
       }
     },
+    addResultsToStore(tandas) {
+      console.log("stoc", tandas)
+      //this.$store.dispatch("tandas/clearTandas", this.context)
+      tandas.forEach((tanda) => {
+        this.$store.dispatch("tandas/addTanda", {
+          target: this.context,
+          tanda,
+          order: "end",
+        })
+      })
+    },
+
     async searchTandas() {
       const params = this.buildParams()
 

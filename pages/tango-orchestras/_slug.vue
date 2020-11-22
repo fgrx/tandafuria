@@ -1,7 +1,7 @@
 <template>
   <v-container fluid grid-list-md>
     <v-row class="mb-8">
-      <v-col cols="12" sm="3">
+      <v-col cols="12" sm="3" class="d-flex justify-center">
         <v-img
           v-if="orchestra.image"
           aspect-ratio="1"
@@ -62,6 +62,7 @@
       :memoriseRequest="false"
       :slug="slug"
       :genre="genre"
+      :search="false"
     />
   </v-container>
 </template>
@@ -175,7 +176,7 @@ export default {
 
     return {
       titleSpecified,
-      defaultTandas: result.tandas,
+      defaultTandas: result,
     }
   },
 }

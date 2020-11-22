@@ -7,6 +7,16 @@ import { orchestras } from "./data/orchestras"
 const generateRoutes = async () => {
   const routes = []
 
+  orchestras.forEach((orchestra) => {
+    const route = [
+      { url: "/tango-orchestras/" + orchestra.slug },
+      { url: `/tango-orchestras/${orchestra.slug}/tango` },
+      { url: `/tango-orchestras/${orchestra.slug}/vals` },
+      { url: `/tango-orchestras/${orchestra.slug}/milonga` }
+    ]
+    routes.push(...route)
+  })
+
   const urlApiTandas = "https://tandafuria.herokuapp.com/tandas/allId"
   const tandaIds = await axios.get(urlApiTandas)
   tandaIds.data.forEach((id) => {
@@ -18,11 +28,6 @@ const generateRoutes = async () => {
   const playlistsIds = await axios.get(urlApiPlaylists)
   playlistsIds.data.forEach((playlist) => {
     const route = { url: "/playlists/" + playlist._id }
-    routes.push(route)
-  })
-
-  orchestras.forEach((orchestra) => {
-    const route = { url: "/tango-orchestras/" + orchestra.slug }
     routes.push(route)
   })
 

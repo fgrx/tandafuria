@@ -105,6 +105,15 @@
             <v-divider></v-divider>
           </v-list-item>
 
+          <v-list-item :to="{ name: 'tango-orchestras' }">
+            <v-list-item-action>
+              <v-icon>mdi-account-group</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Orchestras</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
           <v-list-item to="/all-tandas">
             <v-list-item-action>
               <v-icon>mdi-music</v-icon>
@@ -120,15 +129,6 @@
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>All Playlists</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item :to="{ name: 'tango-orchestras' }">
-            <v-list-item-action>
-              <v-icon>mdi-account-group</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Orchestras</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
@@ -225,8 +225,7 @@
         <PlaylistPlayer />
       </v-container>
     </v-main>
-
-    <BarBottom :user="user" />
+    <BarBottom class="mt-10" :user="user" />
   </v-app>
 </template>
 

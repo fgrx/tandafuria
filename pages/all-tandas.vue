@@ -15,7 +15,7 @@ export default {
   components: { TandasList },
   data() {
     return {
-      defaultTandas: []
+      defaultTandas: [],
     }
   },
   head() {
@@ -25,34 +25,34 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`
+          content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`,
         },
         {
           hid: "og:title",
           name: "og:title",
-          content: `Browse all ${this.titleSpecified} tandas`
+          content: `Browse all ${this.titleSpecified} tandas`,
         },
         {
           hid: "og:description",
           name: "og:description",
-          content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`
+          content: `Browse all public ${this.titleSpecified} tandas that users shares with us. You can also create your own tandas and share it (or not) with others Tango Djs.`,
         },
         {
           hid: "og:image",
           name: "og:image",
-          content: require("@/static/tandafurybanner.jpg")
+          content: require("@/static/tandafurybanner.jpg"),
         },
         {
           hid: "og:image:width",
           name: "og:image:width",
-          content: "1280"
+          content: "1280",
         },
         {
           hid: "og:image:height",
           name: "og:image:height",
-          content: "486"
-        }
-      ]
+          content: "486",
+        },
+      ],
     }
   },
   async asyncData({ params, route }) {
@@ -83,8 +83,8 @@ export default {
 
     return {
       titleSpecified,
-      defaultTandas: result.tandas
+      defaultTandas: result,
     }
-  }
+  },
 }
 </script>
