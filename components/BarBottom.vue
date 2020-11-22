@@ -22,7 +22,12 @@
         <v-icon>mdi-music</v-icon>
       </v-btn>
 
-      <v-btn to="/playlists/all-playlists" value="playlists/all-playlists">
+      <v-btn
+        v-if="!user.id"
+        color=""
+        to="/playlists/all-playlists"
+        value="playlists/all-playlists"
+      >
         <span>All playlists</span>
         <v-icon>mdi-playlist-music</v-icon>
       </v-btn>

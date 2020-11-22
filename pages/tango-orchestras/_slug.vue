@@ -183,4 +183,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.portrait::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    0.25turn,
+    rgba(53, 30, 156, 0.7) 0%,
+    rgba(206, 39, 161, 0.5) 100%
+  );
+}
 </style>
