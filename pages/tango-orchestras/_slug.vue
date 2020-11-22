@@ -80,26 +80,27 @@ export default {
       orchestras,
       defaultTandas: [],
       titleSpecified: "",
+      genreSpecified: "",
     }
   },
   head() {
     return {
-      title: `Listen to all ${this.titleSpecified}'s tandas`,
+      title: `Listen to all ${this.genreSpecified} tandas from ${this.titleSpecified} `,
       meta: [
         {
           hid: "description",
           name: "description",
-          content: `Listen to all ${this.titleSpecified}'s tandas created by our tango djs users.`,
+          content: `Listen to all  ${this.genreSpecified} tandas from ${this.titleSpecified}  created by our tango djs users.`,
         },
         {
           hid: "og:title",
           name: "og:title",
-          content: `Listen to all ${this.titleSpecified}'s tandas`,
+          content: `Listen to all  ${this.genreSpecified} tandas from ${this.titleSpecified}'s`,
         },
         {
           hid: "og:description",
           name: "og:description",
-          content: `Listen to all ${this.titleSpecified}'s tandas created by our tango djs users.`,
+          content: `Listen to all  ${this.genreSpecified} tandas from ${this.titleSpecified}'s created by our tango djs users.`,
         },
         {
           hid: "og:image",
@@ -143,6 +144,7 @@ export default {
   },
   async asyncData({ params, route }) {
     let titleSpecified = ""
+    let genreSpecified = ""
     let paramsString = ""
     const paramsArray = []
 
@@ -165,7 +167,7 @@ export default {
     }
 
     if (genre) {
-      titleSpecified = genre
+      genreSpecified = genre
       paramsArray.push("genre=" + genre)
     }
 
@@ -176,6 +178,7 @@ export default {
 
     return {
       titleSpecified,
+      genreSpecified,
       defaultTandas: result,
     }
   },
