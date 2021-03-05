@@ -165,7 +165,7 @@ export default {
 
       const result = await userService.updateUser(user, this.userInStore.token)
 
-      if (result.status === 201 || result.status === 200) {
+      if (result) {
         this.scnackMessage = "Your account has been succesfully updated"
         this.snackbar = true
 
