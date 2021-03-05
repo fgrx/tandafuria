@@ -4,34 +4,31 @@ export default function({ store, route, redirect, app }) {
   reinitTokens(store)
   const user = store.getters["authApp/getUser"]
 
-  if (user.spotify && (user.refreshToken === "" || user.refreshToken == null)) {
-    askCodeFromSpotify(redirect)
-  }
+  askSpotifyCodeForSpotifyUsersWithoutTokens(user, redirect)
 
-  if (user.refreshToken) {
-    store.dispatch("authSpotify/setRefreshToken", user.refreshToken)
-  }
-
-  if (user.spotify === true) initSpotifyTokens(store)(redirect)(app)
+  if (user.spotify) initSpotifyTokens(store)(redirect)(app)
 }
 
 const initSpotifyTokens = (store) => (redirect) => async (app) => {
-  const token =
-    store.getters["authSpotify/getToken"] || app.$cookies.get("access_token")
-  const refreshToken =
-    store.getters["authSpotify/getRefreshToken"] ||
-    app.$cookies.get("refresh_token")
+  const {
+    token: tokenFromCookies,
+    refreshToken: refreshTokenFromCookies
+  } = getTokensFromCookies(store, app)
 
-  if (token) store.dispatch("authSpotify/setToken", token)
-  if (refreshToken) store.dispatch("authSpotify/setRefreshToken", refreshToken)
+  savecTokensFromCookiesToStore(
+    tokenFromCookies,
+    store,
+    refreshTokenFromCookies
+  )
 
-  if (refreshToken == null || refreshToken === "") {
+  if (refreshTokenFromCookies == null || refreshTokenFromCookies === "") {
     askCodeFromSpotify(redirect)
   } else {
-    const newToken = await spotifyService.refreshTokenFromSpotify(refreshToken)
+    const newToken = await spotifyService.refreshTokenFromSpotify(
+      refreshTokenFromCookies
+    )
 
-    await store.dispatch("authSpotify/setToken", newToken)
-    app.$cookies.get("access_token", newToken)
+    saveTokenToStoreAndCookie(store, newToken, app)
   }
 }
 
@@ -40,9 +37,36 @@ const askCodeFromSpotify = (redirect) => {
 }
 
 const reinitTokens = (store) => {
-  // const value = ''
-  // localStorage.setItem('access_token', value)
-  // localStorage.setItem('refresh_token', value)
-  // store.dispatch('authSpotify/setToken', value)
-  // store.dispatch('authSpotify/setRefreshToken', value)
+  // const value = ""
+  // localStorage.setItem("access_token", value)
+  // localStorage.setItem("refresh_token", value)
+  // store.dispatch("authSpotify/setToken", value)
+  // store.dispatch("authSpotify/setRefreshToken", value)
+}
+function saveTokenToStoreAndCookie(store, newToken, app) {
+  store.dispatch("authSpotify/setToken", newToken)
+  app.$cookies.get("access_token", newToken)
+}
+
+function savecTokensFromCookiesToStore(
+  tokenFromCookies,
+  store,
+  refreshTokenFromCookies
+) {
+  if (tokenFromCookies) store.dispatch("authSpotify/setToken", tokenFromCookies)
+  if (refreshTokenFromCookies)
+    store.dispatch("authSpotify/setRefreshToken", refreshTokenFromCookies)
+}
+
+function askSpotifyCodeForSpotifyUsersWithoutTokens(user, redirect) {
+  const isSpotifyUserWithEmptyToken =
+    user.spotify && (user.refreshToken === "" || user.refreshToken == null)
+
+  if (isSpotifyUserWithEmptyToken) askCodeFromSpotify(redirect)
+}
+
+function getTokensFromCookies(app) {
+  const token = app.$cookies.get("access_token")
+  const refreshToken = app.$cookies.get("refresh_token")
+  return { token, refreshToken }
 }

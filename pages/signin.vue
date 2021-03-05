@@ -44,62 +44,33 @@
 </template>
 
 <script>
-import { userService } from "@/services/users.service"
+import connectUserMixin from "@/mixins/connectUser"
+
 export default {
+  mixins: [connectUserMixin],
   data() {
     return {
       username: "",
       password: "",
-      fail: false
+      fail: false,
     }
   },
   methods: {
-    async signin() {
-      try {
-        const result = await userService.signin(this.username, this.password)
-        const token = result.accessToken
-        const infos = result.userData
-
-        const user = {
-          id: infos.id,
-          username: infos.username,
-          role: infos.role,
-          nickname: infos.nickname,
-          spotify: infos.spotify,
-          link: infos.link,
-          contactByMail: infos.contactByMail,
-          countTanda: infos.countTanda,
-          favorites: infos.favorites,
-          refreshToken: infos.refreshToken,
-          token
-        }
-
-        this.$store.dispatch("authApp/setUser", user)
-
-        // localStorage.setItem('user', JSON.stringify(user))
-        this.$cookies.set("user", JSON.stringify(user))
-
-        // this.$router.replace({ path: '/my-tandas' })
-        document.location.href = "/"
-      } catch (e) {
-        this.fail = true
-      }
-    },
     parseJwt(token) {
       const base64Url = token.split(".")[1]
       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/")
       const jsonPayload = decodeURIComponent(
         atob(base64)
           .split("")
-          .map(function(c) {
+          .map(function (c) {
             return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)
           })
           .join("")
       )
 
       return JSON.parse(jsonPayload)
-    }
-  }
+    },
+  },
 }
 </script>
 

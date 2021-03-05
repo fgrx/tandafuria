@@ -9,9 +9,20 @@
     >
       <h2>Congratulation !</h2>
       <h3>your account has be succesfully created</h3>
-      <p>
-        Please connect to your account by clicking the sign in button
-      </p>
+      <p>Please connect to your account by clicking the sign in button</p>
+      <p><v-btn to="/signin">signin</v-btn></p>
+    </v-alert>
+
+    <v-alert
+      v-if="errorCreation"
+      border="left"
+      colored-border
+      color="red accent-4"
+      elevation="2"
+    >
+      <h2>Error</h2>
+      <h3>Your account already exist</h3>
+      <p>Please connect to your account by clicking the sign in button</p>
       <p><v-btn to="/signin">signin</v-btn></p>
     </v-alert>
 
@@ -79,21 +90,22 @@
     </v-card-actions>
     <v-snackbar v-model="snackbar">
       {{ scnackMessage }}
-      <v-btn @click="snackbar = false" color="pink" text>
-        Close
-      </v-btn>
+      <v-btn @click="snackbar = false" color="pink" text> Close </v-btn>
     </v-snackbar>
   </v-card-text>
 </template>
 
 <script>
 import { userService } from "@/services/users.service"
+import connectUserMixin from "@/mixins/connectUser"
+
 export default {
+  mixins: [connectUserMixin],
   props: {
     mode: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
@@ -102,6 +114,7 @@ export default {
       nickname: "",
       disableUsername: false,
       successCreation: false,
+      errorCreation: false,
       valid: false,
       spotify: false,
       link: "",
@@ -109,14 +122,14 @@ export default {
       userInStore: {},
       emailRules: [
         (v) => !!v || "E-mail is required",
-        (v) => /.+@.+/.test(v) || "E-mail must be valid"
+        (v) => /.+@.+/.test(v) || "E-mail must be valid",
       ],
       passwordRules: [
         (value) =>
-          value.length >= 6 || "Password must contain more than 6 characters"
+          value.length >= 6 || "Password must contain more than 6 characters",
       ],
       snackbar: false,
-      scnackMessage: ""
+      scnackMessage: "",
     }
   },
   mounted() {
@@ -137,12 +150,10 @@ export default {
       const user = this.userBuilder()
       user.role = "user"
       const result = await userService.addUser(user)
-      if (result.status === 201 || result.status === 200) {
-        this.successCreation = true
+      if (result) {
+        await this.signin()
       } else {
-        alert(
-          "An error has happened. Please send me an email at fab.grignoux@gmail to help me resolve this problem. Thank you !"
-        )
+        this.errorCreation = true
       }
     },
     async updateAction() {
@@ -184,7 +195,7 @@ export default {
         nickname: this.nickname,
         spotify: this.spotify,
         contactByMail: this.contactByMail,
-        link: this.link
+        link: this.link,
       }
 
       if (this.password != null && this.password !== "") {
@@ -192,8 +203,8 @@ export default {
       }
 
       return user
-    }
-  }
+    },
+  },
 }
 </script>
 
