@@ -3,9 +3,7 @@
     <v-flex class="text-center">
       <img width="155px" src="/spotify.png" alt="Vuetify.js" class="mb-5" />
       <h1>Connect your Spotify premium account</h1>
-      <p>
-        Connect your Spotify premium account to get access to full songs.
-      </p>
+      <p>Connect your Spotify premium account to get access to full songs.</p>
 
       <p>
         <v-btn @click="askCode()" color="primary" dark
@@ -29,7 +27,7 @@ import { userService } from "@/services/users.service"
 export default {
   data() {
     return {
-      userInStore: {}
+      userInStore: {},
     }
   },
   mounted() {
@@ -41,6 +39,7 @@ export default {
         process.env.NODE_ENV === "development"
           ? process.env.DEV_serverUrl
           : process.env.PROD_serverUrl
+
       window.location.href = `${serverUrl}/spotify/askcode`
     },
     async leaveConnexion() {
@@ -55,8 +54,8 @@ export default {
       this.$cookies.set("user", JSON.stringify(modifiedUser))
 
       this.$router.replace({ path: "/" })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -327,6 +327,7 @@ export default {
           code,
           state
         )
+
         if (resultTokensFromSpotify.accessToken)
           this.memorizeTokenFromSpotify(resultTokensFromSpotify)
       }

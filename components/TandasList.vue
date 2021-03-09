@@ -213,7 +213,6 @@ export default {
       this.offset += process.env.numberOfItemsToDisplay
 
       const resTandas = await this.searchTandas()
-      console.log("resTandas:", resTandas)
 
       if (this.context === "allTandas" || this.context === "myTandas") {
         this.addResultsToStore(resTandas.tandas)
@@ -237,9 +236,8 @@ export default {
 
       if (this.context === "allTandas" || this.context === "myTandas") {
         this.addResultsToStore(resTandas.tandas)
-      } else {
-        this.tandas = resTandas.tandas
       }
+      this.tandas = resTandas.tandas
 
       this.countTotalResults = resTandas.countTotalResults
       this.endOfResults = this.isEndOfResult(resTandas.countTotalResults)
