@@ -179,7 +179,10 @@ export const playlistService = {
 
       return result.data
     } catch (e) {
-      alert("error, please contact me to help me fix this problem", e)
+      alert(
+        "error, please contact me to help me fix this problem at fab.grignoux@gmail.com",
+        e
+      )
     }
   },
   async updatePlaylistSpotify(playlistId, user, tracks) {

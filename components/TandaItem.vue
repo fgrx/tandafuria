@@ -7,7 +7,7 @@
             <RatingInfos :tanda="tanda" />
           </v-list-item-subtitle>
 
-          <div class="overline ">{{ tanda.genre }} - {{ tanda.speed }}</div>
+          <div class="overline">{{ tanda.genre }} - {{ tanda.speed }}</div>
           <v-list-item-title two-line class="headline mb-1">{{
             orchestra.title
           }}</v-list-item-title>
@@ -81,7 +81,9 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item v-if="tanda.author.id === currentUser.id">
+            <v-list-item
+              v-if="tanda.author.id === currentUser.id || currentUser.isAdmin"
+            >
               <v-list-item-title>
                 <v-btn
                   :to="{ name: 'tanda-editor-id', params: { id: tanda._id } }"
@@ -152,14 +154,14 @@ import TrackItem from "~/components/TrackItem"
 export default {
   components: {
     TrackItem,
-    RatingInfos
+    RatingInfos,
   },
   mixins: [playlistMixin],
   props: {
     tanda: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -167,17 +169,17 @@ export default {
       period: "",
       duration: "",
       showMore: false,
-      currentUser: this.$store.getters["authApp/getUser"]
+      currentUser: this.$store.getters["authApp/getUser"],
     }
   },
   computed: {
     playlist() {
       return { tracks: this.tanda.tracks }
-    }
+    },
   },
   mounted() {
     this.randomString = this.randomizeString()
-
+    console.log(this.currentUser)
     this.orchestra = orchestras.find(
       (orchestra) => orchestra.id === this.tanda.orchestra
     )
@@ -189,16 +191,14 @@ export default {
       this.playPlaylistMixin(this.playlist, this.tanda.tracks[0])
     },
     randomizeString() {
-      return Math.random()
-        .toString(36)
-        .substring(7)
+      return Math.random().toString(36).substring(7)
     },
     importTandaToLibrary(tanda) {
       // Ugly way to deep clone an object in JS to avoid vuex mutations errors
       const newTanda = JSON.parse(JSON.stringify(tanda))
       newTanda.origin = {
         author: { id: tanda.author.id, name: tanda.author.name },
-        id: tanda._id
+        id: tanda._id,
       }
 
       delete newTanda._id
@@ -212,11 +212,11 @@ export default {
 
       this.$store.dispatch("tandas/addTanda", {
         target: "myTandas",
-        tanda: newTanda
+        tanda: newTanda,
       })
       this.$bus.$emit("flashMessage", {
         message: "Tanda imported to your library",
-        status: "success"
+        status: "success",
       })
     },
     async shareTanda(tanda) {
@@ -233,7 +233,7 @@ export default {
 
       this.$bus.$emit("flashMessage", {
         message: "The link has been copied to your clipboard",
-        status: "success"
+        status: "success",
       })
     },
     addToPlaylist(tracks) {
@@ -249,8 +249,8 @@ export default {
       }
 
       return tanda.periodStart + " - " + tanda.periodEnd
-    }
-  }
+    },
+  },
 }
 
 function millisToMinutesAndSeconds(millis) {

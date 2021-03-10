@@ -6,6 +6,7 @@ export default {
         const result = await userService.signin(this.username, this.password)
         const token = result.accessToken
         const infos = result.userData
+        console.log("infos:", infos)
 
         const user = {
           id: infos.id,
@@ -18,6 +19,7 @@ export default {
           countTanda: infos.countTanda,
           favorites: infos.favorites,
           refreshToken: infos.refreshToken,
+          isAdmin: infos.isAdmin || false,
           token
         }
 

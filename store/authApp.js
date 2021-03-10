@@ -14,6 +14,7 @@ export const mutations = {
     state.user.contactByMail = user.contactByMail
     state.user.countTanda = user.countTanda
     state.user.favorites = user.favorites
+    state.user.isAdmin = user.isAdmin
     state.user.refreshToken = user.refreshToken
   },
   CLEAR_USER(state) {

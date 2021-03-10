@@ -160,7 +160,6 @@ export default {
       const user = this.userBuilder()
       user.username = this.userInStore.username
       user.id = this.userInStore.id
-      user.role = this.userInStore.role
       user.token = this.userInStore.token
 
       const result = await userService.updateUser(user, this.userInStore.token)

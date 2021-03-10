@@ -44,7 +44,7 @@
             <v-list-item
               :class="[
                 { playing: track.id === trackPlaying },
-                { isCortina: track.isCortina === true }
+                { isCortina: track.isCortina === true },
               ]"
               draggable
               two-line
@@ -126,8 +126,8 @@
         <v-btn
           v-if="
             currentUser.spotify &&
-              playlist.author &&
-              currentUser.id === playlist.author.id
+            playlist.author &&
+            currentUser.id === playlist.author.id
           "
           @click="savePlaylistSpotify()"
           color="secondary"
@@ -170,7 +170,7 @@ export default {
     SpotifyBrowser,
     draggable,
     TrackItem,
-    PlaylistSelector
+    PlaylistSelector,
   },
   mixins: [playlistMixin],
   middleware: ["spotifyConnexion"],
@@ -181,34 +181,34 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`
+          content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.nbTracks} tango tracks`,
         },
         {
           hid: "og:title",
           name: "og:title",
-          content: `Playlist "${this.playlist.name}" by ${this.playlist.author.name} containing ${this.nbTracks} tracks`
+          content: `Playlist "${this.playlist.name}" by ${this.playlist.author.name} containing ${this.nbTracks} tracks`,
         },
         {
           hid: "og:description",
           name: "og:description",
-          content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tango tracks`
+          content: `Listen to "${this.playlist.name}". A playlist created by ${this.playlist.author.name} containing ${this.playlist.nbTracks} tango tracks`,
         },
         {
           hid: "og:image",
           name: "og:image",
-          content: require("@/static/tandafurybanner.jpg")
+          content: require("@/static/tandafurybanner.jpg"),
         },
         {
           hid: "og:image:width",
           name: "og:image:width",
-          content: "1280"
+          content: "1280",
         },
         {
           hid: "og:image:height",
           name: "og:image:height",
-          content: "486"
-        }
-      ]
+          content: "486",
+        },
+      ],
     }
   },
   data() {
@@ -220,7 +220,7 @@ export default {
       trackPlaying: "",
       currentUser: this.$store.getters["authApp/getUser"],
       modified: false,
-      nbTracks: 0
+      nbTracks: 0,
     }
   },
   computed: {
@@ -229,9 +229,9 @@ export default {
         animation: 0,
         group: "description",
         disabled: false,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       }
-    }
+    },
   },
   async asyncData({ params }) {
     const playlist = await playlistService.findOne(params.id)
@@ -243,7 +243,7 @@ export default {
     return {
       playlist,
       tracks: testedTracks,
-      nbTracks
+      nbTracks,
     }
   },
   mounted() {
@@ -308,7 +308,7 @@ export default {
       if (this.playlist._id === this.$store.state.player.playlistPlaying._id) {
         this.$store.dispatch("player/setPlaylistPlaying", {
           ...this.playlist,
-          tracks: this.tracks
+          tracks: this.tracks,
         })
       }
     },
@@ -321,12 +321,12 @@ export default {
 
         this.$bus.$emit("flashMessage", {
           message: "Your playlist has been saved",
-          status: "success"
+          status: "success",
         })
       } catch (e) {
         this.$bus.$emit("flashMessage", {
           message: "An error has occured",
-          status: "error"
+          status: "error",
         })
       }
       this.modified = false
@@ -372,7 +372,7 @@ export default {
 
       this.$bus.$emit("flashMessage", {
         message: "The link has been copied to your clipboard",
-        status: "success"
+        status: "success",
       })
     },
     checkNoDuplicateTrack(playlist) {
@@ -382,8 +382,8 @@ export default {
     addToPlaylist(track) {
       const tracks = [track]
       this.$bus.$emit("openDialogPlaylistPicker", tracks)
-    }
-  }
+    },
+  },
 }
 </script>
 
