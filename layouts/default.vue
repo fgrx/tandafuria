@@ -220,12 +220,12 @@
         <v-btn @click="snackbar = false" text>Close</v-btn>
       </v-snackbar>
 
-      <v-container>
+      <v-container class="pb-10">
         <nuxt />
         <PlaylistPlayer />
       </v-container>
     </v-main>
-    <BarBottom class="mt-10" :user="user" />
+    <BarBottom :user="user" />
   </v-app>
 </template>
 
@@ -311,8 +311,6 @@ export default {
 
         const spotifyPlayer = spotifyPlayers[0]
 
-        console.log({ players: spotifyPlayers, id: spotifyPlayer.id })
-
         this.$store.dispatch("player/setPlayerId", spotifyPlayer.id)
         this.tandaFuryPlayer = spotifyPlayer
       }
@@ -321,6 +319,7 @@ export default {
   methods: {
     logout() {
       this.$cookies.removeAll()
+      this.$cookies.set("user", null)
       this.$store.dispatch("authApp/clearUser")
       document.location.href = "/"
     },
