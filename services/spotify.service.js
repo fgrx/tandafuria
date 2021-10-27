@@ -30,7 +30,7 @@ export const spotifyService = {
 
     const tokens = {
       accessToken: resultSpotify.data.access_token,
-      refreshToken: resultSpotify.data.refresh_token
+      refreshToken: resultSpotify.data.refresh_token,
     }
 
     return tokens
@@ -106,5 +106,5 @@ export const spotifyService = {
     } catch (e) {
       console.log("Error when getting user's data from spotify", e)
     }
-  }
+  },
 }

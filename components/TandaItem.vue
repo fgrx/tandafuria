@@ -179,7 +179,6 @@ export default {
   },
   mounted() {
     this.randomString = this.randomizeString()
-    console.log(this.currentUser)
     this.orchestra = orchestras.find(
       (orchestra) => orchestra.id === this.tanda.orchestra
     )

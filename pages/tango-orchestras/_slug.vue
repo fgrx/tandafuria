@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-md>
-    <v-row class="mb-8">
+    <v-row class="mb-8" v-if="orchestra">
       <v-col cols="12" sm="3" class="d-flex justify-center">
         <v-img
           v-if="orchestra.image"
@@ -158,7 +158,7 @@ export default {
     )
     const orchestra = findOrchestra[0]
 
-    if (slug) {
+    if (slug && orchestra) {
       paramsArray.push("orchestra=" + orchestra.id)
 
       if (orchestra.id !== "mixed" && orchestra.id !== "other") {

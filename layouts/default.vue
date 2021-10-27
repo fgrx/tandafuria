@@ -288,9 +288,11 @@ export default {
       this.spotifyPlayer = await this.initiatePlayerSpotifyPlayer()
 
       await this.waitForSpotifyWebPlaybackSDKToLoad()
-      const defaultSpotifyInstanceId = this.spotifyPlayer._options.id
 
-      this.$store.dispatch("player/setPlayerId", defaultSpotifyInstanceId)
+      // await spotifyService.switchSpotifyPlayer(
+      //   spotifyPlayer.id,
+      //   this.user.refreshToken
+      // )
 
       const sleep = (milliseconds) => {
         const date = Date.now()
@@ -302,14 +304,17 @@ export default {
 
       sleep(500)
 
-      const spotifyPlayersLoaded = await this.detectActualPlayers(
-        this.user.refreshToken
-      )
-
       if (this.user.refreshToken) {
-        this.tandaFuryPlayer = this.findSpotifyPlayerInPlayersList(
-          spotifyPlayersLoaded
+        const spotifyPlayers = await this.detectActualPlayers(
+          this.user.refreshToken
         )
+
+        const spotifyPlayer = spotifyPlayers[0]
+
+        console.log({ players: spotifyPlayers, id: spotifyPlayer.id })
+
+        this.$store.dispatch("player/setPlayerId", spotifyPlayer.id)
+        this.tandaFuryPlayer = spotifyPlayer
       }
     }
   },
@@ -323,10 +328,8 @@ export default {
       const code = this.$route.query.code
       const state = this.$route.query.state
       if (code) {
-        const resultTokensFromSpotify = await spotifyService.getTokenFromSpotify(
-          code,
-          state
-        )
+        const resultTokensFromSpotify =
+          await spotifyService.getTokenFromSpotify(code, state)
 
         if (resultTokensFromSpotify.accessToken)
           this.memorizeTokenFromSpotify(resultTokensFromSpotify)

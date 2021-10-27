@@ -247,7 +247,6 @@ export default {
       }
     },
     addResultsToStore(tandas) {
-      console.log("stoc", tandas)
       //this.$store.dispatch("tandas/clearTandas", this.context)
       tandas.forEach((tanda) => {
         this.$store.dispatch("tandas/addTanda", {
