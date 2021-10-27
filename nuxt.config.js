@@ -39,7 +39,7 @@ export default {
    ** Headers of the page
    */
 
-  target: "static",
+  // target: "static",
   generate: {
     fallback: true,
   },
