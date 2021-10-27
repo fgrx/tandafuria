@@ -24,12 +24,12 @@ const generateRoutes = async () => {
     routes.push(route)
   })
 
-  const urlApiPlaylists = "https://tandafuria.herokuapp.com/playlists/allId"
-  const playlistsIds = await axios.get(urlApiPlaylists)
-  playlistsIds.data.forEach((playlist) => {
-    const route = { url: "/playlists/" + playlist._id }
-    routes.push(route)
-  })
+  // const urlApiPlaylists = "https://tandafuria.herokuapp.com/playlists/allId"
+  // const playlistsIds = await axios.get(urlApiPlaylists)
+  // playlistsIds.data.forEach((playlist) => {
+  //   const route = { url: "/playlists/" + playlist._id }
+  //   routes.push(route)
+  // })
 
   return routes
 }
@@ -39,9 +39,18 @@ export default {
    ** Headers of the page
    */
 
-  // target: "static",
+  target: "static",
   generate: {
     fallback: true,
+    exclude: [
+      "/",
+      "/my-tandas",
+      /^\/playlists/,
+      "/connect-to-spotify",
+      /^\/recover/,
+      "/signin",
+      "/create-account",
+    ],
   },
   env: {
     //DEV_serverUrl: "http://localhost:4000",
